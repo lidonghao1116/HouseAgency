@@ -1,5 +1,7 @@
 <resources>
 
     <string name="app_name">HouseAgency</string>
+    <string name="home_top">核实真房源，无中介，无佣金，全程保障平台！</string>
+    <string name="house_type">户&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;型:</string>
 
 </resources>

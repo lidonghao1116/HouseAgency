@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="roundedimageview">
+        <attr name="border_thickness" format="dimension" />
+        <attr name="border_inside_color" format="color" />
+        <attr name="border_outside_color" format="color"></attr>
+    </declare-styleable>
+    <!-- 圆形头像 -->
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
+    <dimen name="padding">10dp</dimen>
+    <dimen name="line_spacing">3dp</dimen>
+    <dimen name="text_micro">12sp</dimen>
+    <dimen name="text_small">14sp</dimen>
+    <dimen name="text_mid">16sp</dimen>
+    <dimen name="text_big">18sp</dimen>
+    <dimen name="text_big2">20sp</dimen>
+    <dimen name="line_height">2px</dimen>
+    <dimen name="actionbar_height">48dp</dimen>
+
+    <item name="view_parent" type="id"/>
+    <item name="detailTitlebar" type="id"/>
+
+</resources>

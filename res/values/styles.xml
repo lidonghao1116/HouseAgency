@@ -17,4 +17,132 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <!-- 中等黑色 -->
+    <style name="TextMidBlack">
+        <item name="android:textSize">@dimen/text_mid</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
+    <!-- 大号黑色 -->
+    <style name="TextBigBlack">
+        <item name="android:textSize">@dimen/text_big</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+    
+    <!-- 大号黑色 -->
+    <style name="TextBigGray">
+        <item name="android:textSize">@dimen/text_big</item>
+        <item name="android:textColor">@color/Gray_stroke</item>
+    </style>
+
+    <!-- 中等灰色 -->
+    <style name="TextMidGray">
+        <item name="android:textSize">@dimen/text_mid</item>
+        <item name="android:textColor">@color/color_gray_dark</item>
+    </style>
+    
+    <!-- 中等绿色 -->
+    <style name="TextMidGreen">
+        <item name="android:textSize">@dimen/text_mid</item>
+        <item name="android:textColor">@color/color_green</item>
+    </style>
+    
+     <!-- 中等深灰色 -->
+    <style name="TextMidGrayStroke">
+        <item name="android:textSize">@dimen/text_mid</item>
+        <item name="android:textColor">@color/Gray_stroke</item>
+    </style>
+    <!-- 小号白色 -->
+    <style name="TextSmallGray">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/color_gray_dark</item>
+    </style>
+    <!-- 中等白色 -->
+    <style name="TextMidWhite">
+        <item name="android:textSize">@dimen/text_mid</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <!-- 中等红色 -->
+    <style name="TextMidRed">
+        <item name="android:textSize">@dimen/text_mid</item>
+        <item name="android:textColor">@color/color_red</item>
+    </style>
+    
+    
+    <!-- 大号白色 -->
+    <style name="TextBigWhite">
+        <item name="android:textSize">@dimen/text_big</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <!-- 小号白色 -->
+    <style name="TextSmallWhite">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <!-- 小号红色 -->
+    <style name="TextSmallRed">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/color_red</item>
+    </style>
+    
+    <!-- 超小号红色 -->
+    <style name="TextMicroRed">
+        <item name="android:textSize">@dimen/text_micro</item>
+        <item name="android:textColor">@color/color_red</item>
+    </style>
+    
+    <!-- 超小号白色 -->
+    <style name="TextMicroWhite">
+        <item name="android:textSize">@dimen/text_micro</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+
+    <!-- 小号黑色 -->
+    <style name="TextSmallBlack">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
+    <!-- 中等orange -->
+    <style name="TextMidOrange">
+        <item name="android:textSize">@dimen/text_mid</item>
+        <item name="android:textColor">@color/color_orange</item>
+    </style>
+
+    <!-- 小号orange -->
+    <style name="TextSmallOrange">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/color_orange</item>
+    </style>
+    
+    <!-- 小号绿色 -->
+    <style name="TextSmallGreen">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/color_green</item>
+    </style>
+    
+    <style name="TypeSelAnimationFade">
+        <item name="android:windowEnterAnimation">@anim/push_top_in</item>
+        <item name="android:windowExitAnimation">@anim/push_top_out</item>
+    </style>
+
+    <style name="OptionDialog">
+        <item name="android:windowBackground">@color/full_transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+        <item name="android:background">@color/full_transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    
+    <style name="DialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/anim_translate_up_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/anim_translate_down_to_bottom</item>
+    </style>
 </resources>

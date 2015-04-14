@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@color/color_white">
+
+    <include
+        android:id="@id/detailTitlebar"
+        layout="@layout/titlebar_detail" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager_banner"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/color_white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/color_blue"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_entire_rent"
+            style="@style/TextMidBlack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="整租" />
+
+        <TextView
+            android:id="@+id/tv_joint_rent"
+            style="@style/TextMidBlack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="合租" />
+
+        <TextView
+            android:id="@+id/tv_publish_house"
+            style="@style/TextMidBlack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="发布房源" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_gray_light" />
+
+    <com.sky.house.widget.ListViewForScrollView
+        android:id="@+id/lv_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:divider="@color/color_gray_light"
+        android:dividerHeight="1px"
+        android:listSelector="@color/color_full_transparent"/>
+
+</LinearLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="@color/color_white"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/rb_0"
+            style="@style/TextSmallBlack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="房源"
+            android:drawableTop="@drawable/rb0_bg_selector"
+            android:textColor="@color/rb_text_selector_hometab" />
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            style="@style/TextSmallBlack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="地图"
+            android:textColor="@color/rb_text_selector_hometab" />
+
+        <RadioButton
+            android:id="@+id/rb_2"
+            style="@style/TextSmallBlack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="随心订"
+            android:textColor="@color/rb_text_selector_hometab" />
+        
+        <RadioButton
+            android:id="@+id/rb_3"
+            style="@style/TextSmallBlack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="我的"
+            android:textColor="@color/rb_text_selector_hometab" />
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rg" />
+
+</RelativeLayout>
