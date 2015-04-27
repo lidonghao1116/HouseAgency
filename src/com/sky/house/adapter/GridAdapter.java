@@ -63,7 +63,7 @@ public class GridAdapter extends BaseAdapter {
 			tb.setTextOff(facilities[arg0]);
 			tb.setTextOn(facilities[arg0]);
 			tb.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.btn_toggle_round));
-			tb.setTextColor(mActivity.getResources().getColorStateList(R.color.toggle_text_selector));
+			tb.setTextColor(mActivity.getResources().getColorStateList(R.color.color_white));
 		} else {
 			tb = (ToggleButton) arg1;
 		}

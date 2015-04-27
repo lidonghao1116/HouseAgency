@@ -34,7 +34,11 @@ public class BaseFragment extends Fragment implements ISHKeyEvent {
 
 	}
 
-
+	public void finish(){
+		getActivity().finish();
+		getActivity().overridePendingTransition(0, R.anim.base_slide_right_out);
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub

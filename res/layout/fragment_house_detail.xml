@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white"
-    android:orientation="vertical" >
+    android:background="@color/color_white" >
 
     <include
         android:id="@id/detailTitlebar"
         layout="@layout/titlebar_detail" />
 
-    <ScrollView
+    <com.sky.house.widget.ObservableScrollView
+        android:id="@+id/sv_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/detailTitlebar"
+        android:fadingEdge="none"
         android:scrollbars="none" >
 
         <LinearLayout
@@ -23,7 +25,17 @@
                 android:id="@+id/pager_banner"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@color/color_white" />
+                android:background="@color/color_blue" />
+
+            <TextView
+                style="@style/TextSmallWhite"
+                android:layout_width="50dp"
+                android:layout_height="22dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="-22.5dp"
+                android:background="@color/color_half_transparent"
+                android:gravity="center"
+                android:text="1/10" />
 
             <TextView
                 android:id="@+id/tv_title"
@@ -56,40 +68,406 @@
                     android:text="6小时前更新" />
 
                 <TextView
+                    android:id="@+id/tv_rent"
+                    style="@style/TextMidRed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="¥1200元/月" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <TextView
                     android:id="@+id/tv_read_times"
                     style="@style/TextSmallGray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:text="已有583人浏览" />
+
+                <TextView
+                    android:id="@+id/tv_pay_type"
+                    style="@style/TextSmallGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="（付三押一）" />
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_dark" />
+
+            <com.sky.house.widget.MyGridView
+                android:id="@+id/gv_feature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_blue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="入住：" />
+
+                    <TextView
+                        android:id="@+id/tv_time_in"
+                        style="@style/TextSmallGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="随时入住" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="面积：" />
+
+                    <TextView
+                        android:id="@+id/tv_square"
+                        style="@style/TextSmallGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="139平米" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="认证：" />
+
+                    <TextView
+                        android:id="@+id/tv_auth"
+                        style="@style/TextSmallGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="实名认证" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="楼层：" />
+
+                    <TextView
+                        android:id="@+id/tv_floor"
+                        style="@style/TextSmallGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="第5层（共11层）" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_dark" />
+
+            <TextView
+                style="@style/TextSmallBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="家电及设施：" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:background="@color/color_gray_dark" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" 
-                android:gravity="center_vertical">
+                android:orientation="horizontal"
+                android:padding="10dp" >
 
                 <TextView
                     style="@style/TextSmallBlack"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:text="租金：" />
-                <TextView
-                    android:id="@+id/tv_rent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/TextMidRed"
-                    android:text="1200元/月"/>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/ic_home_false"
+                    android:gravity="center"
+                    android:text="阳光承诺" />
 
-</LinearLayout>
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/color_gray_dark" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            style="@style/TextMicroBlack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_search_gray"
+                            android:drawablePadding="2dp"
+                            android:text="人工审核真实房源" />
+
+                        <TextView
+                            style="@style/TextMicroBlack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:drawableLeft="@drawable/ic_search_gray"
+                            android:drawablePadding="2dp"
+                            android:singleLine="true"
+                            android:text="在线完成租房交易" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            style="@style/TextMicroBlack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_search_gray"
+                            android:drawablePadding="2dp"
+                            android:text="双方均无任何费用" />
+
+                        <TextView
+                            style="@style/TextMicroBlack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:drawableLeft="@drawable/ic_search_gray"
+                            android:drawablePadding="2dp"
+                            android:singleLine="true"
+                            android:text="合同期内全程保障" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_dark" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/color_gray_bg"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/TextMidBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="房源描述" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_dark" />
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="1.小区介绍：这个小区非常好，好得不得了！" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_dark" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_gray_bg"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp" >
+
+                <TextView
+                    android:id="@+id/label_xiaoqu"
+                    style="@style/TextSmallBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="小        区：" />
+
+                <TextView
+                    android:id="@+id/tv_xiaoqu"
+                    style="@style/TextSmallGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/label_xiaoqu"
+                    android:text="金龙别墅" />
+
+                <TextView
+                    android:id="@+id/label_area"
+                    style="@style/TextSmallBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_xiaoqu"
+                    android:layout_marginTop="10dp"
+                    android:text="区        域：" />
+
+                <TextView
+                    android:id="@+id/tv_area"
+                    style="@style/TextSmallGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/label_area"
+                    android:layout_toRightOf="@id/label_area"
+                    android:text="徐家汇" />
+
+                <TextView
+                    style="@style/TextSmallBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="小区详情" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_dark" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_gray_bg"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp" >
+
+                <TextView
+                    android:id="@+id/label_address"
+                    style="@style/TextSmallBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="地        址：" />
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    style="@style/TextSmallGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/label_address"
+                    android:text="龙吴路128号" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_dark" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+        </LinearLayout>
+    </com.sky.house.widget.ObservableScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-50dp"
+        android:background="@color/color_half_transparent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp" >
+
+        <Button
+            android:id="@+id/btn_collect"
+            style="@style/TextMidWhite"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_yellow_round"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="收藏备选" />
+
+        <Button
+            android:id="@+id/btn_contact"
+            style="@style/TextMidWhite"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_orange_round"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="联系看房" 
+            android:layout_marginLeft="50dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

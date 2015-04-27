@@ -10,8 +10,11 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.eroad.base.BaseActivity;
+import com.eroad.base.SHApplication;
+import com.next.net.SHPostTaskM;
 import com.sky.house.R;
-import com.sky.house.resource.HouseListFragment;
+import com.sky.widget.sweetdialog.SweetDialog;
+import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
 
 public class HouseMainActivity extends BaseActivity {
 	private RadioGroup rg;
@@ -23,6 +26,7 @@ public class HouseMainActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		SHApplication.getInstance().addActivity(this);
 		rg = (RadioGroup) findViewById(R.id.rg);
 		rg.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -84,4 +88,24 @@ public class HouseMainActivity extends BaseActivity {
 		}
 		ft.commit();
 	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		final SweetDialog dia_quit = new SweetDialog(this, SweetDialog.NORMAL_TYPE);
+		dia_quit.setTitleText("提示");
+		dia_quit.setContentText("是否退出应用？");
+		dia_quit.showCancelButton(true);
+		dia_quit.setConfirmClickListener(new OnSweetClickListener() {
+
+			@Override
+			public void onClick(SweetDialog sweetAlertDialog) {
+				// TODO Auto-generated method stub
+				SHApplication.getInstance().exitApplication();
+			}
+		});
+		dia_quit.show();
+	}
+	
+	
 }

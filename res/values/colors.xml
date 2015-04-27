@@ -9,11 +9,13 @@
     <color name="color_red">#d3471e</color>
     <color name="color_full_transparent">#00000000</color>
     <color name="color_half_transparent">#99000000</color>
-    <color name="color_light_transparent">#33000000</color>
-    <color name="color_orange">#fe7032</color>
-    <color name="color_orange_darker">#ff6347</color>
+    <color name="color_light_transparent">#66000000</color>
+    <color name="color_orange">#ff5405</color>
+    <color name="color_orange_darker">#ff2200</color>
     <color name="color_orange_light">#fef5f0</color>
     <color name="color_green">#3fbc06</color>
     <color name="color_blue">#3ab7ee</color>
+    <color name="color_yellow">#ffd42d</color>
+    <color name="color_yellow_darker">#ffb500</color>
 
 </resources>

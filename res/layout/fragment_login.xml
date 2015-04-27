@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@id/detailTitlebar"
+        layout="@layout/titlebar_detail" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/et_phone"
+            style="@style/TextMidBlack"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@null"
+            android:drawableLeft="@drawable/ic_phone"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:hint="请填写您的手机号"
+            android:inputType="phone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_gray_light" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp" >
+
+            <com.sky.widget.TimerButton
+                android:id="@+id/btn_timer"
+                style="@style/TextMidBlack"
+                android:layout_width="105dp"
+                android:layout_height="36dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btn_validate"
+                android:gravity="center" />
+
+            <EditText
+                android:id="@+id/et_validate"
+                style="@style/TextMidBlack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_toLeftOf="@id/btn_timer"
+                android:background="@null"
+                android:drawableLeft="@drawable/ic_validate"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:hint="验证码"
+                android:inputType="number" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_gray_light" />
+
+        <Button
+            android:id="@+id/btn_login"
+            style="@style/TextBigWhite"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/btn_orange_round"
+            android:text="享受轻松租房" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/TextSmallGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击上面的按钮即表示您同意" />
+
+        <TextView
+            android:id="@+id/tv_agreement"
+            style="@style/TextSmallBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《服务协议及隐私政策》" />
+    </LinearLayout>
+
+</LinearLayout>

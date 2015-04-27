@@ -9,6 +9,29 @@
         android:id="@id/detailTitlebar"
         layout="@layout/titlebar_detail" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="-48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <com.sky.widget.SHEditText
+            style="@style/TextMidBlack"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" 
+            android:layout_gravity="center"
+            android:layout_marginLeft="80dp"
+            android:background="@drawable/bg_white_round_corner"
+            android:drawableLeft="@drawable/ic_search_gray"
+            android:drawablePadding="5dp"
+            android:hint="小区名/街道名"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:padding="5dp"
+            android:singleLine="true" />
+    </LinearLayout>
+
     <TextView
         style="@style/TextMidGray"
         android:layout_width="match_parent"
@@ -37,8 +60,8 @@
             android:drawableRight="@drawable/ic_arrow_soild_down"
             android:gravity="center"
             android:paddingRight="5dp"
-            android:text="区域" 
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:text="区域" />
 
         <View
             android:layout_width="1px"
@@ -97,5 +120,11 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/color_gray_dark" />
+
+    <Button
+        android:id="@+id/btn_test"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="详情" />
 
 </LinearLayout>

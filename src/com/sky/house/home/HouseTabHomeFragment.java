@@ -6,14 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.ViewInit;
 import com.sky.house.R;
+import com.sky.house.adapter.NewsAdapter;
 import com.sky.house.city.HouseCityFragment;
 import com.sky.house.resource.HouseListFragment;
+import com.sky.house.resource.HousePublishFragment;
 
 /**
  * 首页
@@ -27,6 +30,13 @@ public class HouseTabHomeFragment extends BaseFragment {
 	private TextView mTvEntire;
 	@ViewInit(id = R.id.tv_joint_rent, onClick = "onClick")
 	private TextView mTvJoint;
+	@ViewInit(id = R.id.tv_publish_house,onClick = "onClick")
+	private TextView mTvPublish;
+	
+	@ViewInit(id = R.id.lv_news)
+	private ListView mLvNews;
+	
+	private NewsAdapter adapter;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -44,6 +54,18 @@ public class HouseTabHomeFragment extends BaseFragment {
 				startActivity(intent);
 			}
 		});
+		mDetailTitlebar.setRightButton1("登录", new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+				intent.putExtra("class", HouseLoginFragment.class.getName());
+				startActivity(intent);
+			}
+		});
+		
+		mLvNews.setAdapter(new NewsAdapter(getActivity()));
 	}
 
 	@Override
@@ -61,6 +83,9 @@ public class HouseTabHomeFragment extends BaseFragment {
 			break;
 		case R.id.tv_joint_rent:
 			intent.putExtra("class", HouseListFragment.class.getName());
+			break;
+		case R.id.tv_publish_house:
+			intent.putExtra("class", HousePublishFragment.class.getName());
 			break;
 		}
 		startActivity(intent);

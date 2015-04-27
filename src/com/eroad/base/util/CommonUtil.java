@@ -1,10 +1,13 @@
 package com.eroad.base.util;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,12 +18,14 @@ import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.util.Base64;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * 工具类
@@ -28,7 +33,6 @@ import android.util.Base64;
  * @author skypan
  * 
  */
-@SuppressLint("SimpleDateFormat")
 public class CommonUtil {
 	/**
 	 * 字符拆分字符 返回list
@@ -244,6 +248,17 @@ public class CommonUtil {
 	}
 
 	/**
+	 * sp*ppi/160 =px
+	 * 
+	 * @param ctx
+	 * @param dip
+	 * @return
+	 */
+	public static int sp2pX(final Context ctx, float sp) {
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, ctx.getResources().getDisplayMetrics());
+	}
+
+	/**
 	 * JSONArry 删除 index 索引元素
 	 * 
 	 * @param arry
@@ -312,14 +327,17 @@ public class CommonUtil {
 
 	}
 
+
 	/**
 	 * 日期格式转换类
+	 * 
 	 * @author skypan
-	 *
+	 * 
 	 */
 	public static class Date {
 		/**
 		 * 转换成 2015-01－01格式
+		 * 
 		 * @param time
 		 * @return
 		 */
@@ -337,6 +355,50 @@ public class CommonUtil {
 			}
 
 			return str;
+		}
+	}
+
+	public static class FileUtils {
+		/**
+		 * 读取表情配置文件
+		 * 
+		 * @param context
+		 * @return
+		 */
+		public static List<String> getEmojiFile(Context context) {
+			try {
+				List<String> list = new ArrayList<String>();
+				InputStream in = context.getResources().getAssets().open("emoji");
+				BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+				String str = null;
+				while ((str = br.readLine()) != null) {
+					list.add(str);
+				}
+
+				return list;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	}
+
+	public static class InputTools {
+		// 隐藏虚拟键盘
+		public static void HideKeyboard(View v) {
+			InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (imm.isActive()) {
+				imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+
+			}
+		}
+
+		// 显示虚拟键盘
+		public static void ShowKeyboard(View v) {
+			InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+			imm.showSoftInput(v, InputMethodManager.SHOW_FORCED);
+
 		}
 	}
 }

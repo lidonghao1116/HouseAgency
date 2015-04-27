@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.sky.house.R;
 import com.sky.house.adapter.OptionAdapter;
 import com.sky.house.entity.MenuItem;
 import com.sky.house.interfaces.CascadingMenuViewOnSelectListener;
+import com.sky.house.resource.filter.HouseFilterFragment;
 import com.sky.house.widget.CascadingMenuPopWindow;
 
 /**
@@ -46,6 +48,9 @@ public class HouseListFragment extends BaseFragment {
 
 	@ViewInit(id = R.id.tv_area, onClick = "onClick")
 	private TextView mTvArea;
+	
+	@ViewInit(id = R.id.tv_filter,onClick = "onClick")
+	private TextView mTvFilter;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -61,14 +66,26 @@ public class HouseListFragment extends BaseFragment {
 				startActivity(intent);
 			}
 		});
-		//假数据
+
+		view.findViewById(R.id.btn_test).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+				intent.putExtra("class", HouseDetailFragment.class.getName());
+				startActivity(intent);
+			}
+		});
+
+		// 假数据
 		ArrayList<MenuItem> tempMenuItems = null;
-		for (int j = 0; j < 7; j++) {
+		for (int j = 0; j < 2; j++) {
 			tempMenuItems = new ArrayList<MenuItem>();
 			for (int i = 0; i < 15; i++) {
 				tempMenuItems.add(new MenuItem(false, "子菜单" + j + "" + i, null));
 			}
-			menuItems.add(new MenuItem(true, "主菜单" + j, tempMenuItems));
+			menuItems.add(new MenuItem(true, "区域" + j, tempMenuItems));
 		}
 	}
 
@@ -87,11 +104,19 @@ public class HouseListFragment extends BaseFragment {
 		case R.id.tv_area:
 			showPopMenu();
 			break;
+		case R.id.tv_filter:
+			Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+			intent.putExtra("class", HouseFilterFragment.class.getName());
+			startActivity(intent);
+			break;
 		}
 	}
 
 	private void showPopMenu() {
 		mTvArea.setTextAppearance(getActivity(), R.style.TextMidGreen);
+		Drawable drawable = getResources().getDrawable(R.drawable.ic_arrow_soild_up);
+		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+		mTvArea.setCompoundDrawables(null, null, drawable, null);
 		if (cascadingMenuPopWindow == null) {
 			cascadingMenuPopWindow = new CascadingMenuPopWindow(getActivity(), menuItems);
 			cascadingMenuPopWindow.setMenuViewOnSelectListener(new NMCascadingMenuViewOnSelectListener());
@@ -104,11 +129,14 @@ public class HouseListFragment extends BaseFragment {
 		cascadingMenuPopWindow.setAnimationStyle(R.style.TypeSelAnimationFade);
 		cascadingMenuPopWindow.showAsDropDown(mTvArea, 0, 1);
 		cascadingMenuPopWindow.setOnDismissListener(new OnDismissListener() {
-			
+
 			@Override
 			public void onDismiss() {
 				// TODO Auto-generated method stub
 				mTvArea.setTextAppearance(getActivity(), R.style.TextMidBlack);
+				Drawable drawable = getResources().getDrawable(R.drawable.ic_arrow_soild_down);
+				drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+				mTvArea.setCompoundDrawables(null, null, drawable, null);
 			}
 		});
 	}
@@ -125,6 +153,9 @@ public class HouseListFragment extends BaseFragment {
 
 	private void showRentPopupWindow() {
 		mTvRent.setTextAppearance(getActivity(), R.style.TextMidGreen);
+		Drawable drawable = getResources().getDrawable(R.drawable.ic_arrow_soild_up);
+		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+		mTvRent.setCompoundDrawables(null, null, drawable, null);
 		int[] location = new int[2];
 		mTvRent.getLocationInWindow(location);
 		if (mPopRent == null) {
@@ -157,11 +188,14 @@ public class HouseListFragment extends BaseFragment {
 		// 设置菜单显示的位置
 		mPopRent.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.NO_GRAVITY, location[0], location[1] + mTvRent.getHeight() + 1);
 		mPopRent.setOnDismissListener(new OnDismissListener() {
-			
+
 			@Override
 			public void onDismiss() {
 				// TODO Auto-generated method stub
 				mTvRent.setTextAppearance(getActivity(), R.style.TextMidBlack);
+				Drawable drawable = getResources().getDrawable(R.drawable.ic_arrow_soild_down);
+				drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+				mTvRent.setCompoundDrawables(null, null, drawable, null);
 			}
 		});
 	}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="15dp"
+    android:paddingTop="5dp" 
+    android:background="@drawable/bg_gray_round_corner">
+
+    <com.sky.house.widget.RoundImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/TextMidBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_photo"
+        android:singleLine="true"
+        android:text="skypan" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        style="@style/TextMicroGray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:singleLine="true"
+        android:text="6小时前" />
+
+    <TextView
+        android:id="@+id/tv_des"
+        style="@style/TextSmallGray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/iv_photo"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_photo"
+        android:singleLine="true"
+        android:text="发布成功，奖励1000元" />
+
+</RelativeLayout>

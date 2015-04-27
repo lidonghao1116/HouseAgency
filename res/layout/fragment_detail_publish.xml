@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@id/detailTitlebar"
+        layout="@layout/titlebar_detail" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_gray_round_corner"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/TextSmallGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="户型：" />
+
+        <EditText
+            android:id="@+id/et_shi"
+            style="@style/TextSmallBlack"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:inputType="number" />
+
+        <TextView
+            style="@style/TextSmallGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="室" />
+
+        <EditText
+            android:id="@+id/et_ting"
+            style="@style/TextSmallBlack"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:inputType="number" />
+
+        <TextView
+            style="@style/TextSmallGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="厅" />
+
+        <EditText
+            android:id="@+id/et_wei"
+            style="@style/TextSmallBlack"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:inputType="number" />
+
+        <TextView
+            style="@style/TextSmallGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="卫" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_room"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_gray_round_corner"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/TextSmallGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="合租类型：" />
+
+        <TextView
+            android:id="@+id/tv_room"
+            style="@style/TextSmallBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:gravity="center_vertical"
+            android:text="主卧" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gray_round_corner"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="房间面积：" />
+
+            <EditText
+                android:id="@+id/et_floor"
+                style="@style/TextSmallBlack"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:inputType="number"
+                android:paddingLeft="5dp" />
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="平" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_fixture"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gray_round_corner"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="装修：" />
+
+            <TextView
+                android:id="@+id/tv_fixture"
+                style="@style/TextSmallBlack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:drawableRight="@drawable/ic_arrow_right"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="精装修" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_sex"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_gray_round_corner"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/TextSmallGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="性别限制：" />
+
+        <TextView
+            android:id="@+id/tv_sex"
+            style="@style/TextSmallBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:gravity="center_vertical"
+            android:text="不限" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_electrical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/TextSmallGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="家电设施：" />
+
+        <com.sky.house.widget.MyGridView
+            android:id="@+id/gv_electrical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:horizontalSpacing="5dp"
+            android:numColumns="4"
+            android:verticalSpacing="5dp" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/ll_furniture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/TextSmallGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="配套家具：" />
+
+        <com.sky.house.widget.MyGridView
+            android:id="@+id/gv_furniture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:horizontalSpacing="5dp"
+            android:numColumns="4"
+            android:verticalSpacing="5dp" />
+    </LinearLayout>
+
+</LinearLayout>

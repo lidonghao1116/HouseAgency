@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="#ffeeeeee">
+    
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/rl_last_month"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/dialog_calendar_time" >
+
+                <TextView
+                    android:layout_width="9dp"
+                    android:layout_height="14dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/bt_calendar_last" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/dialog_calendar_time"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="#aa564b4b"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_next_month"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/dialog_calendar_time" >
+
+                <TextView
+                    android:layout_width="9dp"
+                    android:layout_height="14dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/bt_calendar_next" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <com.sky.widget.calendar.KCalendar
+            android:id="@+id/dialog_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="320dp" >
+        </com.sky.widget.calendar.KCalendar>
+
+		<TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_blue" />
+		
+		<TextView
+		    android:id="@+id/tv_whenever"
+		    android:layout_width="wrap_content"
+		    android:layout_height="36dp"
+		    android:background="@drawable/btn_validate"
+		    android:text="随时入住"
+		    style="@style/TextSmallGray"
+		    android:gravity="center"
+		    android:paddingLeft="20dp"
+		    android:paddingRight="20dp"
+		    android:paddingTop="2dp"
+		    android:paddingBottom="2dp"
+		    android:layout_gravity="center_horizontal"
+		    android:layout_margin="5dp"/>
+		
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/bt_nobgd"
+            android:text="完成"
+            android:textColor="#aa564b4b"
+            android:textSize="16sp" />
+
+</LinearLayout>

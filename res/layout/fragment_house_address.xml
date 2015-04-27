@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@id/detailTitlebar"
+        layout="@layout/titlebar_detail" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_gray_round_corner"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            style="@style/TextSmallGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="小区名：" />
+
+        <com.sky.widget.SHEditText
+            style="@style/TextSmallBlack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gray_round_corner"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="楼号" />
+
+            <EditText
+                android:id="@+id/et_louhao"
+                style="@style/TextSmallBlack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gray_round_corner"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="单元" />
+
+            <EditText
+                android:id="@+id/et_danyuan"
+                style="@style/TextSmallBlack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="没有填0"
+                android:paddingLeft="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gray_round_corner"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="门牌号" />
+
+            <EditText
+                android:id="@+id/et_menpaihao"
+                style="@style/TextSmallBlack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp" 
+                android:inputType="number"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gray_round_corner"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="您在第" />
+
+            <EditText
+                android:id="@+id/et_floor"
+                style="@style/TextSmallBlack"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp" 
+                android:inputType="number"/>
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="层" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gray_round_corner"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总共" />
+
+            <EditText
+                android:id="@+id/et_floor_all"
+                style="@style/TextSmallBlack"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp" 
+                android:inputType="number"/>
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="层" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_tip"
+        style="@style/TextSmallOrange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:padding="10dp" />
+
+</LinearLayout>
