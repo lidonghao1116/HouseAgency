@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.eroad.base.util.ViewInit;
 import com.sky.house.R;
 import com.sky.house.resource.publish.HouseAddressFragment;
 import com.sky.house.resource.publish.HousePublishDetailFragment;
+import com.sky.house.resource.publish.HousePublishNextFragment;
 import com.sky.house.resource.publish.HouseRentModeFragment;
 
 /**
@@ -49,6 +51,9 @@ public class HousePublishFragment extends BaseFragment {
 	
 	@ViewInit(id = R.id.tv_tese)
 	private TextView mTvTese;
+	
+	@ViewInit(id = R.id.btn_next,onClick = "onClick")
+	private Button mBtnNext;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -104,6 +109,11 @@ public class HousePublishFragment extends BaseFragment {
 					// TODO Auto-generated method stub
 				}
 			}).setPositiveButton("确定", null).setNegativeButton("取消", null).show();
+			break;
+		case R.id.btn_next:
+			Intent intent_next = new Intent(getActivity(), SHContainerActivity.class);
+			intent_next.putExtra("class", HousePublishNextFragment.class.getName());
+			startActivity(intent_next);
 			break;
 		}
 	}

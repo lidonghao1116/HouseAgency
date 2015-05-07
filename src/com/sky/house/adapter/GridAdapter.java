@@ -1,21 +1,15 @@
 package com.sky.house.adapter;
 
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import com.eroad.base.util.ImageLoaderUtil;
-import com.sky.house.R;
-
 import android.app.Activity;
-import android.media.ToneGenerator;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ToggleButton;
+
+import com.sky.house.R;
 
 
 /**
