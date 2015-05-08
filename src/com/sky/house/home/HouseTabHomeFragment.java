@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.ViewInit;
+import com.eroad.base.util.location.SHLocationManager;
 import com.sky.house.R;
 import com.sky.house.adapter.NewsAdapter;
 import com.sky.house.city.HouseCityFragment;
@@ -42,6 +43,7 @@ public class HouseTabHomeFragment extends BaseFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
+		SHLocationManager.getInstance().start();//定位
 		mDetailTitlebar.setTitle("阳光租房");
 		mDetailTitlebar.setSubTitle("-从此租房如此简单");
 		mDetailTitlebar.setLeftButton(R.drawable.ic_back, "定位中", new OnClickListener() {

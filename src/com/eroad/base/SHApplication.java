@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.next.app.StandardApplication;
 
 public class SHApplication extends StandardApplication {
@@ -27,7 +28,7 @@ public class SHApplication extends StandardApplication {
 	public void onCreate() {
 		super.onCreate();
 		application = this;
-
+		SDKInitializer.initialize(this);
 	}
 
 	public static Context getContext() {
