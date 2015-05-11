@@ -117,9 +117,11 @@
             android:layout_weight="1"
             android:background="@drawable/bg_gray_round_corner"
             android:orientation="horizontal"
-            android:padding="5dp" >
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
 
             <TextView
+                android:id="@+id/label_square"
                 style="@style/TextSmallGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -228,7 +230,7 @@
             android:numColumns="4"
             android:verticalSpacing="5dp" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:id="@+id/ll_furniture"
         android:layout_width="match_parent"
