@@ -79,10 +79,10 @@ public class DetailTitlebar extends RelativeLayout {
 
 	public void setLeftButton(String text, OnClickListener listener) {
 		if(text != null){
-			backButton.setBackgroundResource(0);
 			backButton.setText(text);
 			backButton.setOnClickListener(listener);
 			backButton.setVisibility(View.VISIBLE);
+			backButton.setCompoundDrawables(null, null, null, null);
 		}else{
 			backButton.setCompoundDrawables(null, null, null, null);
 			backButton.setClickable(false);

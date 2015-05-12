@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ImageLoaderUtil;
 import com.sky.house.R;
 
@@ -71,6 +72,7 @@ public class TopAdvertPagerAdapter extends PagerAdapter {
 		View view = mInflater.inflate(R.layout.top_advert_item, null);
 		holder = new ViewHolder();
 		holder.iv = (ImageView) view.findViewById(R.id.iv_advert);
+//		holder.iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtil.Window.getWidth()*(2/5)));
 		view.setTag(holder);
 
 		try {

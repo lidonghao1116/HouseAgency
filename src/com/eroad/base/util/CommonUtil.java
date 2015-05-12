@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import com.eroad.base.SHApplication;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -25,6 +27,7 @@ import android.hardware.Camera;
 import android.util.Base64;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 /**
@@ -399,6 +402,33 @@ public class CommonUtil {
 
 			imm.showSoftInput(v, InputMethodManager.SHOW_FORCED);
 
+		}
+	}
+	
+	/**
+	 * 窗口类
+	 * @author skypan
+	 *
+	 */
+	public static class Window {
+		/**
+		 * 获取屏幕宽度
+		 * @return px
+		 */
+		public static int getWidth() {
+			WindowManager wm = (WindowManager) SHApplication.getContext().getSystemService(Context.WINDOW_SERVICE);
+			int width = wm.getDefaultDisplay().getWidth();
+			return width;
+		}
+
+		/**
+		 * 获取屏幕高度
+		 * @return px
+		 */
+		public static int getHeight() {
+			WindowManager wm = (WindowManager) SHApplication.getContext().getSystemService(Context.WINDOW_SERVICE);
+			int height = wm.getDefaultDisplay().getHeight();
+			return height;
 		}
 	}
 }

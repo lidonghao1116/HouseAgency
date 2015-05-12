@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.eroad.base.util.UserInfoManager;
+import com.eroad.base.util.location.SHLocationManager;
 import com.sky.house.R;
 
 public class WelcomeActivity extends Activity {
@@ -17,6 +18,7 @@ public class WelcomeActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
+		SHLocationManager.getInstance().start();//定位
 		mEnterAppRunnable = new Runnable() {
 
 			@Override

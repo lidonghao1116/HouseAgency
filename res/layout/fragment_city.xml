@@ -2,10 +2,57 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@color/color_white">
+    android:background="@color/color_white"
+    android:orientation="vertical" >
+
     <include
         android:id="@id/detailTitlebar"
         layout="@layout/titlebar_detail" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color_gray_light"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <com.sky.widget.SHEditText
+            android:id="@+id/et_content"
+            style="@style/TextMidBlack"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_white_round_corner"
+            android:gravity="center_vertical"
+            android:padding="5dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ListView
+            android:id="@+id/lv_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/lv_letter"
+            android:divider="@color/full_transparent"
+            android:listSelector="@drawable/list_item" />
+
+        <ListView
+            android:id="@+id/lv_letter"
+            android:layout_width="30dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:background="#0000"
+            android:cacheColorHint="#0000"
+            android:divider="#0000"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none" >
+        </ListView>
+    </RelativeLayout>
 
 </LinearLayout>

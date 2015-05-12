@@ -6,7 +6,10 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -22,9 +25,11 @@ import android.widget.TextView;
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ImageLoaderUtil;
 import com.eroad.base.util.ViewInit;
+import com.eroad.base.util.location.Location;
 import com.eroad.base.util.location.SHLocationManager;
 import com.next.intf.ITaskListener;
 import com.next.net.SHCacheType;
@@ -37,6 +42,7 @@ import com.sky.house.city.HouseCityFragment;
 import com.sky.house.resource.HouseListFragment;
 import com.sky.house.resource.HousePublishFragment;
 import com.sky.widget.SHDialog;
+import com.sky.widget.sweetdialog.SweetDialog;
 
 /**
  * 首页
@@ -68,7 +74,7 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 	
 	private JSONArray jsonArray;
 	
-	private SHPostTaskM taskTop;
+	private SHPostTaskM taskTop,taskCity;
 	
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -83,15 +89,28 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 		}
 	};
 
+	private BroadcastReceiver rec = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context arg0, Intent intent) {
+			// TODO Auto-generated method stub
+			if(intent.getAction().equals(SHLocationManager.BROADCAST_LOCATION)){
+				requestCity();
+			}
+		}
+	};
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 		ImageLoaderUtil.initImageLoader(SHApplication.getInstance());
-		SHLocationManager.getInstance().start();//定位
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(SHLocationManager.BROADCAST_LOCATION);
+		getActivity().registerReceiver(rec, filter);
 		mDetailTitlebar.setTitle("阳光租房");
 		mDetailTitlebar.setSubTitle("-从此租房如此简单");
-		mDetailTitlebar.setLeftButton(R.drawable.ic_back, "定位中", new OnClickListener() {
+		mDetailTitlebar.setLeftButton("定位中", new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
@@ -111,9 +130,14 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 				startActivity(intent);
 			}
 		});
-		
+//		LayoutParams layoutParams = (LinearLayout.LayoutParams)mPagerView_TopAdvert.getLayoutParams();
+//        layoutParams.height = CommonUtil.Window.getWidth()*(2/5) ;
+//        mPagerView_TopAdvert.setLayoutParams(layoutParams);
+		mPagerView_TopAdvert.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, CommonUtil.Window.getWidth()/5*2));
 		mLvNews.setAdapter(new NewsAdapter(getActivity()));
-		
+		if(!CommonUtil.isEmpty(Location.getInstance().getCity())){
+			requestCity();
+		}
 		requestTopAdv();
 	}
 
@@ -138,6 +162,15 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 			break;
 		}
 		startActivity(intent);
+	}
+	
+	private void requestCity(){
+		taskCity = new SHPostTaskM();
+		taskCity.setUrl(ConfigDefinition.URL+"GetCityByLL");
+		taskCity.setListener(this);
+		taskCity.getTaskArgs().put("lng", Location.getInstance().getLng());
+		taskCity.getTaskArgs().put("lat", Location.getInstance().getLat());
+		taskCity.start();
 	}
 	
 	private void setTopAdv() {
@@ -201,7 +234,7 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 	 *            图片数量
 	 */
 	private void addTopIndicator(int size) {
-		int imgSize = (int) (getResources().getDisplayMetrics().density *12.5);
+		int imgSize = (int) (getResources().getDisplayMetrics().density *8);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imgSize, imgSize);
 		params.setMargins(5, 0, 5, 0);
 		mLinearLayout_TopIndicator.setOrientation(LinearLayout.HORIZONTAL);
@@ -209,7 +242,6 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 			View view = new View(getActivity());
 			view.setLayoutParams(params);
 			view.setBackgroundResource(R.drawable.banner_dian_blur);
-
 			view.setSelected(false);
 			mIndicatorTopList.add(view);
 			mLinearLayout_TopIndicator.addView(view);
@@ -233,6 +265,13 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 	}
 
 	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		getActivity().unregisterReceiver(rec);
+	}
+
+	@Override
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
@@ -242,13 +281,29 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 			if (jsonArray.length() != 0) {
 				mHandler.sendEmptyMessage(0);
 			}
+		} else if (task == taskCity){
+			JSONObject currentCityJson = json.getJSONObject("city");
+			Location.getInstance().setCity(currentCityJson.getString("cityName"));
+			Location.getInstance().setLat(currentCityJson.getDouble("latitude"));
+			Location.getInstance().setLng(currentCityJson.getDouble("longitude"));
+			mDetailTitlebar.setLeftButton(Location.getInstance().getCity(), new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+					intent.putExtra("class", HouseCityFragment.class.getName());
+					startActivity(intent);
+				}
+			});
 		}
 	}
 
 	@Override
 	public void onTaskFailed(SHTask task) {
 		// TODO Auto-generated method stub
-		
+		SHDialog.dismissProgressDiaolg();
+		new SweetDialog(getActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
 	}
 
 	@Override
