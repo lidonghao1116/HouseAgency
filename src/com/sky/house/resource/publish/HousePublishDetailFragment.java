@@ -32,6 +32,9 @@ public class HousePublishDetailFragment extends BaseFragment {
 
 	@ViewInit(id = R.id.ll_fixture, onClick = "onClick")
 	private LinearLayout mLlFixture;
+	
+	@ViewInit(id = R.id.label_square)
+	private TextView mTvSquare;
 
 	@ViewInit(id = R.id.tv_room)
 	private TextView mTvRoom;
@@ -65,6 +68,15 @@ public class HousePublishDetailFragment extends BaseFragment {
 		});
 		mGvElectrical.setAdapter(new GridAdapter(getActivity(), facilities));
 		mGvFuniture.setAdapter(new GridAdapter(getActivity(), facilities));
+		if(getActivity().getIntent().getIntExtra("type_rent", 0) == 0){
+			mLlRoom.setVisibility(View.GONE);
+			mLlSex.setVisibility(View.GONE);
+			mTvSquare.setText("面积：");
+		}else{
+			mLlRoom.setVisibility(View.VISIBLE);
+			mLlSex.setVisibility(View.VISIBLE);
+			mTvSquare.setText("房间面积：");
+		}
 	}
 
 	@Override

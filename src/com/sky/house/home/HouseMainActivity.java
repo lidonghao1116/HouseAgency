@@ -11,7 +11,6 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.eroad.base.BaseActivity;
 import com.eroad.base.SHApplication;
-import com.next.net.SHPostTaskM;
 import com.sky.house.R;
 import com.sky.widget.sweetdialog.SweetDialog;
 import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
@@ -40,9 +39,9 @@ public class HouseMainActivity extends BaseActivity {
 				case R.id.rb_1:
 					changeFragment(tabs[1]);
 					break;
-				case R.id.rb_2:
-					changeFragment(tabs[2]);
-					break;
+//				case R.id.rb_2:
+//					changeFragment(tabs[3]);
+//					break;
 				case R.id.rb_3:
 					changeFragment(tabs[3]);
 					break;
