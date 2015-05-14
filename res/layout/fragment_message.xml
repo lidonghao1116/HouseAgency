@@ -8,16 +8,8 @@
     <include
         android:id="@id/detailTitlebar"
         layout="@layout/titlebar_detail" />
-    <TextView 
-        android:id="@+id/tv_nodata"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/TextMidGray"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="暂时还没有您的消息哦！加油..."/>
 
-    <ListView
+    <com.sky.house.widget.SHListView
         android:id="@+id/lv_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
