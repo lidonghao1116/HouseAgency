@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.util.ConfigDefinition;
+import com.eroad.base.util.ViewInit;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
@@ -23,7 +24,10 @@ public class HouseCityFragment extends BaseFragment implements ITaskListener{
 
 	private SHPostTaskM taskCity;
 	
-	private ListView mLvCity,mLvLetter;
+	@ViewInit(id = R.id.lv_city)
+	private ListView mLvCity;
+	
+	
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
