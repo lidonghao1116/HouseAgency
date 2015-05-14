@@ -1,5 +1,9 @@
 package com.sky.house.home;
 
+import java.util.Map;
+
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -131,10 +135,11 @@ public class HouseLoginFragment extends BaseFragment implements ITaskListener {
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
+		JSONObject json = new JSONObject(task.getResult().toString());
 		if (task == validateTask) {
-
+			mEtValidate.setText(json.getString("code"));
 		} else if (task == loginTask) {
-
+			finish();
 		}
 	}
 
