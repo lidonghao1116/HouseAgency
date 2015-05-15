@@ -1,7 +1,5 @@
 package com.sky.house.home;
 
-import java.util.Map;
-
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -19,6 +17,7 @@ import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
+import com.eroad.base.util.UserInfoManager;
 import com.eroad.base.util.ViewInit;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
@@ -135,11 +134,15 @@ public class HouseLoginFragment extends BaseFragment implements ITaskListener {
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
-		JSONObject json = new JSONObject(task.getResult().toString());
+		JSONObject json = (JSONObject) task.getResult();
 		if (task == validateTask) {
-			mEtValidate.setText(json.getString("code"));
+			mEtValidate.setText(json.getString("Code"));
 		} else if (task == loginTask) {
-			SHEnvironment.getInstance().setSession(json.optString("SessionId"));
+			SHEnvironment.getInstance().setSession(json.getString("SessionId"));
+			UserInfoManager.getInstance().setAutoLogin(true);
+			UserInfoManager.getInstance().setMoblie(mEtPhone.getText().toString().trim());
+			UserInfoManager.getInstance().setPassword(mEtValidate.getText().toString().trim());
+			UserInfoManager.getInstance().sync(getActivity(), true);
 			finish();
 		}
 	}
