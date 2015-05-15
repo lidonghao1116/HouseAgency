@@ -34,6 +34,7 @@ import com.next.net.SHTask;
 import com.sky.house.R;
 import com.sky.house.me.HouseAuthenticationFragment;
 import com.sky.house.me.HouseBalanceFragment;
+import com.sky.house.me.HouseFeedbackFragment;
 import com.sky.house.me.HouseMessageFragment;
 import com.sky.house.me.HouseSettingFragment;
 import com.sky.house.widget.RoundImageView;
@@ -110,8 +111,14 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 				startActivity(intent);
 			}
 		});
-		requestAuthInfo();
 		
+		
+	}
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		requestAuthInfo();
 	}
 	private void requestAuthInfo(){
 		SHDialog.ShowProgressDiaolg(getActivity(), null);
@@ -157,8 +164,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			startActivity(intent);
 			break;
 		case R.id.rl_points:
-			intent.putExtra("class", HouseBalanceFragment.class.getName());
-			startActivity(intent);
+			
 			break;
 		case R.id.btn_tenant:
 			intent.putExtra("class", HouseBalanceFragment.class.getName());
@@ -181,7 +187,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			startActivity(intent);
 			break;
 		case R.id.rl_feedback:
-			intent.putExtra("class", HouseBalanceFragment.class.getName());
+			intent.putExtra("class", HouseFeedbackFragment.class.getName());
 			startActivity(intent);
 			break;
 

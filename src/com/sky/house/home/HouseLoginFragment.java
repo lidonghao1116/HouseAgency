@@ -139,6 +139,7 @@ public class HouseLoginFragment extends BaseFragment implements ITaskListener {
 		if (task == validateTask) {
 			mEtValidate.setText(json.getString("code"));
 		} else if (task == loginTask) {
+			SHEnvironment.getInstance().setSession(json.optString("SessionId"));
 			finish();
 		}
 	}

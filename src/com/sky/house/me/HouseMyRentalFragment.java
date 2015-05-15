@@ -7,14 +7,12 @@ import org.json.JSONObject;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
-import com.eroad.base.SHApplication;
 import com.eroad.base.util.ConfigDefinition;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
@@ -22,10 +20,13 @@ import com.next.net.SHTask;
 import com.sky.house.R;
 import com.sky.house.widget.SHListView;
 import com.sky.widget.SHDialog;
-import com.sky.widget.sweetdialog.SweetDialog;
 
-public class HouseMessageFragment extends BaseFragment implements ITaskListener{
-	private MessageAdapter mAdapter;
+/**
+ * @author yebaohua
+ *我的租房
+ */
+public class HouseMyRentalFragment extends BaseFragment implements ITaskListener {
+	private RentalAdapter mAdapter;
 	SHListView listView;
 	private int pagenum = 1;
 	private SHPostTaskM taskMessage,taskClear;
@@ -34,24 +35,16 @@ public class HouseMessageFragment extends BaseFragment implements ITaskListener{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View view  = inflater.inflate(R.layout.fragment_message, container,false);
-		listView  = (SHListView) view.findViewById(R.id.lv_message);
+		View view  = inflater.inflate(R.layout.fragment_rental, container,false);
+		listView  = (SHListView) view.findViewById(R.id.lv_rental);
 		return view;
 	}
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-		mDetailTitlebar.setTitle("我的消息");
-		mDetailTitlebar.setRightButton1("清空", new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				requestClear();
-			}
-		});
-		mAdapter  = new MessageAdapter();
+		mDetailTitlebar.setTitle("我的租房");
+		mAdapter  = new RentalAdapter();
 		listView.setAdapter(mAdapter);
 		listView.setTipsMessage("暂时还没有您的消息哦！加油...");
 //		listView.setOnLoadMoreListener(new SHListView.OnLoadMoreListener() {
@@ -114,7 +107,7 @@ public class HouseMessageFragment extends BaseFragment implements ITaskListener{
 		// TODO Auto-generated method stub
 		
 	}
-	class MessageAdapter extends BaseAdapter{
+	class RentalAdapter extends BaseAdapter{
 
 		@Override
 		public int getCount() {
@@ -179,9 +172,5 @@ public class HouseMessageFragment extends BaseFragment implements ITaskListener{
 			private Button btnReport;
 		}
 	}
-
-	
-
-
 
 }
