@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.eroad.base.BaseFragment;
@@ -20,7 +19,9 @@ import com.sky.house.adapter.MessageAdapter.AdapterType;
 import com.sky.house.widget.SHListView;
 import com.sky.widget.SHDialog;
 
-public class HouseMessageFragment extends BaseFragment implements ITaskListener{
+public class HouseRechargeRecordList extends BaseFragment implements
+		ITaskListener {
+
 	private MessageAdapter mAdapter;
 	SHListView listView;
 	private int pagenum = 1;
@@ -38,18 +39,18 @@ public class HouseMessageFragment extends BaseFragment implements ITaskListener{
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-		mDetailTitlebar.setTitle("我的消息");
-		mDetailTitlebar.setRightButton1("清空", new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				requestClear();
-			}
-		});
-		mAdapter  = new  MessageAdapter(getActivity(),jsonArray,AdapterType.showReport);
+		mDetailTitlebar.setTitle("我的记录");
+//		mDetailTitlebar.setRightButton1("清空", new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				// TODO Auto-generated method stub
+//				requestClear();
+//			}
+//		});
+		mAdapter  = new MessageAdapter(getActivity(),jsonArray,AdapterType.showTime);
 		listView.setAdapter(mAdapter);
-		listView.setTipsMessage("暂时还没有您的消息哦！加油...");
+		listView.setTipsMessage("暂时还没有您的交易记录哦！加油...");
 //		listView.setOnLoadMoreListener(new SHListView.OnLoadMoreListener() {
 //			
 //			@Override
@@ -63,7 +64,7 @@ public class HouseMessageFragment extends BaseFragment implements ITaskListener{
 	}
 	private void requestMessage(){
 		taskMessage = new SHPostTaskM();
-		taskMessage.setUrl(ConfigDefinition.URL + "GetUserPushMsgList");
+		taskMessage.setUrl(ConfigDefinition.URL + "GetUserAccountLogList");
 //		taskMessage.getTaskArgs().put("pageSize", 10);
 //		taskMessage.getTaskArgs().put("pageIndex",pagenum);
 		taskMessage.setListener(this);
@@ -82,7 +83,7 @@ public class HouseMessageFragment extends BaseFragment implements ITaskListener{
 		SHDialog.dismissProgressDiaolg();
 		if (task == taskMessage) {
 			JSONObject json = (JSONObject) task.getResult();
-			jsonArray = json.getJSONArray("pushMsgs");
+			jsonArray = json.getJSONArray("accountList");
 			listView.setTotalNum(json.getInt("recordCount"));
 			mAdapter.notifyDataSetChanged();
 		}else if(task == taskClear){
@@ -110,4 +111,5 @@ public class HouseMessageFragment extends BaseFragment implements ITaskListener{
 		// TODO Auto-generated method stub
 		
 	}
+
 }

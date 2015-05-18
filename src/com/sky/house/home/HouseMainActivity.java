@@ -3,6 +3,7 @@ package com.sky.house.home;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,9 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.eroad.base.BaseActivity;
 import com.eroad.base.SHApplication;
+import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.ConfigDefinition;
+import com.next.util.SHEnvironment;
 import com.sky.house.R;
 import com.sky.widget.sweetdialog.SweetDialog;
 import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
@@ -19,6 +23,7 @@ public class HouseMainActivity extends BaseActivity {
 	private RadioGroup rg;
 	private List<Fragment> mFragmentList = new ArrayList<Fragment>();
 	private String[] tabs = new String[] { "home", "map", "order", "mine" };
+	private int lastCheckId = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +48,21 @@ public class HouseMainActivity extends BaseActivity {
 //					changeFragment(tabs[3]);
 //					break;
 				case R.id.rb_3:
+					if(SHEnvironment.getInstance().getSession().isEmpty()){
+						Intent intent = new Intent(HouseMainActivity.this,SHContainerActivity.class);
+						intent.putExtra("class", HouseLoginFragment.class.getName());
+						startActivity(intent);
+						if(lastCheckId!=-1){
+							rg.check(lastCheckId);
+						}else{
+							rg.check(R.id.rb_0);
+						}
+						return;
+					}
 					changeFragment(tabs[3]);
 					break;
 				}
+				lastCheckId = group.getCheckedRadioButtonId();
 			}
 		});
 		changeFragment(tabs[0]);
@@ -60,7 +77,6 @@ public class HouseMainActivity extends BaseActivity {
 		hideFragment();
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
-
 		if (fragment != null) {
 			transaction.show(fragment);
 		} else {
@@ -76,8 +92,8 @@ public class HouseMainActivity extends BaseActivity {
 			mFragmentList.add(fragment);
 			transaction.add(R.id.frame, fragment, tag);
 		}
-
 		transaction.commit();
+		
 	}
 
 	private void hideFragment() {

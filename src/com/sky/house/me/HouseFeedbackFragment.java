@@ -26,7 +26,7 @@ OnClickListener, ITaskListener {
 	@ViewInit(id = R.id.et_feedback_content)
 	private EditText etContent;
 
-	@ViewInit(id = R.id.et_feedback_content,onClick = "onClick" )
+	@ViewInit(id = R.id.btn_submit,onClick = "onClick" )
 	private Button btn_submit;
 
 	private SHPostTaskM taskSubmit;
@@ -72,6 +72,7 @@ OnClickListener, ITaskListener {
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
+		SHToast.showToast(getActivity(), "感谢您的反馈！",0);
 		getActivity().finish();
 	}
 

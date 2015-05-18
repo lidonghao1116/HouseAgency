@@ -77,8 +77,8 @@
                     android:background="@null"
                     android:ellipsize="end"
                     android:gravity="right"
-                    android:singleLine="true"
                     android:hint="您的真实姓名"
+                    android:singleLine="true"
                     android:text="" />
             </RelativeLayout>
 
@@ -125,9 +125,9 @@
                     android:background="@null"
                     android:ellipsize="end"
                     android:gravity="right"
-                    android:singleLine="true"
-                    android:inputType="number"
                     android:hint="请正确填写证件号"
+                    android:inputType="number"
+                    android:singleLine="true"
                     android:text="" />
             </RelativeLayout>
 
@@ -166,7 +166,7 @@
                 <TextView
                     android:id="@+id/tv_state"
                     style="@style/TextMicroGray"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
@@ -180,7 +180,18 @@
                     android:text="上传身份证原件正面，24小时内审核完毕" />
             </RelativeLayout>
 
+            <ImageView
+                android:id="@+id/iv_card"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
             <RelativeLayout
+                android:id="@+id/rl_submit"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
                 android:layout_marginTop="20dp" >
@@ -207,14 +218,6 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp" />
             </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/iv_card"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_tips"

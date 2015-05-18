@@ -36,11 +36,15 @@ import com.next.net.SHTask;
 import com.sky.house.R;
 import com.sky.widget.SHDialog;
 import com.sky.widget.SHDialog.DialogItemClickListener;
-import com.sky.widget.sweetdialog.SweetDialog;
 import com.sky.widget.SHToast;
+import com.sky.widget.sweetdialog.SweetDialog;
 
+/**
+ * @author yebaohua
+ *
+ */
 public class HouseAuthenticationFragment extends BaseFragment implements ITaskListener,OnClickListener{
-	@ViewInit(id = R.id.iv_auth)
+	@ViewInit(id = R.id.iv_auth,onClick = "onClick")
 	private ImageView imgState;
 
 	@ViewInit(id = R.id.et_name)
@@ -51,10 +55,16 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 
 	@ViewInit(id = R.id.rl_upload, onClick = "onClick")
 	private RelativeLayout rlUpload;
-
+	
+	@ViewInit(id = R.id.tv_upload)
+	private TextView tvStateName;
+	
 	@ViewInit(id = R.id.tv_state)
 	private TextView tvState;
 
+	@ViewInit(id = R.id.rl_submit)
+	private RelativeLayout rlSubmit;
+	
 	@ViewInit(id = R.id.btn_submit, onClick = "onClick")
 	private Button btnSubmit;
 
@@ -123,6 +133,9 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
+		case R.id.iv_auth:
+			modifyPhoto();
+			break;
 		case R.id.rl_upload:
 			modifyPhoto();
 			break;
@@ -176,7 +189,7 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 				Bitmap newBitmap = ImageTools.zoomBitmap(bitmap_tack, bitmap_tack.getWidth() / 6, bitmap_tack.getHeight() / 6);
 				// bitmap_tack.recycle();
 				bitmapCard = bitmap_tack;
-				imgCard.setImageBitmap(newBitmap);
+				imgCard.setImageBitmap(bitmap_tack);
 				imgCard.setVisibility(View.VISIBLE);
 				break;
 			case CHOOSE_PICTURE:
@@ -196,7 +209,7 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 					Bitmap smallBitmap = ImageTools.zoomBitmap(bitmap_choose, bitmap_choose.getWidth() / 6, bitmap_choose.getHeight() / 6);
 					// bitmap_choose.recycle();
 					bitmapCard = bitmap_choose;
-					imgCard.setImageBitmap(smallBitmap);
+					imgCard.setImageBitmap(bitmap_choose);
 					imgCard.setVisibility(View.VISIBLE);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -207,20 +220,51 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 
 		}
 	}
-	
+	private void checkStatus(boolean enable){
+		if(enable){
+			imgState.setEnabled(true);
+			etName.setEnabled(true);
+			etCard.setEnabled(true);
+			rlUpload.setEnabled(true);
+			rlSubmit.setVisibility(View.VISIBLE);
+		}else{
+			imgState.setEnabled(false);
+			etName.setEnabled(false);
+			etName.setFocusable(false);
+			
+			etCard.setEnabled(false);
+			etCard.setFocusable(false);
+			
+			rlUpload.setEnabled(false);
+			rlSubmit.setVisibility(View.GONE);
+		}
+	}
 	@Override
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
 		if (task == taskAuthinfo) {
 			JSONObject json = (JSONObject) task.getResult();
-			if(!json.getString("PicUrl").isEmpty()){
-				ImageLoaderUtil.displayImage(json.getString("PicUrl"), imgCard);
+			if(!json.getString("picUrl").isEmpty()){
+				ImageLoaderUtil.displayImage(json.getString("picUrl"), imgCard);
 				imgCard.setVisibility(View.VISIBLE);
-				tvState.setText(json.optString("AuditStatusName"));
+				tvStateName.setText("证件审核");
+				tvState.setCompoundDrawables(null, null, null, null);
+				tvState.setText(json.optString("auditStatusName"));
+				etCard.setText(json.optString("identityNo"));
+				etName.setText(json.optString("userRealName"));
 			}
-			etCard.setText(json.optString("IdentityNo"));
-			etName.setText(json.optString("UserRealName"));
+			//status=0 等待认证 status=1 认证通过 status=2认证失败(可编辑)
+			if(json.getInt("auditStatus")==0){
+				imgState.setBackgroundResource(R.drawable.ic_auth_fali);
+				checkStatus(false);
+			}else if(json.getInt("auditStatus")==1){
+				imgState.setBackgroundResource(R.drawable.ic_auth_success);
+				checkStatus(false);
+			}else{
+				imgState.setBackgroundResource(R.drawable.ic_auth_fali);
+				checkStatus(true);
+			}
 		}else if(task == taskSubmit){
 			getActivity().finish();
 		}

@@ -48,7 +48,7 @@ public class HouseBalanceFragment extends BaseFragment implements
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(getActivity(),SHContainerActivity.class);
-				intent.putExtra("class", HouseSettingFragment.class.getName());
+				intent.putExtra("class", HouseRechargeRecordList.class.getName());
 				startActivity(intent);
 			}
 		});

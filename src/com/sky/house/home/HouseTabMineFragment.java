@@ -27,6 +27,7 @@ import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ImageLoaderUtil;
 import com.eroad.base.util.ImageTools;
+import com.eroad.base.util.UserInfoManager;
 import com.eroad.base.util.ViewInit;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
@@ -36,6 +37,7 @@ import com.sky.house.me.HouseAuthenticationFragment;
 import com.sky.house.me.HouseBalanceFragment;
 import com.sky.house.me.HouseFeedbackFragment;
 import com.sky.house.me.HouseMessageFragment;
+import com.sky.house.me.HouseMyRentalFragment;
 import com.sky.house.me.HouseSettingFragment;
 import com.sky.house.widget.RoundImageView;
 import com.sky.widget.SHDialog;
@@ -84,10 +86,12 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 	@ViewInit(id = R.id.tv_points)
 	private TextView tvSunPoints;
 	
-	private SHPostTaskM taskAuthinfo,uploadTask,taskBalance;
+	private SHPostTaskM taskAuthinfo,uploadTask,taskBalance,taskPhoto;
 	
 	private final int TAKE_PICTURE = 0;// 拍照
 	private final int CHOOSE_PICTURE = 1;// 相册
+	
+	private boolean isVisable;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -111,7 +115,8 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 				startActivity(intent);
 			}
 		});
-		
+		tvPhone.setText(UserInfoManager.getInstance().getMoblie());
+		requestPhoto();
 		
 	}
 	@Override
@@ -139,13 +144,20 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 	}
 	/** 上传头像 */
 	private void uploadPhoto(Bitmap bitmap) {
-//		SHDialog.ShowProgressDiaolg(getActivity(), "正在上传...");
-//		uploadTask = new SHPostTaskM();
-//		uploadTask.setUrl(ConfigDefinition.URL + "uploaddata");
-//		uploadTask.getTaskArgs().put("type", "image");
-//		uploadTask.getTaskArgs().put("data", CommonUtil.bitmap2Base64(bitmap));
-//		uploadTask.setListener(this);
-//		uploadTask.start();
+		SHDialog.ShowProgressDiaolg(getActivity(), "正在上传...");
+		uploadTask = new SHPostTaskM();
+		uploadTask.setUrl(ConfigDefinition.URL + "AddUserImage");
+		uploadTask.getTaskArgs().put("picString", CommonUtil.bitmap2Base64(bitmap));
+		uploadTask.setListener(this);
+		uploadTask.start();
+	}
+	/** 获取头像 */
+	private void requestPhoto() {
+		SHDialog.ShowProgressDiaolg(getActivity(), null);
+		taskPhoto = new SHPostTaskM();
+		taskPhoto.setUrl(ConfigDefinition.URL + "GetUserImage");
+		taskPhoto.setListener(this);
+		taskPhoto.start();
 	}
 	@Override
 	public void onClick(View v) {
@@ -179,7 +191,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			startActivity(intent);
 			break;
 		case R.id.rl_store:
-			intent.putExtra("class", HouseBalanceFragment.class.getName());
+			intent.putExtra("class", HouseMyRentalFragment.class.getName());
 			startActivity(intent);
 			break;
 		case R.id.rl_complaint:
@@ -273,14 +285,17 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 		SHDialog.dismissProgressDiaolg();
 		if (task == taskAuthinfo) {
 			JSONObject json = (JSONObject) task.getResult();
-			ImageLoaderUtil.displayImage(json.getString("PicUrl"), imagePhoto);
-			tvPhone.setText(json.optString("IdentityNo"));
-			tvName.setText(json.optString("UserRealName"));
-			tvState.setText(json.optString("AuditStatusName"));
+			ImageLoaderUtil.displayImage(json.getString("picUrl"), imagePhoto);
+//			tvPhone.setText(json.optString("IdentityNo"));
+//			tvName.setText(json.optString("UserRealName"));
+			tvState.setText(json.optString("auditStatusName"));
 		}else if(task == taskBalance){
 			JSONObject json = (JSONObject) task.getResult();
-			tvBalance.setText(json.optInt("amount"));
-			tvSunPoints.setText(json.optInt("sunnyAmt"));
+			tvBalance.setText(json.optDouble("amount")+"");
+			tvSunPoints.setText(json.optInt("sunnyAmt")+"");
+		}else if(task == taskPhoto){
+			JSONObject json = (JSONObject) task.getResult();
+			ImageLoaderUtil.displayImage(json.getString("picUrl"), imagePhoto);
 		}
 	}
 	@Override

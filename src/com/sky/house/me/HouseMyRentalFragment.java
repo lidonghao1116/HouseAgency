@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,7 +27,7 @@ import com.sky.widget.SHDialog;
  * @author yebaohua
  *我的租房
  */
-public class HouseMyRentalFragment extends BaseFragment implements ITaskListener {
+public class HouseMyRentalFragment extends BaseFragment implements OnItemClickListener,ITaskListener {
 	private RentalAdapter mAdapter;
 	SHListView listView;
 	private int pagenum = 1;
@@ -60,7 +62,7 @@ public class HouseMyRentalFragment extends BaseFragment implements ITaskListener
 	}
 	private void requestMessage(){
 		taskMessage = new SHPostTaskM();
-		taskMessage.setUrl(ConfigDefinition.URL + "GetUserPushMsgList");
+		taskMessage.setUrl(ConfigDefinition.URL + "GetUserHouseCollectList");
 //		taskMessage.getTaskArgs().put("pageSize", 10);
 //		taskMessage.getTaskArgs().put("pageIndex",pagenum);
 		taskMessage.setListener(this);
@@ -68,18 +70,25 @@ public class HouseMyRentalFragment extends BaseFragment implements ITaskListener
 	}
 	private void requestClear(){
 		taskClear = new SHPostTaskM();
-		taskClear.setUrl(ConfigDefinition.URL + "UpdateUserPushMsgStatus");
+		taskClear.setUrl(ConfigDefinition.URL + "DeleteUserHouseCollect");
 		taskClear.getTaskArgs().put("ids", new JSONArray());
 		taskClear.setListener(this);
 		taskClear.start();
 	}
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
 		if (task == taskMessage) {
 			JSONObject json = (JSONObject) task.getResult();
-			jsonArray = json.getJSONArray("pushMsgs");
+			jsonArray = json.getJSONArray("rentHouseList");
 			listView.setTotalNum(json.getInt("recordCount"));
 			mAdapter.notifyDataSetChanged();
 		}else if(task == taskClear){
@@ -172,5 +181,5 @@ public class HouseMyRentalFragment extends BaseFragment implements ITaskListener
 			private Button btnReport;
 		}
 	}
-
+	
 }
