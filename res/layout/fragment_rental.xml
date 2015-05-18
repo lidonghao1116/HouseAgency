@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgColor"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@id/detailTitlebar"
+        layout="@layout/titlebar_detail" />
+
+    <com.sky.house.widget.SHListView
+        android:id="@+id/lv_rental"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/color_gray_dark"
+        android:dividerHeight="1dp"
+        android:listSelector="@color/color_full_transparent"
+        android:scrollbars="none" />
+
+</LinearLayout>

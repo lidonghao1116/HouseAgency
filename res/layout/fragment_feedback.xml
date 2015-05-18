@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_white" >
+
+    <include
+        android:id="@id/detailTitlebar"
+        layout="@layout/titlebar_detail" />
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextMidBlack"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="让我们知道我们可以做的更好！"/>
+
+    <EditText
+        android:id="@+id/et_feedback_content"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bg_gray_round_corner"
+        android:gravity="top"
+        android:hint="在此输入您对我们的意见或建议！"
+        android:maxLength="2500"
+        android:textColor="@color/color_black"
+        android:textSize="@dimen/text_mid" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        style="@style/TextBigWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_orange_round"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="提交建议" />
+
+</LinearLayout>

@@ -11,20 +11,223 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-        <RelativeLayout 
+        android:layout_height="match_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#63bbe4">
-            <ImageView 
-                android:id="@+id/iv_auth"
-                android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="#63bbe4" >
+
+                <ImageView
+                    android:id="@+id/iv_auth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_auth_fali" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_postion"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/list_item" >
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    style="@style/TextMidBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="真实姓名" />
+
+                <ImageView
+                    android:id="@+id/view_arrow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_arrow_right"
+                    android:visibility="invisible" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/color_gray_light" />
+
+                <com.sky.widget.SHEditText
+                    android:id="@+id/et_name"
+                    style="@style/TextSmallGray"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/view_arrow1"
+                    android:layout_toRightOf="@id/tv_name"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:hint="您的真实姓名"
+                    android:singleLine="true"
+                    android:text="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:background="@drawable/list_item" >
+
+                <TextView
+                    android:id="@+id/tv_card"
+                    style="@style/TextMidBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="身份证号" />
+
+                <ImageView
+                    android:id="@+id/view_arrow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_arrow_right"
+                    android:visibility="invisible" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/color_gray_light" />
+
+                <com.sky.widget.SHEditText
+                    android:id="@+id/et_card"
+                    style="@style/TextSmallGray"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/view_arrow2"
+                    android:layout_toRightOf="@id/tv_card"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:hint="请正确填写证件号"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:text="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_upload"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/list_item" >
+
+                <TextView
+                    android:id="@+id/tv_upload"
+                    style="@style/TextMidBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="上传证件图片" />
+
+                <ImageView
+                    android:id="@+id/view_arrow3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_arrow_right"
+                    android:visibility="invisible" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/color_gray_light" />
+
+                <TextView
+                    android:id="@+id/tv_state"
+                    style="@style/TextMicroGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/view_arrow3"
+                    android:layout_toRightOf="@id/tv_upload"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/ic_tip"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:text="上传身份证原件正面，24小时内审核完毕" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_card"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rl_submit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:layout_marginTop="20dp" >
+
+                <Button
+                    android:id="@+id/btn_submit"
+                    style="@style/TextBigWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/btn_orange_round"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="提交审核" />
+
+                <ImageView
+                    android:id="@+id/iv_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/btn_submit"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/btn_submit"
+                    android:background="@drawable/ic_question"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_tips"
+                style="@style/TextMicroOrange"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_auth_fali"/>
-            
-        </RelativeLayout>
-        
+                android:layout_margin="10dp"
+                android:text="@string/str_contact_1"
+                android:visibility="invisible" />
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

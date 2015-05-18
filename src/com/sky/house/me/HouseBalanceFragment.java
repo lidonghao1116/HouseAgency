@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
@@ -22,6 +23,13 @@ public class HouseBalanceFragment extends BaseFragment implements
 	private RelativeLayout rlBank;
 	@ViewInit(id = R.id.rl_frozen, onClick = "onClick")
 	private RelativeLayout rlFrozen;
+	
+	@ViewInit(id = R.id.tv_account)
+	private TextView tvAccount;
+	@ViewInit(id = R.id.tv_bank)
+	private TextView tvBank;
+	@ViewInit(id = R.id.tv_frozen)
+	private TextView tvFrozen;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -40,7 +48,7 @@ public class HouseBalanceFragment extends BaseFragment implements
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(getActivity(),SHContainerActivity.class);
-				intent.putExtra("class", HouseSettingFragment.class.getName());
+				intent.putExtra("class", HouseRechargeRecordList.class.getName());
 				startActivity(intent);
 			}
 		});

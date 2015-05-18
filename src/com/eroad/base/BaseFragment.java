@@ -100,10 +100,10 @@ public class BaseFragment extends Fragment implements ISHKeyEvent {
 		getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
 	}
 	
-	public void startActivityForResult(Intent intent,int requestCode){
-		getActivity().startActivityForResult(intent, requestCode);
-		getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
-	}
+//	public void startActivityForResult(Intent intent,int requestCode){
+//		getActivity().startActivityForResult(intent, requestCode);
+//		getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
+//	}
 	
 	public void setGuideLayout(int id){
 		if(!MaskingPreference.viewIsGuided(getActivity(), BaseFragment.this.getClass().getName())){
