@@ -36,6 +36,31 @@
             android:id="@+id/lv_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:divider="@color/color_full_transparent"
+            android:listSelector="@drawable/list_item" />
+
+        <ListView
+            android:id="@+id/lv_letter"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="#0000"
+            android:cacheColorHint="#0000"
+            android:divider="#0000"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none" />
+    </RelativeLayout>
+
+    <!--
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ListView
+            android:id="@+id/lv_city"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/lv_letter"
             android:divider="@color/full_transparent"
             android:listSelector="@drawable/list_item" />
@@ -51,8 +76,9 @@
             android:divider="#0000"
             android:fadingEdge="none"
             android:listSelector="@android:color/transparent"
-            android:scrollbars="none" >
-        </ListView>
+            android:scrollbars="none" />
+
     </RelativeLayout>
+    -->
 
 </LinearLayout>
