@@ -71,8 +71,10 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 
 	private HouseListAdapter listAdapter;
 
-	private JSONArray jsonArray;//房源数组
-	
+	private JSONArray jsonArray;// 房源数组
+
+	private JSONArray areaArray;// 区域数组
+
 	private int pageNum = 1;
 
 	@Override
@@ -105,14 +107,22 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 		requestHouseList();
 
 		// 假数据
-		ArrayList<MenuItem> tempMenuItems = null;
-		for (int j = 0; j < 2; j++) {
-			tempMenuItems = new ArrayList<MenuItem>();
-			for (int i = 0; i < 15; i++) {
-				tempMenuItems.add(new MenuItem(false, "子菜单" + j + "" + i, null));
-			}
-			menuItems.add(new MenuItem(true, "区域" + j, tempMenuItems));
+		// ArrayList<MenuItem> tempMenuItems = null;
+		// for (int j = 0; j < 2; j++) {
+		// tempMenuItems = new ArrayList<MenuItem>();
+		// for (int i = 0; i < 15; i++) {
+		// tempMenuItems.add(new MenuItem(false, "子菜单" + j + "" + i, null));
+		// }
+		// menuItems.add(new MenuItem(true, "区域" + j, tempMenuItems));
+		// }
+
+		final String[] items_near = getResources().getStringArray(R.array.array_near);
+		ArrayList<MenuItem> tempMenuItems = new ArrayList<MenuItem>();
+		for (int i = 0; i < items_near.length; i++) {
+			tempMenuItems.add(new MenuItem(false, items_near[i], null));
 		}
+		menuItems.add(new MenuItem(true,"附近",tempMenuItems));
+
 	}
 
 	@Override
@@ -247,7 +257,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 	}
 
 	private void setData() {
-		
+
 	}
 
 	@Override
@@ -256,11 +266,16 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 		SHDialog.dismissProgressDiaolg();
 		JSONObject json = (JSONObject) task.getResult();
 		if (task == areaTask) {
-
+			areaArray = json.getJSONArray("Counties");
+			ArrayList<MenuItem> tempMenuItems = new ArrayList<MenuItem>();
+			for (int i = 0; i < areaArray.length(); i++) {
+				tempMenuItems.add(new MenuItem(false, areaArray.getJSONObject(i).getString("name"), null));
+			}
+			menuItems.add(new MenuItem(true,"区域",tempMenuItems));
 		} else if (task == houseListTask) {
 			jsonArray = CommonUtil.combineArray(jsonArray, json.getJSONArray("rentHouseList"));
-			if(listAdapter == null){
-				listAdapter = new HouseListAdapter(getActivity(), HouseListAdapter.FLAG_HOUSE_LIST,jsonArray);
+			if (listAdapter == null) {
+				listAdapter = new HouseListAdapter(getActivity(), HouseListAdapter.FLAG_HOUSE_LIST, jsonArray);
 			}
 			mLvHouse.setTotalNum(json.getInt("recordCount"));
 			mLvHouse.setAdapter(listAdapter);

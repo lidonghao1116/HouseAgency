@@ -86,5 +86,11 @@
         <item>半年押一</item>
         <item>一年押一</item>
     </string-array>
+    
+    <string-array name="array_near">
+        <item>一千米内</item>
+        <item>两千米内</item>
+        <item>三千米内</item>
+    </string-array>
 
 </resources>
