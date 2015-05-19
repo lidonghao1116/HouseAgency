@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
+    android:clickable="true"
     android:orientation="vertical" >
 
     <include
@@ -19,9 +20,9 @@
         <com.sky.widget.SHEditText
             style="@style/TextMidBlack"
             android:layout_width="200dp"
-            android:layout_height="wrap_content" 
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="60dp"
             android:background="@drawable/bg_white_round_corner"
             android:drawableLeft="@drawable/ic_search_gray"
             android:drawablePadding="5dp"
@@ -120,6 +121,14 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/color_gray_dark" />
+
+    <com.sky.house.widget.SHListView
+        android:id="@+id/lv_house"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/color_full_transparent"
+        android:dividerHeight="0dp"
+        android:listSelector="@drawable/list_item" />
 
     <Button
         android:id="@+id/btn_test"

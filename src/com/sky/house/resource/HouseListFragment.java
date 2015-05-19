@@ -2,6 +2,9 @@ package com.sky.house.resource;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -21,13 +24,22 @@ import android.widget.Toast;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.CommonUtil;
+import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ViewInit;
+import com.next.intf.ITaskListener;
+import com.next.net.SHPostTaskM;
+import com.next.net.SHTask;
 import com.sky.house.R;
+import com.sky.house.adapter.HouseListAdapter;
 import com.sky.house.adapter.OptionAdapter;
 import com.sky.house.entity.MenuItem;
 import com.sky.house.interfaces.CascadingMenuViewOnSelectListener;
 import com.sky.house.resource.filter.HouseFilterFragment;
 import com.sky.house.widget.CascadingMenuPopWindow;
+import com.sky.house.widget.SHListView;
+import com.sky.widget.SHDialog;
+import com.sky.widget.sweetdialog.SweetDialog;
 
 /**
  * 房源
@@ -35,7 +47,7 @@ import com.sky.house.widget.CascadingMenuPopWindow;
  * @author skypan
  * 
  */
-public class HouseListFragment extends BaseFragment {
+public class HouseListFragment extends BaseFragment implements ITaskListener {
 
 	private ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 	private PopupWindow mPopRent;
@@ -48,9 +60,20 @@ public class HouseListFragment extends BaseFragment {
 
 	@ViewInit(id = R.id.tv_area, onClick = "onClick")
 	private TextView mTvArea;
-	
-	@ViewInit(id = R.id.tv_filter,onClick = "onClick")
+
+	@ViewInit(id = R.id.tv_filter, onClick = "onClick")
 	private TextView mTvFilter;
+
+	private SHPostTaskM areaTask, houseListTask;
+
+	@ViewInit(id = R.id.lv_house)
+	private SHListView mLvHouse;
+
+	private HouseListAdapter listAdapter;
+
+	private JSONArray jsonArray;//房源数组
+	
+	private int pageNum = 1;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -77,6 +100,9 @@ public class HouseListFragment extends BaseFragment {
 				startActivity(intent);
 			}
 		});
+
+		requestArea();
+		requestHouseList();
 
 		// 假数据
 		ArrayList<MenuItem> tempMenuItems = null;
@@ -105,11 +131,31 @@ public class HouseListFragment extends BaseFragment {
 			showPopMenu();
 			break;
 		case R.id.tv_filter:
-			Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 			intent.putExtra("class", HouseFilterFragment.class.getName());
 			startActivity(intent);
 			break;
 		}
+	}
+
+	private void requestArea() {
+		areaTask = new SHPostTaskM();
+		areaTask.setListener(this);
+		areaTask.setUrl(ConfigDefinition.URL + "getcountybycityid");
+		areaTask.getTaskArgs().put("cityid", getActivity().getIntent().getIntExtra("cityId", -1));
+		// areaTask.getTaskArgs().put("cityid", 1);
+		areaTask.start();
+	}
+
+	private void requestHouseList() {
+		SHDialog.ShowProgressDiaolg(getActivity(), null);
+		houseListTask = new SHPostTaskM();
+		houseListTask.setListener(this);
+		houseListTask.setUrl(ConfigDefinition.URL + "SearchHouse");
+		houseListTask.getTaskArgs().put("cityId", getActivity().getIntent().getIntExtra("cityId", -1));
+		houseListTask.getTaskArgs().put("pageSize", 20);
+		houseListTask.getTaskArgs().put("pageIndex", pageNum);
+		houseListTask.start();
 	}
 
 	private void showPopMenu() {
@@ -198,6 +244,46 @@ public class HouseListFragment extends BaseFragment {
 				mTvRent.setCompoundDrawables(null, null, drawable, null);
 			}
 		});
+	}
+
+	private void setData() {
+		
+	}
+
+	@Override
+	public void onTaskFinished(SHTask task) throws Exception {
+		// TODO Auto-generated method stub
+		SHDialog.dismissProgressDiaolg();
+		JSONObject json = (JSONObject) task.getResult();
+		if (task == areaTask) {
+
+		} else if (task == houseListTask) {
+			jsonArray = CommonUtil.combineArray(jsonArray, json.getJSONArray("rentHouseList"));
+			if(listAdapter == null){
+				listAdapter = new HouseListAdapter(getActivity(), HouseListAdapter.FLAG_HOUSE_LIST,jsonArray);
+			}
+			mLvHouse.setTotalNum(json.getInt("recordCount"));
+			mLvHouse.setAdapter(listAdapter);
+		}
+	}
+
+	@Override
+	public void onTaskFailed(SHTask task) {
+		// TODO Auto-generated method stub
+		SHDialog.dismissProgressDiaolg();
+		new SweetDialog(getActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
+	}
+
+	@Override
+	public void onTaskUpdateProgress(SHTask task, int count, int total) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTaskTry(SHTask task) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

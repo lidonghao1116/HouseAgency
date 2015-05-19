@@ -13,15 +13,20 @@ import android.widget.TextView;
 
 import com.sky.house.R;
 
-public class CityAdapter extends BaseAdapter{
+public class CityAdapter extends BaseAdapter {
 	private Context context;
 	private JSONArray jsonArray;
-	
-	public CityAdapter(Context c,JSONArray jsonArray){
+
+	public void setJsonArray(JSONArray jsonArray) {
+		this.jsonArray = jsonArray;
+		notifyDataSetChanged();
+	}
+
+	public CityAdapter(Context c, JSONArray jsonArray) {
 		this.context = c;
 		this.jsonArray = jsonArray;
 	}
-	
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -53,7 +58,7 @@ public class CityAdapter extends BaseAdapter{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if("-1".equals(a)){
+		if ("-1".equals(a)) {
 			return 0;
 		}
 		return 1;
@@ -65,20 +70,20 @@ public class CityAdapter extends BaseAdapter{
 		return 0;
 	}
 
-	public class ViewHolder{
+	public class ViewHolder {
 		private TextView parenrttext;
 		private TextView tvCity;
 	}
-	
+
 	public String getFirstPinyin(int position) {
 		return getItem(position).optString("sort");
 	}
-	
+
 	@Override
 	public View getView(int arg0, View convertView, ViewGroup arg2) {
 		// TODO Auto-generated method stub
 		ViewHolder holder = null;
-		if(convertView == null){
+		if (convertView == null) {
 
 			int viewType = getItemViewType(arg0);
 			switch (viewType) {
@@ -94,15 +99,15 @@ public class CityAdapter extends BaseAdapter{
 				break;
 			}
 			convertView.setTag(holder);
-		}else{
-			holder=(ViewHolder)convertView.getTag();
+		} else {
+			holder = (ViewHolder) convertView.getTag();
 		}
 
 		int viewType = getItemViewType(arg0);
 		switch (viewType) {
 		case 0:
 			try {
-//				System.out.println(jsonArray.getJSONObject(arg0).getString("sort"));
+				// System.out.println(jsonArray.getJSONObject(arg0).getString("sort"));
 				holder.parenrttext.setText(jsonArray.getJSONObject(arg0).getString("sort"));
 			} catch (JSONException e1) {
 				// TODO Auto-generated catch block
@@ -116,7 +121,7 @@ public class CityAdapter extends BaseAdapter{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 			break;
 		}
 		return convertView;

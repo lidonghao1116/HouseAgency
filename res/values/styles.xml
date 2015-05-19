@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -21,6 +21,12 @@
     <style name="TextMidBlack">
         <item name="android:textSize">@dimen/text_mid</item>
         <item name="android:textColor">@color/color_black</item>
+    </style>
+    
+    <!-- 中等黄色 -->
+    <style name="TextMidYellow">
+        <item name="android:textSize">@dimen/text_mid</item>
+        <item name="android:textColor">@color/color_yellow</item>
     </style>
 
     <!-- 大号黑色 -->
@@ -127,6 +133,20 @@
     <style name="TextSmallBlack">
         <item name="android:textSize">@dimen/text_small</item>
         <item name="android:textColor">@color/color_black</item>
+    </style>
+    
+    <!-- 小号黑色加粗 -->
+    <style name="TextSmallBlodBlack">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/color_black</item>
+         <item name="android:textStyle">bold</item>
+    </style>
+    
+     <!-- 中等黑色加粗 -->
+    <style name="TextMidBlodBlack">
+        <item name="android:textSize">@dimen/text_mid</item>
+        <item name="android:textColor">@color/color_black</item>
+         <item name="android:textStyle">bold</item>
     </style>
 
     <!-- 中等orange -->

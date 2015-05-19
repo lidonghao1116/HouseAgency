@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -50,32 +51,34 @@ import com.sky.widget.sweetdialog.SweetDialog;
  * @author skypan
  * 
  */
-public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
+public class HouseTabHomeFragment extends BaseFragment implements ITaskListener {
 
 	@ViewInit(id = R.id.tv_entire_rent, onClick = "onClick")
 	private TextView mTvEntire;
 	@ViewInit(id = R.id.tv_joint_rent, onClick = "onClick")
 	private TextView mTvJoint;
-	@ViewInit(id = R.id.tv_publish_house,onClick = "onClick")
+	@ViewInit(id = R.id.tv_publish_house, onClick = "onClick")
 	private TextView mTvPublish;
-	
+
 	@ViewInit(id = R.id.lv_news)
 	private ListView mLvNews;
-	
+
 	private NewsAdapter adapter;
-	
+
 	@ViewInit(id = R.id.pager_banner)
 	private ViewPager mPagerView_TopAdvert;
-	
+
 	@ViewInit(id = R.id.linear_top_indicator)
 	private LinearLayout mLinearLayout_TopIndicator;
-	
+
 	private List<View> mIndicatorTopList = new ArrayList<View>();
-	
+
 	private JSONArray jsonArray;
+
+	private SHPostTaskM taskTop, taskCity;
 	
-	private SHPostTaskM taskTop,taskCity;
-	
+	private int cityId;
+
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -90,16 +93,16 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 	};
 
 	private BroadcastReceiver rec = new BroadcastReceiver() {
-		
+
 		@Override
 		public void onReceive(Context arg0, Intent intent) {
 			// TODO Auto-generated method stub
-			if(intent.getAction().equals(SHLocationManager.BROADCAST_LOCATION)){
+			if (intent.getAction().equals(SHLocationManager.BROADCAST_LOCATION)) {
 				requestCity();
 			}
 		}
 	};
-	
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -117,25 +120,23 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 				intent.putExtra("class", HouseCityFragment.class.getName());
-				startActivity(intent);
+				startActivityForResult(intent, 0);
+				getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
 			}
 		});
 		mDetailTitlebar.setRightButton1("登录", new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+				Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 				intent.putExtra("class", HouseLoginFragment.class.getName());
 				startActivity(intent);
 			}
 		});
-//		LayoutParams layoutParams = (LinearLayout.LayoutParams)mPagerView_TopAdvert.getLayoutParams();
-//        layoutParams.height = CommonUtil.Window.getWidth()*(2/5) ;
-//        mPagerView_TopAdvert.setLayoutParams(layoutParams);
-		mPagerView_TopAdvert.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, CommonUtil.Window.getWidth()/5*2));
+		mPagerView_TopAdvert.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, CommonUtil.Window.getWidth() / 5 * 2));
 		mLvNews.setAdapter(new NewsAdapter(getActivity()));
-		if(!CommonUtil.isEmpty(Location.getInstance().getCity())){
+		if (!CommonUtil.isEmpty(Location.getInstance().getCity())) {
 			requestCity();
 		}
 		requestTopAdv();
@@ -148,14 +149,16 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 		return view;
 	}
 
-	private void onClick(View v){
-		Intent intent = new Intent(getActivity(),SHContainerActivity.class);
-		switch(v.getId()){
+	private void onClick(View v) {
+		Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+		switch (v.getId()) {
 		case R.id.tv_entire_rent:
 			intent.putExtra("class", HouseListFragment.class.getName());
+			intent.putExtra("cityId", cityId);
 			break;
 		case R.id.tv_joint_rent:
 			intent.putExtra("class", HouseListFragment.class.getName());
+			intent.putExtra("cityId", cityId);
 			break;
 		case R.id.tv_publish_house:
 			intent.putExtra("class", HousePublishFragment.class.getName());
@@ -163,16 +166,16 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 		}
 		startActivity(intent);
 	}
-	
-	private void requestCity(){
+
+	private void requestCity() {
 		taskCity = new SHPostTaskM();
-		taskCity.setUrl(ConfigDefinition.URL+"GetCityByLL");
+		taskCity.setUrl(ConfigDefinition.URL + "GetCityByLL");
 		taskCity.setListener(this);
 		taskCity.getTaskArgs().put("lng", Location.getInstance().getLng());
 		taskCity.getTaskArgs().put("lat", Location.getInstance().getLat());
 		taskCity.start();
 	}
-	
+
 	private void setTopAdv() {
 
 		addTopIndicator(jsonArray.length());
@@ -212,7 +215,7 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 			mPagerView_TopAdvert.setCurrentItem(position, true);
 		}
 	};
-	
+
 	/**
 	 * 请求图片广告
 	 */
@@ -226,7 +229,7 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 		taskTop.setListener(this);
 		taskTop.start();
 	}
-	
+
 	/**
 	 * 根据图片数量动态添加圆点
 	 * 
@@ -234,7 +237,7 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 	 *            图片数量
 	 */
 	private void addTopIndicator(int size) {
-		int imgSize = (int) (getResources().getDisplayMetrics().density *8);
+		int imgSize = (int) (getResources().getDisplayMetrics().density * 8);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imgSize, imgSize);
 		params.setMargins(5, 0, 5, 0);
 		mLinearLayout_TopIndicator.setOrientation(LinearLayout.HORIZONTAL);
@@ -272,6 +275,26 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 	}
 
 	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK && data != null) {
+			cityId = data.getIntExtra("id", -1);
+			mDetailTitlebar.setLeftButton(data.getStringExtra("cityName"), new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+					intent.putExtra("class", HouseCityFragment.class.getName());
+					startActivityForResult(intent, 0);
+					getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
+				}
+			});
+		}
+	}
+
+	@Override
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
@@ -281,11 +304,12 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 			if (jsonArray.length() != 0) {
 				mHandler.sendEmptyMessage(0);
 			}
-		} else if (task == taskCity){
+		} else if (task == taskCity) {
 			JSONObject currentCityJson = json.getJSONObject("city");
 			Location.getInstance().setCity(currentCityJson.getString("cityName"));
 			Location.getInstance().setLat(currentCityJson.getDouble("latitude"));
 			Location.getInstance().setLng(currentCityJson.getDouble("longitude"));
+			cityId = currentCityJson.getInt("id");
 			mDetailTitlebar.setLeftButton(Location.getInstance().getCity(), new OnClickListener() {
 
 				@Override
@@ -293,7 +317,8 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 					// TODO Auto-generated method stub
 					Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 					intent.putExtra("class", HouseCityFragment.class.getName());
-					startActivity(intent);
+					startActivityForResult(intent, 0);
+					getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
 				}
 			});
 		}
@@ -309,12 +334,12 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener{
 	@Override
 	public void onTaskUpdateProgress(SHTask task, int count, int total) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onTaskTry(SHTask task) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
