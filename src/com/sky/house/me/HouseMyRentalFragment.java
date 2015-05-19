@@ -1,25 +1,24 @@
 package com.sky.house.me;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
+import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.ConfigDefinition;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
+import com.sky.house.adapter.HouseListAdapter;
 import com.sky.house.widget.SHListView;
 import com.sky.widget.SHDialog;
 
@@ -28,11 +27,12 @@ import com.sky.widget.SHDialog;
  *我的租房
  */
 public class HouseMyRentalFragment extends BaseFragment implements OnItemClickListener,ITaskListener {
-	private RentalAdapter mAdapter;
+	private HouseListAdapter mAdapter;
 	SHListView listView;
 	private int pagenum = 1;
 	private SHPostTaskM taskMessage,taskClear;
 	private JSONArray jsonArray = new JSONArray();
+    private  int  type;// 列表类型 查看HouseListAdapter说明
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -45,10 +45,33 @@ public class HouseMyRentalFragment extends BaseFragment implements OnItemClickLi
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-		mDetailTitlebar.setTitle("我的租房");
-		mAdapter  = new RentalAdapter();
+		type  = getActivity().getIntent().getIntExtra("type", HouseListAdapter.FLAG_HOUSE_LIST);
+		mDetailTitlebar.setTitle(getActivity().getIntent().getStringExtra("title"));
+		mAdapter  = new HouseListAdapter(getActivity(), type, jsonArray);
 		listView.setAdapter(mAdapter);
-		listView.setTipsMessage("暂时还没有您的消息哦！加油...");
+		switch (type) {
+		case HouseListAdapter.FLAG_HOUSE_LIST:
+			listView.setTipsMessage("您还没有关注任何房源，赶紧联系房东吧！");
+			mDetailTitlebar.setRightButton1("清空", new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					requestClear();
+				}
+			});
+			break;
+		case HouseListAdapter.FLAG_STATE_LIST_TENANT:
+			listView.setTipsMessage("暂时还没有您的租房信息哦！加油...");
+			break;
+		case HouseListAdapter.FLAG_STATE_LIST_LANDLORD:
+			listView.setTipsMessage("暂时还没有您的租房信息哦！加油...");
+			break;
+		case HouseListAdapter.FLAG_STATE_LIST_COMPLAINT:
+			listView.setTipsMessage("沟通一定能解决很多问题，您保持的很好哦！32个赞...");
+			break;
+		}
+		
 //		listView.setOnLoadMoreListener(new SHListView.OnLoadMoreListener() {
 //			
 //			@Override
@@ -79,7 +102,9 @@ public class HouseMyRentalFragment extends BaseFragment implements OnItemClickLi
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		// TODO Auto-generated method stub
-		
+		Intent intenttest = new Intent(getActivity(), SHContainerActivity.class);
+		intenttest.putExtra("class", HouseRentalDetailFragment.class.getName());
+		startActivity(intenttest);
 	}
 
 	@Override
@@ -115,71 +140,5 @@ public class HouseMyRentalFragment extends BaseFragment implements OnItemClickLi
 	public void onTaskTry(SHTask task) {
 		// TODO Auto-generated method stub
 		
-	}
-	class RentalAdapter extends BaseAdapter{
-
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			if(jsonArray == null){
-				return 0;
-			}
-			return jsonArray.length();
-		}
-
-		@Override
-		public JSONObject getItem(int position) {
-			// TODO Auto-generated method stub
-			try {
-				return jsonArray.getJSONObject(position);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return new JSONObject();
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			ViewHolder holder = null;
-			if(convertView == null){
-				convertView = LayoutInflater.from(getActivity()).inflate(R.layout.item_message, null);
-				holder = new ViewHolder();
-				holder.tvContent = (TextView) convertView.findViewById(R.id.tv_content);
-				holder.btnReport = (Button) convertView.findViewById(R.id.btn_report);
-				convertView.setTag(holder);
-			} else {
-				holder = (ViewHolder) convertView.getTag();
-			}
-			try {
-				JSONObject object =  jsonArray.getJSONObject(position);
-				holder.tvContent.setText(object.optString("content"));
-				
-				holder.btnReport.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return convertView;
-		}
-		private  class ViewHolder {
-			private TextView tvContent;
-			private Button btnReport;
-		}
-	}
-	
+	}	
 }

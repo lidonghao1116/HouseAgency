@@ -33,6 +33,7 @@ import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
+import com.sky.house.adapter.HouseListAdapter;
 import com.sky.house.me.HouseAuthenticationFragment;
 import com.sky.house.me.HouseBalanceFragment;
 import com.sky.house.me.HouseFeedbackFragment;
@@ -86,12 +87,11 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 	@ViewInit(id = R.id.tv_points)
 	private TextView tvSunPoints;
 	
-	private SHPostTaskM taskAuthinfo,uploadTask,taskBalance,taskPhoto;
+	private SHPostTaskM taskUserinfo,uploadTask,taskBalance;
 	
 	private final int TAKE_PICTURE = 0;// 拍照
 	private final int CHOOSE_PICTURE = 1;// 相册
 	
-	private boolean isVisable;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,21 +116,21 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			}
 		});
 		tvPhone.setText(UserInfoManager.getInstance().getMoblie());
-		requestPhoto();
 		
 	}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		requestAuthInfo();
+		requestUserInfo();
 	}
-	private void requestAuthInfo(){
+	/** 获取用户信息 */
+	private void requestUserInfo() {
 		SHDialog.ShowProgressDiaolg(getActivity(), null);
-		taskAuthinfo = new SHPostTaskM();
-		taskAuthinfo.setUrl(ConfigDefinition.URL+"GetUserAuthInfo");
-		taskAuthinfo.setListener(this);
-		taskAuthinfo.start();
+		taskUserinfo = new SHPostTaskM();
+		taskUserinfo.setUrl(ConfigDefinition.URL + "GetUserDetail");
+		taskUserinfo.setListener(this);
+		taskUserinfo.start();
 		requestBalanceInfo();
 	}
 	/**
@@ -151,14 +151,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 		uploadTask.setListener(this);
 		uploadTask.start();
 	}
-	/** 获取头像 */
-	private void requestPhoto() {
-		SHDialog.ShowProgressDiaolg(getActivity(), null);
-		taskPhoto = new SHPostTaskM();
-		taskPhoto.setUrl(ConfigDefinition.URL + "GetUserImage");
-		taskPhoto.setListener(this);
-		taskPhoto.start();
-	}
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -179,11 +172,15 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			
 			break;
 		case R.id.btn_tenant:
-			intent.putExtra("class", HouseBalanceFragment.class.getName());
+			intent.putExtra("class", HouseMyRentalFragment.class.getName());
+			intent.putExtra("title", "我的租房");
+			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
 			startActivity(intent);
 			break;
 		case R.id.btn_landlord:
 			intent.putExtra("class", HouseBalanceFragment.class.getName());
+			intent.putExtra("title", "我的租房");
+			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
 			startActivity(intent);
 			break;
 		case R.id.rl_message:
@@ -192,10 +189,14 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			break;
 		case R.id.rl_store:
 			intent.putExtra("class", HouseMyRentalFragment.class.getName());
+			intent.putExtra("title", "我的关注");
+			intent.putExtra("type", HouseListAdapter.FLAG_HOUSE_LIST);
 			startActivity(intent);
 			break;
 		case R.id.rl_complaint:
-			intent.putExtra("class", HouseBalanceFragment.class.getName());
+			intent.putExtra("class", HouseMyRentalFragment.class.getName());
+			intent.putExtra("title", "我的投诉");
+			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
 			startActivity(intent);
 			break;
 		case R.id.rl_feedback:
@@ -283,19 +284,16 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
-		if (task == taskAuthinfo) {
+		if (task == taskUserinfo) {
 			JSONObject json = (JSONObject) task.getResult();
-			ImageLoaderUtil.displayImage(json.getString("picUrl"), imagePhoto);
-//			tvPhone.setText(json.optString("IdentityNo"));
-//			tvName.setText(json.optString("UserRealName"));
-			tvState.setText(json.optString("auditStatusName"));
+			ImageLoaderUtil.displayImage(json.getString("userHeadImg"), imagePhoto);
+			tvPhone.setText(json.optString("mobilePhone"));
+			tvName.setText(json.optString("userRealName"));
+			tvState.setText(json.optString("userAuditStatusName"));
 		}else if(task == taskBalance){
 			JSONObject json = (JSONObject) task.getResult();
 			tvBalance.setText(json.optDouble("amount")+"");
 			tvSunPoints.setText(json.optInt("sunnyAmt")+"");
-		}else if(task == taskPhoto){
-			JSONObject json = (JSONObject) task.getResult();
-			ImageLoaderUtil.displayImage(json.getString("picUrl"), imagePhoto);
 		}
 	}
 	@Override

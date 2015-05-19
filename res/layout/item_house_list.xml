@@ -17,6 +17,7 @@
             android:background="@color/color_gray_light" />
 
         <TextView
+            android:id="@+id/tv_houser"
             style="@style/TextSmallGray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,6 +30,7 @@
             android:text="房源状态" />
 
         <TextView
+            android:id="@+id/tv_house_state"
             style="@style/TextSmallOrange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,7 +129,7 @@
 
         <Button
             android:id="@+id/btn_remind"
-            style="@style/TextMidYellow"
+            style="@style/TextMidOrange"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
