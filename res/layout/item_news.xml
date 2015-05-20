@@ -12,7 +12,7 @@
         android:id="@+id/iv_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_launcher" />
+        />
 
     <TextView
         android:id="@+id/tv_name"
@@ -22,7 +22,7 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/iv_photo"
         android:singleLine="true"
-        android:text="skypan" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tv_time"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:singleLine="true"
-        android:text="6小时前" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tv_des"
@@ -42,6 +42,6 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/iv_photo"
         android:singleLine="true"
-        android:text="发布成功，奖励1000元" />
+        android:text="" />
 
 </RelativeLayout>

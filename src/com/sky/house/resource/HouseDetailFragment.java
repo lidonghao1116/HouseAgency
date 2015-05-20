@@ -1,69 +1,155 @@
 package com.sky.house.resource;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.CommonUtil;
+import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ViewInit;
+import com.next.intf.ITaskListener;
+import com.next.net.SHPostTaskM;
+import com.next.net.SHTask;
+import com.next.util.SHEnvironment;
 import com.sky.house.R;
+import com.sky.house.adapter.TopAdvertPagerAdapter;
 import com.sky.house.business.HouseContactFragment;
+import com.sky.house.home.HouseLoginFragment;
 import com.sky.house.interfaces.ScrollViewListener;
-import com.sky.house.widget.MyGridView;
 import com.sky.house.widget.ObservableScrollView;
+import com.sky.widget.SHDialog;
+import com.sky.widget.SHToast;
+import com.sky.widget.sweetdialog.SweetDialog;
+
 /**
  * 房屋详情
+ * 
  * @author skypan
- *
+ * 
  */
-public class HouseDetailFragment extends BaseFragment {
+public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 	@ViewInit(id = R.id.sv_detail)
 	private ObservableScrollView mSvDetail;
-	
+
 	@ViewInit(id = R.id.ll_bottom)
 	private LinearLayout mLlBottom;
-	
-	@ViewInit(id = R.id.btn_collect,onClick = "onClick")
+
+	@ViewInit(id = R.id.tv_index)
+	private TextView mTvIndex;
+
+	@ViewInit(id = R.id.tv_title)
+	private TextView mTvTitle;
+
+	@ViewInit(id = R.id.tv_update_time)
+	private TextView mTvUpdateTime;
+
+	@ViewInit(id = R.id.tv_rent)
+	private TextView mTvRent;
+
+	@ViewInit(id = R.id.tv_read_times)
+	private TextView mTvReadTimes;
+
+	@ViewInit(id = R.id.tv_pay_type)
+	private TextView mTvPayType;
+
+	@ViewInit(id = R.id.tv_time_in)
+	private TextView mTvTimeIn;
+
+	@ViewInit(id = R.id.tv_square)
+	private TextView mTvSquare;
+
+	@ViewInit(id = R.id.tv_auth)
+	private TextView mTvAuth;
+
+	@ViewInit(id = R.id.tv_floor)
+	private TextView mTvFloor;
+
+	@ViewInit(id = R.id.tv_des)
+	private TextView mTvDes;
+
+	@ViewInit(id = R.id.tv_xiaoqu)
+	private TextView mTvXiaoQu;
+
+	@ViewInit(id = R.id.tv_area)
+	private TextView mTvArea;
+
+	@ViewInit(id = R.id.tv_address)
+	private TextView mTvAddress;
+
+	@ViewInit(id = R.id.btn_collect, onClick = "onClick")
 	private Button mBtnCollect;
-	
-	@ViewInit(id = R.id.btn_contact,onClick = "onClick")
+
+	@ViewInit(id = R.id.btn_contact, onClick = "onClick")
 	private Button mBtnContact;
-	
+
+	@ViewInit(id = R.id.pager_banner)
+	private ViewPager mPagerView_TopAdvert;
+
+	private SHPostTaskM detailTask, collectTask;
+
+	private JSONObject json;// 详情对象
+
+	private JSONArray jsonArray;// 图片数组
+
+	private Handler mHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 0:
+				HouseDetailFragment.this.setTopAdv();
+				break;
+
+			default:
+				break;
+			}
+		}
+	};
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 		mDetailTitlebar.setLeftButton(R.drawable.ic_back, "更多房源", new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				finish();
 			}
 		});
-		
-		mDetailTitlebar.setTitle("XXXXXX");
+
+		mDetailTitlebar.setTitle(getActivity().getIntent().getStringExtra("name"));
 		mDetailTitlebar.setRightButton1("举报", null);
 		mDetailTitlebar.setRightButton2("分享", null);
 		mSvDetail.setOnScrollListener(new ScrollViewListener() {
-			
+
 			@Override
 			public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
 				// TODO Auto-generated method stub
-				if(y<mLlBottom.getHeight()*2){
-					mLlBottom.setTranslationY(-y/2);
-				}else{
-					mLlBottom.setTranslationY(-mLlBottom.getHeight()+1);
+				if (y < mLlBottom.getHeight() * 2) {
+					mLlBottom.setTranslationY(-y / 2);
+				} else {
+					mLlBottom.setTranslationY(-mLlBottom.getHeight() + 1);
 				}
 			}
 		});
+		mPagerView_TopAdvert.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, CommonUtil.Window.getWidth() / 5 * 2));
+		requestDetail();
 	}
 
 	@Override
@@ -73,15 +159,132 @@ public class HouseDetailFragment extends BaseFragment {
 		return view;
 	}
 
-	private void onClick(View v){
-		switch(v.getId()){
+	private void requestDetail() {
+		SHDialog.ShowProgressDiaolg(getActivity(), null);
+		detailTask = new SHPostTaskM();
+		detailTask.setListener(this);
+		detailTask.setUrl(ConfigDefinition.URL + "GetHouseDetail");
+		detailTask.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
+		detailTask.start();
+	}
+
+	private void onClick(View v) {
+		switch (v.getId()) {
 		case R.id.btn_collect:
+			if (isOn()) {
+				SHDialog.ShowProgressDiaolg(getActivity(), null);
+				collectTask = new SHPostTaskM();
+				collectTask.setListener(this);
+				collectTask.setUrl(ConfigDefinition.URL + "AddUserHouseCollect");
+				try {
+					collectTask.getTaskArgs().put("houseDetailId", json.getInt("houseDetailId"));
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				collectTask.start();
+			}
 			break;
 		case R.id.btn_contact:
-			Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 			intent.putExtra("class", HouseContactFragment.class.getName());
 			startActivity(intent);
 			break;
 		}
+	}
+
+	/**
+	 * 是否登录
+	 * 
+	 * @return
+	 */
+	private boolean isOn() {
+		if (!CommonUtil.isEmpty(SHEnvironment.getInstance().getSession())) {
+			return true;
+		}
+		Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+		intent.putExtra("class", HouseLoginFragment.class.getName());
+		startActivity(intent);
+		return false;
+	}
+
+	private void setTopAdv() {
+		mTvIndex.setText("1/" + jsonArray.length());
+		TopAdvertPagerAdapter adapter = new TopAdvertPagerAdapter(getActivity(), jsonArray, TopAdvertPagerAdapter.FLAG_HOUSE_IMG);
+		mPagerView_TopAdvert.setAdapter(adapter);
+		mPagerView_TopAdvert.setOnPageChangeListener(new OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int arg0) {
+				// TODO Auto-generated method stub
+				mTvIndex.setText((arg0 + 1) + "/" + jsonArray.length());
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+	}
+
+	private void setData() {
+		try {
+			mTvTitle.setText(json.getString("houseTitle"));
+			mTvUpdateTime.setText(json.getString("updateTime"));
+			mTvRent.setText(json.getString("rentAmt"));
+			mTvPayType.setText("（" + json.getString("payTypeName") + "）");
+			mTvTimeIn.setText(json.getString("inTime"));
+			mTvSquare.setText(json.getString("area"));
+			mTvFloor.setText(json.getString("floor"));
+			mTvDes.setText(json.getString("memo"));
+			mTvXiaoQu.setText(json.getString("zoneName"));
+			mTvArea.setText(json.getString("zoneArea"));
+			mTvAddress.setText(json.getString("address"));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onTaskFinished(SHTask task) throws Exception {
+		// TODO Auto-generated method stub
+		SHDialog.dismissProgressDiaolg();
+		if (task == detailTask) {
+			json = (JSONObject) task.getResult();
+			setData();
+			jsonArray = json.getJSONArray("imgUrlList");
+			if (jsonArray.length() != 0) {
+				mHandler.sendEmptyMessage(0);
+			}
+		} else if (task == collectTask) {
+			SHToast.showToast(getActivity(), "收藏成功", 1000);
+		}
+	}
+
+	@Override
+	public void onTaskFailed(SHTask task) {
+		// TODO Auto-generated method stub
+		SHDialog.dismissProgressDiaolg();
+		new SweetDialog(getActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
+	}
+
+	@Override
+	public void onTaskUpdateProgress(SHTask task, int count, int total) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTaskTry(SHTask task) {
+		// TODO Auto-generated method stub
+
 	}
 }

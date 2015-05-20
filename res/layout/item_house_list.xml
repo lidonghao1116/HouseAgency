@@ -55,16 +55,16 @@
 
         <ImageView
             android:id="@+id/iv_house"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:background="@color/color_gray_dark" 
-            android:scaleType="centerCrop"/>
+            android:layout_width="110dp"
+            android:layout_height="90dp"
+            android:background="@drawable/bg_image_default"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="95dp"
             android:orientation="vertical"
-            android:paddingLeft="2dp" >
+            android:paddingLeft="5dp" >
 
             <TextView
                 android:id="@+id/tv_title"
@@ -80,21 +80,30 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/tv_second"
-                    style="@style/TextMidGray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxWidth="150dp"
-                    android:singleLine="true"
-                    android:text="整租 两室两厅 简装" />
-
-                <TextView
                     android:id="@+id/tv_rent"
                     style="@style/TextSmallOrange"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="5500元/月" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/tv_read_times"
+                    style="@style/TextSmallGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_rent_type"
+                    style="@style/TextSmallGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true" />
             </RelativeLayout>
 
             <LinearLayout

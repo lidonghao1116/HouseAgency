@@ -25,9 +25,10 @@
                 android:id="@+id/pager_banner"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@color/color_blue" />
+                android:background="@drawable/bg_image_default" />
 
             <TextView
+                android:id="@+id/tv_index"
                 style="@style/TextSmallWhite"
                 android:layout_width="50dp"
                 android:layout_height="22dp"
@@ -35,7 +36,7 @@
                 android:layout_marginTop="-22.5dp"
                 android:background="@color/color_half_transparent"
                 android:gravity="center"
-                android:text="1/10" />
+                android:text="0/0" />
 
             <TextView
                 android:id="@+id/tv_title"
@@ -234,7 +235,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
-                    android:drawableTop="@drawable/ic_home_false"
+                    android:drawableTop="@drawable/ic_baozhang"
                     android:gravity="center"
                     android:text="阳光承诺" />
 
@@ -262,8 +263,9 @@
                             style="@style/TextMicroBlack"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_search_gray"
+                            android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
+                            android:gravity="center_vertical"
                             android:text="人工审核真实房源" />
 
                         <TextView
@@ -271,8 +273,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:drawableLeft="@drawable/ic_search_gray"
+                            android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
+                            android:gravity="center_vertical"
                             android:singleLine="true"
                             android:text="在线完成租房交易" />
                     </LinearLayout>
@@ -288,8 +291,9 @@
                             style="@style/TextMicroBlack"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_search_gray"
+                            android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
+                            android:gravity="center_vertical"
                             android:text="双方均无任何费用" />
 
                         <TextView
@@ -297,8 +301,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:drawableLeft="@drawable/ic_search_gray"
+                            android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
+                            android:gravity="center_vertical"
                             android:singleLine="true"
                             android:text="合同期内全程保障" />
                     </LinearLayout>
@@ -332,11 +337,13 @@
                 android:background="@color/color_gray_dark" />
 
             <TextView
+                android:id="@+id/tv_des"
                 style="@style/TextSmallGray"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="1.小区介绍：这个小区非常好，好得不得了！" />
+                android:minHeight="30dp"
+                android:text="" />
 
             <View
                 android:layout_width="match_parent"
@@ -365,7 +372,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/label_xiaoqu"
-                    android:text="金龙别墅" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/label_area"
@@ -383,7 +390,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/label_area"
                     android:layout_toRightOf="@id/label_area"
-                    android:text="徐家汇" />
+                    android:text="" />
 
                 <TextView
                     style="@style/TextSmallBlue"
@@ -420,7 +427,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/label_address"
-                    android:text="龙吴路128号" />
+                    android:text="" />
             </RelativeLayout>
 
             <View
@@ -462,12 +469,12 @@
             style="@style/TextMidWhite"
             android:layout_width="0dp"
             android:layout_height="36dp"
+            android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:background="@drawable/btn_orange_round"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="联系看房" 
-            android:layout_marginLeft="50dp"/>
+            android:text="联系看房" />
     </LinearLayout>
 
 </RelativeLayout>
