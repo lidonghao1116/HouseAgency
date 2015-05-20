@@ -17,8 +17,97 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-            
-            
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#3d566a"
+                android:orientation="vertical"
+                android:paddingLeft="10dp" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical" >
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_publish" />
+
+                    <TextView
+                        style="@style/TextMidWhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:text="已交租金" />
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/TextMidWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="5dp"
+                    android:singleLine="true"
+                    android:text="已支付租金（至6月）：￥1999.00" />
+
+                <TextView
+                    style="@style/TextMidWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="3dp"
+                    android:singleLine="true"
+                    android:text="房租押金（一个月）：￥1999.00" />
+
+                <TextView
+                    style="@style/TextMidWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="3dp"
+                    android:singleLine="true"
+                    android:text="总计支付：￥1999.00" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp" >
+
+                    <Button
+                        android:id="@+id/btn_top_right"
+                        style="@style/TextMidWhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toLeftOf="@+id/btn_top_left"
+                        android:background="@drawable/btn_orange_round"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="租金详情" />
+
+                    <Button
+                        android:id="@+id/btn_top_left"
+                        style="@style/TextMidWhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border_white_round"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="提醒交租" />
+                </RelativeLayout>
+            </LinearLayout>
+            <include 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                layout="@layout/item_house_list"/>
         </LinearLayout>
     </ScrollView>
 

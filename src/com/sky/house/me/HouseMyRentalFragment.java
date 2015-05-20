@@ -26,7 +26,7 @@ import com.sky.widget.SHDialog;
  * @author yebaohua
  *我的租房
  */
-public class HouseMyRentalFragment extends BaseFragment implements OnItemClickListener,ITaskListener {
+public class HouseMyRentalFragment extends BaseFragment implements ITaskListener {
 	private HouseListAdapter mAdapter;
 	SHListView listView;
 	private int pagenum = 1;
@@ -82,6 +82,17 @@ public class HouseMyRentalFragment extends BaseFragment implements OnItemClickLi
 //			}
 //		});
 		requestMessage();
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				Intent intenttest = new Intent(getActivity(), SHContainerActivity.class);
+				intenttest.putExtra("class", HouseRentalDetailFragment.class.getName());
+				startActivity(intenttest);
+			}
+		});
 	}
 	private void requestMessage(){
 		taskMessage = new SHPostTaskM();
@@ -98,14 +109,6 @@ public class HouseMyRentalFragment extends BaseFragment implements OnItemClickLi
 		taskClear.setListener(this);
 		taskClear.start();
 	}
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		// TODO Auto-generated method stub
-		Intent intenttest = new Intent(getActivity(), SHContainerActivity.class);
-		intenttest.putExtra("class", HouseRentalDetailFragment.class.getName());
-		startActivity(intenttest);
-	}
 
 	@Override
 	public void onTaskFinished(SHTask task) throws Exception {
@@ -115,10 +118,12 @@ public class HouseMyRentalFragment extends BaseFragment implements OnItemClickLi
 			JSONObject json = (JSONObject) task.getResult();
 			jsonArray = json.getJSONArray("rentHouseList");
 			listView.setTotalNum(json.getInt("recordCount"));
+			mAdapter.setJsonArray(jsonArray);
 			mAdapter.notifyDataSetChanged();
 		}else if(task == taskClear){
 			jsonArray = new JSONArray();
 			listView.setTotalNum(0);
+			mAdapter.setJsonArray(jsonArray);
 			mAdapter.notifyDataSetChanged();
 		}
 	}
@@ -129,6 +134,7 @@ public class HouseMyRentalFragment extends BaseFragment implements OnItemClickLi
 //		new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
 		jsonArray = new JSONArray();
 		listView.setTotalNum(0);
+		mAdapter.setJsonArray(jsonArray);
 		mAdapter.notifyDataSetChanged();
 	}
 	@Override

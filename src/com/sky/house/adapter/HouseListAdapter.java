@@ -36,6 +36,14 @@ public class HouseListAdapter extends BaseAdapter {
 		this.jsonArray = jsonArray;
 	}
 
+	public JSONArray getJsonArray() {
+		return jsonArray;
+	}
+
+	public void setJsonArray(JSONArray jsonArray) {
+		this.jsonArray = jsonArray;
+	}
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub

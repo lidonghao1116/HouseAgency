@@ -13,9 +13,9 @@
         android:id="@+id/lv_rental"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/color_gray_dark"
-        android:dividerHeight="1dp"
-        android:listSelector="@color/color_full_transparent"
+        android:divider="@color/color_full_transparent"
+        android:dividerHeight="0dp"
+        android:listSelector="@drawable/list_item"
         android:scrollbars="none" />
 
 </LinearLayout>
