@@ -23,6 +23,27 @@ public class Location implements Serializable {
 		return instance;
 	}
 
+	private int cityId;
+	
+	private int selectedCityId;
+	
+	public int getSelectedCityId() {
+		return selectedCityId;
+	}
+
+	public void setSelectedCityId(int selectedCityId) {
+		this.selectedCityId = selectedCityId;
+	}
+
+	public int getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(int cityId) {
+		this.cityId = cityId;
+		this.selectedCityId = cityId;
+	}
+
 	/**
 	 * 详细地址
 	 */

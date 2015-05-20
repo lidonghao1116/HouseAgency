@@ -3,6 +3,7 @@ package com.sky.house.resource;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -27,6 +28,7 @@ import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ViewInit;
+import com.eroad.base.util.location.Location;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
@@ -92,17 +94,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 			}
 		});
 
-		view.findViewById(R.id.btn_test).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-				intent.putExtra("class", HouseDetailFragment.class.getName());
-				startActivity(intent);
-			}
-		});
-
+		setListeners();
 		requestArea();
 		requestHouseList();
 
@@ -116,12 +108,14 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 		// menuItems.add(new MenuItem(true, "区域" + j, tempMenuItems));
 		// }
 
-		final String[] items_near = getResources().getStringArray(R.array.array_near);
-		ArrayList<MenuItem> tempMenuItems = new ArrayList<MenuItem>();
-		for (int i = 0; i < items_near.length; i++) {
-			tempMenuItems.add(new MenuItem(false, items_near[i], null));
+		if (Location.getInstance().getCityId() == Location.getInstance().getSelectedCityId()) {
+			final String[] items_near = getResources().getStringArray(R.array.array_near);
+			ArrayList<MenuItem> tempMenuItems = new ArrayList<MenuItem>();
+			for (int i = 0; i < items_near.length; i++) {
+				tempMenuItems.add(new MenuItem(false, items_near[i], null));
+			}
+			menuItems.add(new MenuItem(true, "附近", tempMenuItems));
 		}
-		menuItems.add(new MenuItem(true,"附近",tempMenuItems));
 
 	}
 
@@ -130,6 +124,26 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_source, container, false);
 		return view;
+	}
+
+	private void setListeners() {
+		mLvHouse.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+				intent.putExtra("class", HouseDetailFragment.class.getName());
+				try {
+					intent.putExtra("id", jsonArray.getJSONObject(arg2).getInt("houseDetailId"));
+					intent.putExtra("name", jsonArray.getJSONObject(arg2).getString("houseName"));
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				startActivity(intent);
+			}
+		});
 	}
 
 	private void onClick(View v) {
@@ -152,7 +166,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 		areaTask = new SHPostTaskM();
 		areaTask.setListener(this);
 		areaTask.setUrl(ConfigDefinition.URL + "getcountybycityid");
-		areaTask.getTaskArgs().put("cityid", getActivity().getIntent().getIntExtra("cityId", -1));
+		areaTask.getTaskArgs().put("cityid", Location.getInstance().getSelectedCityId());
 		// areaTask.getTaskArgs().put("cityid", 1);
 		areaTask.start();
 	}
@@ -162,7 +176,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 		houseListTask = new SHPostTaskM();
 		houseListTask.setListener(this);
 		houseListTask.setUrl(ConfigDefinition.URL + "SearchHouse");
-		houseListTask.getTaskArgs().put("cityId", getActivity().getIntent().getIntExtra("cityId", -1));
+		houseListTask.getTaskArgs().put("cityId", Location.getInstance().getSelectedCityId());
 		houseListTask.getTaskArgs().put("pageSize", 20);
 		houseListTask.getTaskArgs().put("pageIndex", pageNum);
 		houseListTask.start();
@@ -271,7 +285,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 			for (int i = 0; i < areaArray.length(); i++) {
 				tempMenuItems.add(new MenuItem(false, areaArray.getJSONObject(i).getString("name"), null));
 			}
-			menuItems.add(new MenuItem(true,"区域",tempMenuItems));
+			menuItems.add(new MenuItem(true, "区域", tempMenuItems));
 		} else if (task == houseListTask) {
 			jsonArray = CommonUtil.combineArray(jsonArray, json.getJSONArray("rentHouseList"));
 			if (listAdapter == null) {

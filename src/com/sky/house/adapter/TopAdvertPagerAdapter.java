@@ -24,11 +24,16 @@ public class TopAdvertPagerAdapter extends PagerAdapter {
 	private OnClickListener mItemClickListener;
 	private Context mContext;
 	private JSONArray mJsonArray;
+	private int flag;
+	
+	public static final int FLAG_HOME_ADV = 0;//首页轮播广告
+	public static final int FLAG_HOUSE_IMG = 1;//房源图片
 
-	public TopAdvertPagerAdapter(Context context, JSONArray jsonArray) {
+	public TopAdvertPagerAdapter(Context context, JSONArray jsonArray,int flag) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mJsonArray = jsonArray;
 		mContext = context;
+		this.flag = flag;
 		if (mJsonArray == null) {
 			mJsonArray = new JSONArray();
 		}
@@ -38,8 +43,8 @@ public class TopAdvertPagerAdapter extends PagerAdapter {
 			@Override
 			public void onClick(View v) {
 
-				ViewHolder holder = (ViewHolder) v.getTag();
-				String url = holder.ulr;
+//				ViewHolder holder = (ViewHolder) v.getTag();
+//				String url = holder.ulr;
 			}
 		};
 	}
@@ -72,18 +77,24 @@ public class TopAdvertPagerAdapter extends PagerAdapter {
 		View view = mInflater.inflate(R.layout.top_advert_item, null);
 		holder = new ViewHolder();
 		holder.iv = (ImageView) view.findViewById(R.id.iv_advert);
-//		holder.iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtil.Window.getWidth()*(2/5)));
 		view.setTag(holder);
 
 		try {
-			ImageLoaderUtil.displayImage(mJsonArray.getJSONObject(position).getString("bannerImgUrl"), holder.iv);
-			holder.ulr = mJsonArray.getJSONObject(position).getString("bannerUrl");
-			holder.index = position;
+			switch(flag){
+			case FLAG_HOME_ADV:
+				ImageLoaderUtil.displayImage(mJsonArray.getJSONObject(position).getString("bannerImgUrl"), holder.iv);
+				holder.ulr = mJsonArray.getJSONObject(position).getString("bannerUrl");
+				holder.index = position;
+				view.setOnClickListener(mItemClickListener);
+				break;
+			case FLAG_HOUSE_IMG:
+				ImageLoaderUtil.displayImage(mJsonArray.getJSONObject(position).getString("imgUrl"), holder.iv);
+				break;
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		view.setOnClickListener(mItemClickListener);
 		container.addView(view);
 		mCacheView.put(position, view);
 		// view.setOnClickListener(mItemClickListener);
