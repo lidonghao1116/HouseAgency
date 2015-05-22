@@ -66,8 +66,8 @@ public class HousePublishDetailFragment extends BaseFragment {
 				finish();
 			}
 		});
-		mGvElectrical.setAdapter(new GridAdapter(getActivity(), facilities));
-		mGvFuniture.setAdapter(new GridAdapter(getActivity(), facilities));
+		mGvElectrical.setAdapter(new GridAdapter(getActivity(), facilities,true));
+		mGvFuniture.setAdapter(new GridAdapter(getActivity(), facilities,true));
 		if(getActivity().getIntent().getIntExtra("type_rent", 0) == 0){
 			mLlRoom.setVisibility(View.GONE);
 			mLlSex.setVisibility(View.GONE);

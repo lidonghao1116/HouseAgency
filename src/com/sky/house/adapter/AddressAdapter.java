@@ -44,7 +44,7 @@ public class AddressAdapter extends BaseAdapter{
 	}
 
 	public class ViewHolder{
-		public TextView tv_address;   
+		public TextView tv_address,tv_district;   
 	}
 	
 	@Override
@@ -55,11 +55,13 @@ public class AddressAdapter extends BaseAdapter{
 			convertView = LayoutInflater.from(context).inflate(R.layout.item_address, null);
 			holder = new ViewHolder();
 			holder.tv_address = (TextView) convertView.findViewById(R.id.tv_address);
+			holder.tv_district = (TextView) convertView.findViewById(R.id.tv_district);
 			convertView.setTag(holder);
 		}else{
 			holder=(ViewHolder)convertView.getTag();
 		}
 		holder.tv_address.setText(list.get(arg0).key);
+		holder.tv_district.setText(list.get(arg0).district);
 		return convertView;
 	}
 

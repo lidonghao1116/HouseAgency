@@ -83,15 +83,15 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.tvRentType = (TextView) convertView.findViewById(R.id.tv_rent_type);
 			holder.tvReadTimes = (TextView) convertView.findViewById(R.id.tv_read_times);
 			holder.llTese = (LinearLayout) convertView.findViewById(R.id.ll_tese);
-			String[] tese;
+			JSONArray tese;
 			try {
-				tese = jsonArray.getJSONObject(pos).getString("houseFeature").split(",");
+				tese = jsonArray.getJSONObject(pos).getJSONArray("houseFeature");
 				String[] items_tese = context.getResources().getStringArray(R.array.array_tese);
-				for (int i = 0; i < tese.length; i++) {
+				for (int i = 0; i < tese.length(); i++) {
 					TextView tv = new TextView(context);
 					tv.setTextSize(12);
 					tv.setPadding(5, 1, 5, 1);
-					tv.setText(items_tese[Integer.valueOf(tese[i])]);
+					tv.setText(items_tese[tese.getInt(i)]);
 					LinearLayout.LayoutParams lay = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 					lay.setMargins(0, 0, 10, 0);
 					tv.setLayoutParams(lay);
@@ -140,7 +140,7 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.tvTitle.setText(jsonArray.getJSONObject(pos).getString("houseTitle"));
 			holder.tvRent.setText(jsonArray.getJSONObject(pos).getString("rentAmt"));
 			holder.tvRentType.setText(jsonArray.getJSONObject(pos).getString("payTypeName"));
-			holder.tvReadTimes.setText(jsonArray.getJSONObject(pos).getInt("browseCount") + "人浏览");
+			holder.tvReadTimes.setText(jsonArray.getJSONObject(pos).getString("browseCount"));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

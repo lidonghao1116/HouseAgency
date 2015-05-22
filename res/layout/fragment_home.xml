@@ -71,7 +71,7 @@
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="已经更新房源1000套｜成交102套" />
+        android:text="" />
 
 
     <ListView

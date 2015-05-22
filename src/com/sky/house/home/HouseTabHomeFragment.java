@@ -15,6 +15,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,6 +61,9 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 	private TextView mTvJoint;
 	@ViewInit(id = R.id.tv_publish_house, onClick = "onClick")
 	private TextView mTvPublish;
+
+	@ViewInit(id = R.id.tv_update_msg)
+	private TextView mTvDes;
 
 	@ViewInit(id = R.id.lv_news)
 	private ListView mLvNews;
@@ -307,8 +314,8 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 		} else if (task == taskCity) {
 			JSONObject currentCityJson = json.getJSONObject("city");
 			Location.getInstance().setCity(currentCityJson.getString("cityName"));
-			Location.getInstance().setLat(currentCityJson.getDouble("latitude"));
-			Location.getInstance().setLng(currentCityJson.getDouble("longitude"));
+			// Location.getInstance().setLat(currentCityJson.getDouble("latitude"));
+			// Location.getInstance().setLng(currentCityJson.getDouble("longitude"));
 			Location.getInstance().setCityId(currentCityJson.getInt("id"));
 			mDetailTitlebar.setLeftButton(Location.getInstance().getCity(), new OnClickListener() {
 
@@ -322,8 +329,17 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 				}
 			});
 		} else if (task == newsTask) {
+			SpannableStringBuilder sb = new SpannableStringBuilder();
+			sb.append("已经更新房源");
+			SpannableString ss = new SpannableString(json.getInt("updateHouseAmt") + "");
+			ss.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.color_orange)), 0, ss.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+			sb.append(ss).append("套 ｜ 成交");
+			ss = new SpannableString(json.getInt("dealHouseAmt") + "");
+			ss.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.color_orange)), 0, ss.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+			sb.append(ss).append("套");
+			mTvDes.setText(sb);
 			JSONArray msgArray = json.getJSONArray("msgList");
-			mLvNews.setAdapter(new NewsAdapter(getActivity(),msgArray));
+			mLvNews.setAdapter(new NewsAdapter(getActivity(), msgArray));
 		}
 	}
 

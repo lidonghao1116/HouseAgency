@@ -9,11 +9,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import cn.sharesdk.framework.ShareSDK;
 
 import com.eroad.base.BaseActivity;
 import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
-import com.eroad.base.util.ConfigDefinition;
 import com.next.util.SHEnvironment;
 import com.sky.house.R;
 import com.sky.widget.sweetdialog.SweetDialog;
@@ -30,6 +30,9 @@ public class HouseMainActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		ShareSDK.initSDK(this);
+		ShareSDK.setConnTimeout(20000);
+		ShareSDK.setReadTimeout(20000);
 		SHApplication.getInstance().addActivity(this);
 		rg = (RadioGroup) findViewById(R.id.rg);
 		rg.setOnCheckedChangeListener(new OnCheckedChangeListener() {

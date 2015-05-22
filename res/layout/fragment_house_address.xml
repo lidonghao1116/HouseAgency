@@ -89,7 +89,7 @@
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="没有填0"
+                android:hint=""
                 android:paddingLeft="5dp" />
         </LinearLayout>
 

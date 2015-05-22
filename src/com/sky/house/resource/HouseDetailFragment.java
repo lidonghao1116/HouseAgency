@@ -15,7 +15,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import cn.sharesdk.onekeyshare.OneKeyShareCallback;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.OnekeyShareTheme;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
@@ -27,10 +31,12 @@ import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.next.util.SHEnvironment;
 import com.sky.house.R;
+import com.sky.house.adapter.GridAdapter;
 import com.sky.house.adapter.TopAdvertPagerAdapter;
 import com.sky.house.business.HouseContactFragment;
 import com.sky.house.home.HouseLoginFragment;
 import com.sky.house.interfaces.ScrollViewListener;
+import com.sky.house.widget.MyGridView;
 import com.sky.house.widget.ObservableScrollView;
 import com.sky.widget.SHDialog;
 import com.sky.widget.SHToast;
@@ -52,6 +58,9 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 	@ViewInit(id = R.id.tv_index)
 	private TextView mTvIndex;
+
+	@ViewInit(id = R.id.ll_feature)
+	private LinearLayout mLayout;
 
 	@ViewInit(id = R.id.tv_title)
 	private TextView mTvTitle;
@@ -85,6 +94,12 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 	@ViewInit(id = R.id.tv_xiaoqu)
 	private TextView mTvXiaoQu;
+
+	@ViewInit(id = R.id.gv_electrical)
+	private MyGridView mGvElectrical;
+
+	@ViewInit(id = R.id.gv_funi)
+	private MyGridView mGvFuni;
 
 	@ViewInit(id = R.id.tv_area)
 	private TextView mTvArea;
@@ -135,7 +150,14 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 		mDetailTitlebar.setTitle(getActivity().getIntent().getStringExtra("name"));
 		mDetailTitlebar.setRightButton1("举报", null);
-		mDetailTitlebar.setRightButton2("分享", null);
+		mDetailTitlebar.setRightButton2("分享", new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				showShare(false, null, false);
+			}
+		});
 		mSvDetail.setOnScrollListener(new ScrollViewListener() {
 
 			@Override
@@ -239,7 +261,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			mTvTitle.setText(json.getString("houseTitle"));
 			mTvUpdateTime.setText(json.getString("updateTime"));
 			mTvRent.setText(json.getString("rentAmt"));
-			mTvPayType.setText("（" + json.getString("payTypeName") + "）");
+			mTvPayType.setText(json.getString("payTypeName"));
 			mTvTimeIn.setText(json.getString("inTime"));
 			mTvSquare.setText(json.getString("area"));
 			mTvFloor.setText(json.getString("floor"));
@@ -247,6 +269,61 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			mTvXiaoQu.setText(json.getString("zoneName"));
 			mTvArea.setText(json.getString("zoneArea"));
 			mTvAddress.setText(json.getString("address"));
+			mTvReadTimes.setText(json.getString("browseCount"));
+			JSONArray teseArray = json.getJSONArray("houseFeature");
+			String[] items_tese = getActivity().getResources().getStringArray(R.array.array_tese);
+			for (int i = 0; i < teseArray.length(); i++) {
+				TextView tv = new TextView(getActivity());
+				tv.setTextSize(12);
+				tv.setPadding(5, 1, 5, 1);
+				tv.setText(items_tese[teseArray.getInt(i)]);
+				LinearLayout.LayoutParams lay = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				lay.setMargins(0, 0, 10, 0);
+				tv.setLayoutParams(lay);
+				tv.setTextColor(getActivity().getResources().getColor(R.color.color_black));
+				switch (i) {
+				case 0:
+					tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_yellow_zhi));
+					break;
+				case 1:
+					tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_green_zhi));
+					break;
+				case 2:
+					tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_red_zhi));
+					break;
+				case 3:
+					tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_gray_zhi));
+					break;
+				case 4:
+					tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_slate_zhi));
+					break;
+				case 5:
+					tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_orange_zhi));
+					break;
+				case 6:
+					tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_purple_zhi));
+					break;
+				case 7:
+					tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_blue_zhi));
+					break;
+				}
+				mLayout.addView(tv);
+			}
+			String[] funi = getActivity().getResources().getStringArray(R.array.array_funi);
+			// 家电
+			JSONArray eleArray = json.getJSONArray("electricalFacilityList");
+			String[] ele = new String[eleArray.length()];
+			for (int i = 0; i < eleArray.length(); i++) {
+				ele[i] = funi[eleArray.getInt(i)];
+			}
+			mGvElectrical.setAdapter(new GridAdapter(getActivity(), ele, false));
+			// 家具
+			JSONArray funiArray = json.getJSONArray("furnitureList");
+			String[] fu = new String[funiArray.length()];
+			for (int i = 0; i < funiArray.length(); i++) {
+				fu[i] = funi[funiArray.getInt(i)];
+			}
+			mGvFuni.setAdapter(new GridAdapter(getActivity(), fu, false));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -286,5 +363,53 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 	public void onTaskTry(SHTask task) {
 		// TODO Auto-generated method stub
 
+	}
+
+	private void showShare(boolean silent, String platform, boolean captureView) {
+		final OnekeyShare oks = new OnekeyShare();
+
+		// oks.setAddress("12345678901");
+		oks.setTitle("title");
+		oks.setTitleUrl("http://mob.com");
+		oks.setText("content");
+
+		// oks.setImagePath(CustomShareFieldsPage.getString("imagePath",
+		// MainActivity.TEST_IMAGE));
+//		oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/05/21/oESpJ78_533x800.jpg");
+		// oks.setImageArray(new String[]{MainActivity.TEST_IMAGE,
+		// MainActivity.TEST_IMAGE_URL});
+
+		oks.setUrl("http://www.mob.com");
+//		oks.setFilePath(CustomShareFieldsPage.getString("filePath", MainActivity.TEST_IMAGE));
+//		oks.setComment(CustomShareFieldsPage.getString("comment", context.getString(R.string.share)));
+		oks.setSite(getActivity().getResources().getString(R.string.app_name));
+		oks.setSiteUrl("http://mob.com");
+		// oks.setVenueName(CustomShareFieldsPage.getString("venueName",
+		// "ShareSDK"));
+		// oks.setVenueDescription(CustomShareFieldsPage.getString("venueDescription",
+		// "This is a beautiful place!"));
+		// oks.setLatitude(23.056081f);
+		// oks.setLongitude(113.385708f);
+		oks.setSilent(silent);
+		// oks.setShareFromQQAuthSupport(shareFromQQLogin);
+		oks.setTheme(OnekeyShareTheme.CLASSIC);
+
+		if (platform != null) {
+			oks.setPlatform(platform);
+		}
+
+		// 令编辑页面显示为Dialog模式
+		oks.setDialogMode();
+
+		// 在自动授权时可以禁用SSO方式
+		// if(!CustomShareFieldsPage.getBoolean("enableSSO", true))
+		oks.disableSSOWhenAuthorize();
+
+		// 去除注释，则快捷分享的操作结果将通过OneKeyShareCallback回调
+		oks.setCallback(new OneKeyShareCallback());
+
+		// 为EditPage设置一个背景的View
+//		oks.setEditPageBackground(getPage());
+		oks.show(getActivity());
 	}
 }

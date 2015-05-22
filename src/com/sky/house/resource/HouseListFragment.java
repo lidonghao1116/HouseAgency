@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
@@ -65,6 +66,9 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 
 	@ViewInit(id = R.id.tv_filter, onClick = "onClick")
 	private TextView mTvFilter;
+	
+	@ViewInit(id = R.id.ll_search)
+	private LinearLayout mLlSearch;
 
 	private SHPostTaskM areaTask, houseListTask;
 
@@ -83,30 +87,25 @@ public class HouseListFragment extends BaseFragment implements ITaskListener {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		mDetailTitlebar.setRightButton1("发布房源", new OnClickListener() {
+		if("map".equals(getActivity().getIntent().getStringExtra("from"))){
+			mLlSearch.setVisibility(View.INVISIBLE);
+			mDetailTitlebar.setTitle("房源列表");
+		}else{
+			mLlSearch.setVisibility(View.VISIBLE);
+			mDetailTitlebar.setRightButton1("发布房源", new OnClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-				intent.putExtra("class", HousePublishFragment.class.getName());
-				startActivity(intent);
-			}
-		});
-
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+					intent.putExtra("class", HousePublishFragment.class.getName());
+					startActivity(intent);
+				}
+			});
+		}
 		setListeners();
 		requestArea();
 		requestHouseList();
-
-		// 假数据
-		// ArrayList<MenuItem> tempMenuItems = null;
-		// for (int j = 0; j < 2; j++) {
-		// tempMenuItems = new ArrayList<MenuItem>();
-		// for (int i = 0; i < 15; i++) {
-		// tempMenuItems.add(new MenuItem(false, "子菜单" + j + "" + i, null));
-		// }
-		// menuItems.add(new MenuItem(true, "区域" + j, tempMenuItems));
-		// }
 
 		if (Location.getInstance().getCityId() == Location.getInstance().getSelectedCityId()) {
 			final String[] items_near = getResources().getStringArray(R.array.array_near);
