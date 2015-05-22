@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="上海小区  精装修  好房子" />
+                android:text="" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/tv_lable_update"
-                    android:text="6小时前更新" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_rent"
@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="¥1200元/月" />
+                    android:text="" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -89,7 +89,7 @@
                     style="@style/TextSmallGray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="已有583人浏览" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_pay_type"
@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="（付三押一）" />
+                    android:text="" />
             </RelativeLayout>
 
             <View
@@ -105,17 +105,23 @@
                 android:layout_height="1dp"
                 android:background="@color/color_gray_dark" />
 
-            <com.sky.house.widget.MyGridView
-                android:id="@+id/gv_feature"
+            <LinearLayout
+                android:id="@+id/ll_feature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_blue" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="10dp" >
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -134,7 +140,7 @@
                         style="@style/TextSmallGray"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="随时入住" />
+                        android:text="" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -154,7 +160,7 @@
                         style="@style/TextSmallGray"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="139平米" />
+                        android:text="" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -203,7 +209,7 @@
                         style="@style/TextSmallGray"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="第5层（共11层）" />
+                        android:text="" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -216,8 +222,35 @@
                 style="@style/TextSmallBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
                 android:text="家电及设施：" />
+
+            <com.sky.house.widget.MyGridView
+                android:id="@+id/gv_electrical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:horizontalSpacing="5dp"
+                android:numColumns="4"
+                android:verticalSpacing="5dp" />
+            
+            <TextView
+                style="@style/TextSmallBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:text="家具：" />
+
+            <com.sky.house.widget.MyGridView
+                android:id="@+id/gv_funi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:horizontalSpacing="5dp"
+                android:numColumns="4"
+                android:verticalSpacing="5dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -341,8 +374,8 @@
                 style="@style/TextSmallGray"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:minHeight="30dp"
+                android:padding="10dp"
                 android:text="" />
 
             <View

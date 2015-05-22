@@ -3,8 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
     <include
         android:id="@id/detailTitlebar"
         layout="@layout/titlebar_detail" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"  
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_gcoding" 
+            android:layout_centerInParent="true"/>
+        
+        <ImageView
+            android:id="@+id/iv_current"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_current_location"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="15dp"
+            android:padding="5dp"/>
+        
+    </RelativeLayout>
 
 </LinearLayout>

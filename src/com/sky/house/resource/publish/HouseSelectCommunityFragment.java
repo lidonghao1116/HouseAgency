@@ -3,6 +3,8 @@ package com.sky.house.resource.publish;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -125,16 +127,12 @@ public class HouseSelectCommunityFragment extends BaseFragment implements OnGetS
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// TODO Auto-generated method stub
-				// SHDialog.ShowProgressDiaolg(getActivity(), "请稍候...");
-				// Intent intent = new
-				// Intent(getActivity(),WashMapActivity.class);
-				// intent.putExtra("lat",
-				// adapter.getList().get(position).location.latitude);
-				// intent.putExtra("lng",
-				// adapter.getList().get(position).location.longitude);
-				// getActivity().setResult(0, intent);
-				// SHDialog.dismissProgressDiaolg();
-				// getActivity().finish();
+				Intent intent = new Intent();
+				intent.putExtra("city", list.get(position).city);
+				intent.putExtra("district", list.get(position).district);
+				intent.putExtra("houseZoneName", list.get(position).key);
+				getActivity().setResult(Activity.RESULT_OK, intent);
+				finish();
 			}
 		});
 	}
@@ -189,7 +187,7 @@ public class HouseSelectCommunityFragment extends BaseFragment implements OnGetS
 			list.clear();
 			for(PoiInfo p:result.getAllPoi()){
 //				if(p.type == PoiInfo.POITYPE.POINT){
-					System.out.println(p.address+","+p.city+","+p.name+","+p.phoneNum);
+					System.out.println(p.address+","+p.city+","+p.name);
 //					list.add(p);
 //				}
 			}

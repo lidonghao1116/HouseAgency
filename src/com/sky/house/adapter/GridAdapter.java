@@ -21,16 +21,18 @@ public class GridAdapter extends BaseAdapter {
 
 	private Activity mActivity;
 	private String[] facilities;
+	private boolean editable;
 
-	public GridAdapter(Activity a,String[] s) {
+	public GridAdapter(Activity a,String[] s,boolean editable) {
 		this.mActivity = a;
 		this.facilities = s;
+		this.editable = editable;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 8;
+		return facilities.length;
 	}
 
 	@Override
@@ -51,6 +53,10 @@ public class GridAdapter extends BaseAdapter {
 		ToggleButton tb;
 		if (arg1 == null) {
 			tb = new ToggleButton(mActivity);
+			tb.setEnabled(editable);
+			if(!editable){
+				tb.setChecked(true);
+			}
 			tb.setLayoutParams(new GridView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 			tb.setPadding(0, 8, 0, 8);
 			tb.setText(facilities[arg0]);

@@ -17,5 +17,7 @@
     <color name="color_blue">#3ab7ee</color>
     <color name="color_yellow">#ffd42d</color>
     <color name="color_yellow_darker">#ffb500</color>
+    <color name="color_purple">#800080</color>
+    <color name="color_slate">#2f4f4f</color>
 
 </resources>

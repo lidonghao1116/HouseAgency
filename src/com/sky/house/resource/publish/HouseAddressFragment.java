@@ -1,5 +1,9 @@
 package com.sky.house.resource.publish;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +27,8 @@ public class HouseAddressFragment extends BaseFragment {
 
 	@ViewInit(id = R.id.tv_xiaoqu, onClick = "onClick")
 	private TextView mTvAddress;
+	
+	private JSONObject json;//存储当前界面的参数
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -34,9 +40,19 @@ public class HouseAddressFragment extends BaseFragment {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.putExtra("json", json.toString());
+				getActivity().setResult(Activity.RESULT_OK, intent);
 				finish();
 			}
 		});
+		try {
+			json = new JSONObject(getActivity().getIntent().getStringExtra("json"));
+			initData();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -46,13 +62,38 @@ public class HouseAddressFragment extends BaseFragment {
 		return view;
 	}
 
+	private void initData(){
+		mTvAddress.setText(json.optString("houseZoneName"));
+	}
+	
 	private void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_xiaoqu:
 			Intent intent = new Intent(getActivity(),SHContainerActivity.class);
 			intent.putExtra("class", HouseSelectCommunityFragment.class.getName());
 			startActivityForResult(intent, 0);
+			getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
 			break;
 		}
 	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode == Activity.RESULT_OK && data != null){
+			mTvAddress.setText(data.getStringExtra("houseZoneName"));
+			try {
+				json.put("city", data.getStringExtra("city"));
+				json.put("district", data.getStringExtra("district"));
+				json.put("houseZoneName", data.getStringExtra("houseZoneName"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 
+import cn.sharesdk.framework.ShareSDK;
+
 import com.baidu.mapapi.SDKInitializer;
 import com.next.app.StandardApplication;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;

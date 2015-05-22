@@ -11,14 +11,14 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import com.eroad.base.SHApplication;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -29,6 +29,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
+import com.eroad.base.SHApplication;
 
 /**
  * 工具类
@@ -429,6 +431,15 @@ public class CommonUtil {
 			WindowManager wm = (WindowManager) SHApplication.getContext().getSystemService(Context.WINDOW_SERVICE);
 			int height = wm.getDefaultDisplay().getHeight();
 			return height;
+		}
+	}
+	
+	public static class JSONUtil{
+		public static void clear(JSONObject json){
+			Iterator it = json.keys();  
+			while(it.hasNext()){
+				json.remove((String) it.next());
+			}
 		}
 	}
 }

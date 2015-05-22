@@ -92,5 +92,36 @@
         <item>两千米内</item>
         <item>三千米内</item>
     </string-array>
+    <!-- 索引1-19是家电  20以后是家具 -->
+    <string-array name="array_funi">
+        <item>空格从1开始</item>
+        <item>空调</item>
+        <item>洗衣机</item>
+        <item>冰箱</item>
+        <item>电视机</item>
+        <item>微波炉</item>
+        <item>宽带</item>
+        <item>有线</item>
+        <item>热水器</item>
+        <item>暖气</item>
+        <item>预留</item>
+        <item>预留</item>
+        <item>预留</item>
+        <item>预留</item>
+        <item>预留</item>
+        <item>预留</item>
+        <item>预留</item>
+        <item>预留</item>
+        <item>预留</item>
+        <item>预留</item>
+        <item>床</item>
+        <item>沙发</item>
+        <item>衣柜</item>
+        <item>电脑桌</item>
+        <item>电视柜</item>
+        <item>床头柜</item>
+        <item>桌子</item>
+        <item>椅子</item>
+    </string-array>
 
 </resources>
