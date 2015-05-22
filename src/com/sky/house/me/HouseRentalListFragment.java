@@ -26,7 +26,7 @@ import com.sky.widget.SHDialog;
  * @author yebaohua
  *我的租房
  */
-public class HouseMyRentalFragment extends BaseFragment implements ITaskListener {
+public class HouseRentalListFragment extends BaseFragment implements ITaskListener {
 	private HouseListAdapter mAdapter;
 	SHListView listView;
 	private int pagenum = 1;

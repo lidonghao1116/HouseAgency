@@ -45,31 +45,34 @@
                 </RelativeLayout>
 
                 <TextView
-                    style="@style/TextMidWhite"
+                    android:id="@+id/tv_paid"
+                    style="@style/TextSmallWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="5dp"
                     android:singleLine="true"
-                    android:text="已支付租金（至6月）：￥1999.00" />
+                    android:text="已支付租金（至6月）：￥0.00" />
 
                 <TextView
-                    style="@style/TextMidWhite"
+                    android:id="@+id/tv_deposit"
+                    style="@style/TextSmallWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="3dp"
                     android:singleLine="true"
-                    android:text="房租押金（一个月）：￥1999.00" />
+                    android:text="房租押金（一个月）：￥0.00" />
 
                 <TextView
-                    style="@style/TextMidWhite"
+                    android:id="@+id/tv_total_payment"
+                    style="@style/TextSmallWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="3dp"
                     android:singleLine="true"
-                    android:text="总计支付：￥1999.00" />
+                    android:text="总计支付：￥0.00" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -78,21 +81,21 @@
                     android:layout_marginTop="10dp" >
 
                     <Button
-                        android:id="@+id/btn_top_right"
+                        android:id="@+id/btn_top_left"
                         style="@style/TextMidWhite"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="5dp"
-                        android:layout_toLeftOf="@+id/btn_top_left"
+                        android:layout_toLeftOf="@+id/btn_top_right"
                         android:background="@drawable/btn_orange_round"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:text="租金详情" />
 
                     <Button
-                        android:id="@+id/btn_top_left"
+                        android:id="@+id/btn_top_right"
                         style="@style/TextMidWhite"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="20dp"
@@ -100,14 +103,225 @@
                         android:background="@drawable/border_white_round"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
-                        android:text="提醒交租" />
+                        android:text="查看合同" />
                 </RelativeLayout>
             </LinearLayout>
-            <include 
+
+            <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                layout="@layout/item_house_list"/>
+                layout="@layout/item_house_list" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/color_white"
+                android:orientation="vertical" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_gray_light" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp" >
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="租金/月：" />
+
+                    <TextView
+                       android:id="@+id/tv_rent"
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="￥0.00" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp" >
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="租赁方式：" />
+
+                    <TextView
+                        android:id="@+id/tv_lease"
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="--" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp" >
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="房屋租期：" />
+
+                    <TextView
+                        android:id="@+id/tv_rent_long"
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="--" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_gray_light" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp" >
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="阳光租房订单号：" />
+
+                    <TextView
+                        android:id="@+id/tv_order_num"
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="--" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp" >
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="成交时间：" />
+
+                    <TextView
+                        android:id="@+id/tv_deal_time"
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="--" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:paddingLeft="10dp" >
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="自动确认入住时间：" />
+
+                    <TextView
+                        android:id="@+id/tv_checkin"
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="--" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_gray_light" />
+            </LinearLayout>
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp" >
+
+                    <Button
+                        android:id="@+id/btn_bottom_left"
+                        style="@style/TextMidBlack"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toLeftOf="@+id/btn_bottom_right"
+                        android:background="@drawable/bg_gray_round_corner"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="退杂费" />
+
+                    <Button
+                        android:id="@+id/btn_bottom_right"
+                        style="@style/TextMidWhite"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/btn_orange_round"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="提醒交租" />
+                </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

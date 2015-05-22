@@ -52,12 +52,46 @@
                             android:layout_height="wrap_content"
                             android:text="--" />
 
-                        <TextView
-                            android:id="@+id/tv_name"
-                            style="@style/TextSmallGray"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="--" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                style="@style/TextSmallBlack"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="房东信誉：" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_landlord"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                style="@style/TextSmallBlack"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="租客信誉：" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_tenant"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal" >
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <ImageView
@@ -274,6 +308,7 @@
                         android:layout_marginRight="5dp"
                         android:background="@drawable/ic_arrow_right" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
