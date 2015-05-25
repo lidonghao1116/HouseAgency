@@ -118,24 +118,8 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 		// add a lot of colors
 
 		ArrayList<Integer> colors = new ArrayList<Integer>();
-
-		for (int c : ColorTemplate.VORDIPLOM_COLORS)
-			colors.add(c);
-
-		for (int c : ColorTemplate.JOYFUL_COLORS)
-			colors.add(c);
-
-		for (int c : ColorTemplate.COLORFUL_COLORS)
-			colors.add(c);
-
-		for (int c : ColorTemplate.LIBERTY_COLORS)
-			colors.add(c);
-
-		for (int c : ColorTemplate.PASTEL_COLORS)
-			colors.add(c);
-
-		colors.add(ColorTemplate.getHoloBlue());
-
+		colors.add( Color.rgb(189, 59, 71));
+		colors.add( Color.rgb(160, 160, 160));
 		dataSet.setColors(colors);
 
 		PieData data = new PieData(xVals, dataSet);
