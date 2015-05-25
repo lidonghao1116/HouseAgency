@@ -1,4 +1,4 @@
-package com.sky.house.me;
+	package com.sky.house.me;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -134,7 +134,7 @@ OnClickListener, ITaskListener {
 		Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 		switch (v.getId()) {
 		case R.id.btn_top_left:// 查看租金
-			intent.putExtra("class", HouseRentalDetailFragment.class.getName());
+			intent.putExtra("class", HouseRentPieChartFragment.class.getName());
 			startActivity(intent);
 			break;
 		case R.id.btn_top_right:// 查看合同

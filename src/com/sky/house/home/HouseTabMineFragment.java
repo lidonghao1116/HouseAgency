@@ -19,12 +19,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
@@ -253,7 +251,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 		case R.id.rl_complaint:
 			intent.putExtra("class", HouseRentalListFragment.class.getName());
 			intent.putExtra("title", "我的投诉");
-			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
+			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_COMPLAINT);
 			startActivity(intent);
 			break;
 		case R.id.rl_feedback:
