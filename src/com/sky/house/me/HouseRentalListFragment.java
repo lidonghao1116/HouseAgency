@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
@@ -26,7 +25,7 @@ import com.sky.widget.SHDialog;
  * @author yebaohua
  *我的租房
  */
-public class HouseMyRentalFragment extends BaseFragment implements ITaskListener {
+public class HouseRentalListFragment extends BaseFragment implements ITaskListener {
 	private HouseListAdapter mAdapter;
 	SHListView listView;
 	private int pagenum = 1;

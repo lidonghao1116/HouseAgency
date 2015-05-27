@@ -2,6 +2,7 @@ package com.sky.house.home;
 
 import java.io.File;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,7 +41,7 @@ import com.sky.house.me.HouseAuthenticationFragment;
 import com.sky.house.me.HouseBalanceFragment;
 import com.sky.house.me.HouseFeedbackFragment;
 import com.sky.house.me.HouseMessageFragment;
-import com.sky.house.me.HouseMyRentalFragment;
+import com.sky.house.me.HouseRentalListFragment;
 import com.sky.house.me.HouseSettingFragment;
 import com.sky.house.widget.RoundImageView;
 import com.sky.widget.SHDialog;
@@ -52,6 +55,12 @@ import com.sky.widget.sweetdialog.SweetDialog;
 public class HouseTabMineFragment extends BaseFragment implements OnClickListener,ITaskListener{
 	@ViewInit(id = R.id.rl_myinfo, onClick = "onClick")
 	private RelativeLayout rlMyInfo;
+
+	@ViewInit(id = R.id.ll_landlord)
+	private LinearLayout llLandlord;
+	@ViewInit(id = R.id.ll_tenant)
+	private LinearLayout llRenant;
+
 	@ViewInit(id = R.id.rl_balance, onClick = "onClick")
 	private RelativeLayout rlBalance;
 	@ViewInit(id = R.id.rl_points, onClick = "onClick")
@@ -68,31 +77,29 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 	private RelativeLayout rlComplaint;
 	@ViewInit(id = R.id.rl_feedback, onClick = "onClick")
 	private RelativeLayout rlFeedback;
-	
+
 	@ViewInit(id = R.id.iv_photo, onClick = "onClick")
 	private RoundImageView imagePhoto;
-	
+
 	@ViewInit(id = R.id.tv_phone)
 	private TextView tvPhone;
-	
-	@ViewInit(id = R.id.tv_name)
-	private TextView tvName;
-	
+
+
 	@ViewInit(id = R.id.tv_state)
 	private TextView tvState;
-	
+
 	@ViewInit(id = R.id.tv_balance)
 	private TextView tvBalance;
-	
+
 	@ViewInit(id = R.id.tv_points)
 	private TextView tvSunPoints;
-	
+
 	private SHPostTaskM taskUserinfo,uploadTask,taskBalance;
-	
+
 	private final int TAKE_PICTURE = 0;// 拍照
 	private final int CHOOSE_PICTURE = 1;// 相册
-	
-	
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -116,7 +123,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			}
 		});
 		tvPhone.setText(UserInfoManager.getInstance().getMoblie());
-		
+
 	}
 	@Override
 	public void onResume() {
@@ -151,7 +158,55 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 		uploadTask.setListener(this);
 		uploadTask.start();
 	}
-	
+	/**
+	 * 加载房东信誉图
+	 * @throws JSONException 
+	 */
+	private void craetLandlord(JSONObject json) throws JSONException{
+		JSONObject object  = json.getJSONObject("landlordCredibility");
+		int sun  = Integer.parseInt(object.getString("sun"));
+		int diamond  = Integer.parseInt(object.getString("diamond"));
+		int star  = Integer.parseInt(object.getString("star"));
+		llLandlord.removeAllViews();
+		for (int i = 0; i < sun; i++) {
+			llLandlord.addView(getImageView(R.drawable.img_diamond));
+		}
+		for (int j = 0; j < diamond; j++) {
+			llLandlord.addView(getImageView(R.drawable.img_diamond));
+		}
+		for (int x = 0; x < star; x++) {
+			llLandlord.addView(getImageView(R.drawable.img_start));
+		}
+	}
+	/**
+	 * 加载租客信誉图
+	 * @throws JSONException 
+	 */
+	private void craetTenant(JSONObject json) throws JSONException{
+		JSONObject object  = json.getJSONObject("renterCredibility");
+		int sun  = Integer.parseInt(object.getString("sun"));
+		int diamond  = Integer.parseInt(object.getString("diamond"));
+		int star  = Integer.parseInt(object.getString("star"));
+		llRenant.removeAllViews();
+		for (int i = 0; i < sun; i++) {
+			llRenant.addView(getImageView(R.drawable.img_diamond));
+		}
+		for (int j = 0; j < diamond; j++) {
+			llRenant.addView(getImageView(R.drawable.img_diamond));
+		}
+		for (int x = 0; x < star; x++) {
+			llRenant.addView(getImageView(R.drawable.img_start));
+		}
+	}
+	private ImageView getImageView(int resId){
+		ImageView imageView = new ImageView(getActivity());
+		imageView.setImageResource(resId);
+		imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+		LinearLayout.LayoutParams lay = new LinearLayout.LayoutParams(30, 30);
+		lay.setMargins(0, 0, 10, 0);
+		imageView.setLayoutParams(lay);
+		return imageView;
+	}
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -169,16 +224,16 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			startActivity(intent);
 			break;
 		case R.id.rl_points:
-			
+
 			break;
 		case R.id.btn_tenant:
-			intent.putExtra("class", HouseMyRentalFragment.class.getName());
+			intent.putExtra("class", HouseRentalListFragment.class.getName());
 			intent.putExtra("title", "我的租房");
 			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
 			startActivity(intent);
 			break;
 		case R.id.btn_landlord:
-			intent.putExtra("class", HouseBalanceFragment.class.getName());
+			intent.putExtra("class", HouseRentalListFragment.class.getName());
 			intent.putExtra("title", "我的租房");
 			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
 			startActivity(intent);
@@ -188,15 +243,15 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			startActivity(intent);
 			break;
 		case R.id.rl_store:
-			intent.putExtra("class", HouseMyRentalFragment.class.getName());
+			intent.putExtra("class", HouseRentalListFragment.class.getName());
 			intent.putExtra("title", "我的关注");
 			intent.putExtra("type", HouseListAdapter.FLAG_HOUSE_LIST);
 			startActivity(intent);
 			break;
 		case R.id.rl_complaint:
-			intent.putExtra("class", HouseMyRentalFragment.class.getName());
+			intent.putExtra("class", HouseRentalListFragment.class.getName());
 			intent.putExtra("title", "我的投诉");
-			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
+			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_COMPLAINT);
 			startActivity(intent);
 			break;
 		case R.id.rl_feedback:
@@ -208,7 +263,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			break;
 		}
 
-		
+
 	}
 	/**
 	 * 修改头像
@@ -225,13 +280,13 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 					openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 					startActivityForResult(openCameraIntent, TAKE_PICTURE);
 				} else {
-					
+
 					Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 					startActivityForResult(intent, CHOOSE_PICTURE);
-					
-//					Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
-//					openAlbumIntent.setType("image/*");
-//					startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
+
+					//					Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
+					//					openAlbumIntent.setType("image/*");
+					//					startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
 				}
 			}
 		});
@@ -288,8 +343,9 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			JSONObject json = (JSONObject) task.getResult();
 			ImageLoaderUtil.displayImage(json.getString("userHeadImg"), imagePhoto);
 			tvPhone.setText(json.optString("mobilePhone"));
-			tvName.setText(json.optString("userRealName"));
 			tvState.setText(json.optString("userAuditStatusName"));
+			craetLandlord(json);
+			craetTenant(json);
 		}else if(task == taskBalance){
 			JSONObject json = (JSONObject) task.getResult();
 			tvBalance.setText(json.optDouble("amount")+"");
@@ -305,12 +361,12 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 	@Override
 	public void onTaskUpdateProgress(SHTask task, int count, int total) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	@Override
 	public void onTaskTry(SHTask task) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
