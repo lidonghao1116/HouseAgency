@@ -316,14 +316,14 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			for (int i = 0; i < eleArray.length(); i++) {
 				ele[i] = funi[eleArray.getInt(i)];
 			}
-			mGvElectrical.setAdapter(new GridAdapter(getActivity(), ele, false));
+			mGvElectrical.setAdapter(new GridAdapter(getActivity(), ele, false,GridAdapter.FLAG_ELE));
 			// 家具
 			JSONArray funiArray = json.getJSONArray("furnitureList");
 			String[] fu = new String[funiArray.length()];
 			for (int i = 0; i < funiArray.length(); i++) {
 				fu[i] = funi[funiArray.getInt(i)];
 			}
-			mGvFuni.setAdapter(new GridAdapter(getActivity(), fu, false));
+			mGvFuni.setAdapter(new GridAdapter(getActivity(), fu, false,GridAdapter.FLAG_FUNI));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

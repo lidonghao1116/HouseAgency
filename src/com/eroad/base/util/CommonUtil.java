@@ -285,6 +285,23 @@ public class CommonUtil {
 		return arry;
 	}
 
+	public static JSONArray removeObj(JSONArray arry, int obj) {
+		try {
+			JSONArray newArray = new JSONArray();
+			for (int i = 0; i < arry.length(); i++) {
+				if(arry.getInt(i) != obj){
+					newArray.put(arry.get(i));
+				}
+			}
+			arry = newArray;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return arry;
+	}
+
+	
 	/**
 	 * jsonarry删除 字段key == value的 jsonarry
 	 * 
@@ -332,6 +349,19 @@ public class CommonUtil {
 
 	}
 
+	public static boolean containsObj(JSONArray jsonArray,Object obj){
+		for(int i=0;i<jsonArray.length();i++){
+			try {
+				if(obj.equals(jsonArray.get(i))){
+					return true;
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * 日期格式转换类
@@ -438,7 +468,21 @@ public class CommonUtil {
 		public static void clear(JSONObject json){
 			Iterator it = json.keys();  
 			while(it.hasNext()){
-				json.remove((String) it.next());
+				String key = (String) it.next();
+				it.remove();
+			}
+		}
+		
+		public static void copyJson(JSONObject json,JSONObject secJson){
+			Iterator it = secJson.keys();  
+			while(it.hasNext()){
+				String key = (String) it.next();
+				try {
+					json.put(key, secJson.get(key));
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}

@@ -77,9 +77,11 @@
                 android:id="@+id/ll_agreement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:visibility="gone" >
 
                 <ImageView
+                    android:id="@+id/iv_agreement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -87,7 +89,7 @@
                     android:background="@drawable/ic_example" />
 
                 <com.sky.house.widget.MyGridView
-                    android:id="@+id/gv_house"
+                    android:id="@+id/gv_agreement"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -107,6 +109,7 @@
                     android:drawablePadding="5dp"
                     android:drawableTop="@drawable/ic_agreement"
                     android:gravity="center"
+                    android:clickable="true"
                     android:text="合同图片" />
 
                 <LinearLayout
@@ -135,6 +138,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/iv_example_identi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -158,29 +162,56 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/tv_add_identification"
-                    style="@style/TextSmallBlack"
+                <LinearLayout
+                    android:id="@+id/ll_add_identification"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:drawablePadding="5dp"
-                    android:drawableTop="@drawable/ic_identification"
-                    android:gravity="center"
-                    android:text="身份证" />
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/tv_add_property"
-                    style="@style/TextSmallBlack"
+                    <ImageView
+                        android:id="@+id/iv_identification"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop" 
+                        android:background="@drawable/ic_identification"/>
+
+                    <TextView
+                        android:id="@+id/tv_add_identification"
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center"
+                        android:text="身份证" 
+                        android:layout_marginTop="5dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_add_property"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:drawablePadding="5dp"
-                    android:drawableTop="@drawable/ic_property"
-                    android:gravity="center"
-                    android:text="房产证件" />
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/iv_property"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop" 
+                        android:background="@drawable/ic_property"/>
+
+                    <TextView
+                        style="@style/TextSmallBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center"
+                        android:text="房产证件" 
+                        android:layout_marginTop="5dp"/>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

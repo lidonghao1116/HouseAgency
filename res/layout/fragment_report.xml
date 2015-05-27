@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@id/detailTitlebar"
+        layout="@layout/titlebar_detail" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_label"
+                style="@style/TextSmallGray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="阳光租房对违规房源绝不姑息，请选择举报类型！" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_light" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+                <RadioButton
+                    android:id="@+id/rb_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/btn_orange_round_report"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="中介发布的虚假房源（房源不存在）"
+                    android:textColor="@color/rb_text_selector_top" />
+
+                <RadioButton
+                    android:id="@+id/rb_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_orange_round_report"
+                    android:button="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="房源价格虚假（高于显示价格）"
+                    android:textColor="@color/rb_text_selector_top" />
+
+                <RadioButton
+                    android:id="@+id/rb_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_orange_round_report"
+                    android:button="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="房源描述虚假（与信息展示不符）"
+                    android:textColor="@color/rb_text_selector_top" />
+
+                <RadioButton
+                    android:id="@+id/rb_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_orange_round_report"
+                    android:button="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="要求私下交易（对自身权益没保障）"
+                    android:textColor="@color/rb_text_selector_top" />
+            </RadioGroup>
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="您可以写下对举报问题的描述（选填）" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_light" />
+
+            <EditText
+                android:id="@+id/et_des"
+                style="@style/TextSmallBlack"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@null"
+                android:padding="5dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_light" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/color_gray_light" />
+
+            <TextView
+                style="@style/TextSmallGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="请勿恶意举报，举报属实奖励500积分！" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_gray_light" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
