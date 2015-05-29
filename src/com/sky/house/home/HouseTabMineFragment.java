@@ -235,7 +235,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 		case R.id.btn_landlord:
 			intent.putExtra("class", HouseRentalListFragment.class.getName());
 			intent.putExtra("title", "我的租房");
-			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
+			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_LANDLORD);
 			startActivity(intent);
 			break;
 		case R.id.rl_message:
