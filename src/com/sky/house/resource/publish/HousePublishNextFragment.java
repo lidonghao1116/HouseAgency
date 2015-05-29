@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHApplication;
+import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ImageTools;
@@ -90,7 +91,7 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 	private final int TAKE_PICTURE = 0;// 拍照
 	private final int CHOOSE_PICTURE = 1;// 相册
 	private final int MAX_HOUSE_PICTURE = 10;// 最大房源图片数量
-	private final int MAX_AGREEMENT_PICTURE = 5;// 最大合同图片数量
+	private final int MAX_AGREEMENT_PICTURE = 2;// 最大合同图片数量
 	private int currentSelect = 0;
 
 	private List<Bitmap> houseImageList = new ArrayList<Bitmap>();// 房源图片
@@ -111,6 +112,7 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 
 	private SHPostTaskM uploadTask;
 
+	private ProgressDialog mProgressdialog;
 	private int progress = 0;
 
 	@Override
@@ -192,10 +194,10 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 			}).show();
 			break;
 		case R.id.btn_publish:
-			final ProgressDialog mProgressdialog = new ProgressDialog(getActivity());
+			mProgressdialog = new ProgressDialog(getActivity());
 			mProgressdialog.setMessage("正在上传");
 			mProgressdialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			mProgressdialog.setIndeterminate(true);
+			mProgressdialog.setIndeterminate(false);
 			mProgressdialog.setMax(100);
 			mProgressdialog.setCancelable(false);
 			mProgressdialog.show();
@@ -360,12 +362,16 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 	@Override
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
+		Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+		intent.putExtra("class", HouseSuccessFragment.class.getName());
+		startActivity(intent);
 		finish();
 	}
 
 	@Override
 	public void onTaskFailed(SHTask task) {
 		// TODO Auto-generated method stub
+		mProgressdialog.dismiss();
 		new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
 	}
 

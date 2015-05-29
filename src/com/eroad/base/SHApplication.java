@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.sky.house.home.HouseMainActivity;
 
 public class SHApplication extends StandardApplication {
 
@@ -70,6 +71,14 @@ public class SHApplication extends StandardApplication {
 	public void exitApplication() {
 		for (BaseActivity a : activity_list) {
 			a.finish();
+		}
+	}
+	
+	public void onlyHome(){
+		for (BaseActivity a : activity_list) {
+			if(!(a instanceof HouseMainActivity)){
+				a.finish();
+			}
 		}
 	}
 
