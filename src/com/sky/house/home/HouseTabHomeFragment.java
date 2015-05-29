@@ -115,7 +115,7 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 		getActivity().registerReceiver(rec, filter);
 		mDetailTitlebar.setTitle("阳光租房");
 		mDetailTitlebar.setSubTitle("-从此租房如此简单");
-		mDetailTitlebar.setLeftButton("定位中", new OnClickListener() {
+		mDetailTitlebar.setLeftButton("定位中..", new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {

@@ -1,17 +1,15 @@
-package com.sky.house.business;
+package com.sky.house.report;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHApplication;
-import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ViewInit;
 import com.next.intf.ITaskListener;
@@ -20,70 +18,63 @@ import com.next.net.SHTask;
 import com.sky.house.R;
 import com.sky.widget.SHDialog;
 import com.sky.widget.sweetdialog.SweetDialog;
-
 /**
- * 联系看房
- * 
+ * 举报
  * @author skypan
- * 
+ *
  */
-public class HouseContactFragment extends BaseFragment implements ITaskListener{
+public class HouseReportFragment extends BaseFragment implements ITaskListener{
 
-	@ViewInit(id = R.id.btn_pay, onClick = "onClick")
-	private Button mBtnPay;
-
-	@ViewInit(id = R.id.iv_question, onClick = "onClick")
-	private ImageView mIvQuestion;
-
-	@ViewInit(id = R.id.ll_tips)
-	private LinearLayout mLlQuestion;
-
-	private boolean isTipsShow;
-
-	private SHPostTaskM task;
+	@ViewInit(id = R.id.rg_report)
+	private RadioGroup mRg;
 	
+	@ViewInit(id = R.id.btn_confirm,onClick = "onClick")
+	private Button mBtnConfirm;
+	
+	@ViewInit(id = R.id.et_des)
+	private EditText mEtContent;
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		mDetailTitlebar.setTitle(getActivity().getIntent().getStringExtra("name"));
-		request();
+		mDetailTitlebar.setTitle("用户举报");
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View view = inflater.inflate(R.layout.fragment_contact, container, false);
+		View view = inflater.inflate(R.layout.fragment_report, container, false);
 		return view;
 	}
 
-	private void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btn_pay:
-			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-			intent.putExtra("class", HousePayChargeFragment.class.getName());
-			startActivity(intent);
-			break;
-		case R.id.iv_question:
-			if (isTipsShow) {
-				mLlQuestion.setVisibility(View.GONE);
-				isTipsShow = false;
-			} else {
-				mLlQuestion.setVisibility(View.VISIBLE);
-				isTipsShow = true;
+	private void onClick(View v){
+		switch(v.getId()){
+		case R.id.btn_confirm:
+			int check = 1;
+			switch(mRg.getCheckedRadioButtonId()){
+			case R.id.rb_0:
+				check = 1;
+				break;
+			case R.id.rb_1:
+				check = 2;
+				break;
+			case R.id.rb_2:
+				check = 3;
+				break;
+			case R.id.rb_3:
+				check = 4;
+				break;
 			}
+			SHDialog.ShowProgressDiaolg(getActivity(), null);
+			SHPostTaskM reportTask = new SHPostTaskM();
+			reportTask.setListener(this);
+			reportTask.setUrl(ConfigDefinition.URL+"AddUserReport");
+			reportTask.getTaskArgs().put("complaintType", check);
+			reportTask.getTaskArgs().put("complaintContent", mEtContent.getText().toString().trim());
+			reportTask.start();
 			break;
 		}
-	}
-	
-	private void request(){
-		SHDialog.ShowProgressDiaolg(getActivity(), null);
-		task = new SHPostTaskM();
-		task.setListener(this);
-		task.setUrl(ConfigDefinition.URL+"GetLandlordDetail");
-		task.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
-		task.start();
 	}
 
 	@Override

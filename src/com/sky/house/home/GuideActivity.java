@@ -2,12 +2,14 @@ package com.sky.house.home;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.eroad.base.BaseActivity;
@@ -36,6 +38,16 @@ public class GuideActivity extends BaseActivity{
 		list.add(mInflater.inflate(R.layout.guide_view1, null));
 		list.add(mInflater.inflate(R.layout.guide_view2, null));
 		View view3 = mInflater.inflate(R.layout.guide_view3, null);
+		view3.findViewById(R.id.btn_in).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(GuideActivity.this,HouseMainActivity.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
+			}
+		});
 		list.add(view3);
 
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {

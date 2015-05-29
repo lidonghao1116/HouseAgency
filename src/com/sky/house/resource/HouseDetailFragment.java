@@ -36,6 +36,7 @@ import com.sky.house.adapter.TopAdvertPagerAdapter;
 import com.sky.house.business.HouseContactFragment;
 import com.sky.house.home.HouseLoginFragment;
 import com.sky.house.interfaces.ScrollViewListener;
+import com.sky.house.report.HouseReportFragment;
 import com.sky.house.widget.MyGridView;
 import com.sky.house.widget.ObservableScrollView;
 import com.sky.widget.SHDialog;
@@ -149,7 +150,16 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 		});
 
 		mDetailTitlebar.setTitle(getActivity().getIntent().getStringExtra("name"));
-		mDetailTitlebar.setRightButton1("举报", null);
+		mDetailTitlebar.setRightButton1("举报", new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+				intent.putExtra("class", HouseReportFragment.class.getName());
+				startActivity(intent);
+			}
+		});
 		mDetailTitlebar.setRightButton2("分享", new OnClickListener() {
 			
 			@Override
@@ -210,6 +220,13 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 		case R.id.btn_contact:
 			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 			intent.putExtra("class", HouseContactFragment.class.getName());
+			intent.putExtra("name", getActivity().getIntent().getStringExtra("name"));
+			try {
+				intent.putExtra("id", json.getInt("houseDetailId"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			startActivity(intent);
 			break;
 		}
@@ -316,14 +333,14 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			for (int i = 0; i < eleArray.length(); i++) {
 				ele[i] = funi[eleArray.getInt(i)];
 			}
-			mGvElectrical.setAdapter(new GridAdapter(getActivity(), ele, false));
+			mGvElectrical.setAdapter(new GridAdapter(getActivity(), ele, false,GridAdapter.FLAG_ELE));
 			// 家具
 			JSONArray funiArray = json.getJSONArray("furnitureList");
 			String[] fu = new String[funiArray.length()];
 			for (int i = 0; i < funiArray.length(); i++) {
 				fu[i] = funi[funiArray.getInt(i)];
 			}
-			mGvFuni.setAdapter(new GridAdapter(getActivity(), fu, false));
+			mGvFuni.setAdapter(new GridAdapter(getActivity(), fu, false,GridAdapter.FLAG_FUNI));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
