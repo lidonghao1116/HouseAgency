@@ -19,6 +19,24 @@ import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ImageLoaderUtil;
 import com.sky.house.R;
 
+/**
+ * @author yebaohua
+ *
+ *
+ *10 已付定金 --待确认定金
+20 已确认定金 --待完善合同
+30 已完善合同 --待确认合同
+31 已驳回 --待完善合同
+40 已确认合同 --待付款
+50 已付款 --待入住
+60 已入住
+70 已续租
+-1 用户定金取消
+   				-2 房东取消定金
+   				-3 订单取消
+   				-4 介入取消
+ *
+ */
 public class HouseListAdapter extends BaseAdapter {
 	private Context context;
 
@@ -122,15 +140,39 @@ public class HouseListAdapter extends BaseAdapter {
 			if (this.flag != FLAG_HOUSE_LIST) {
 				holder.rlTop.setVisibility(View.VISIBLE);
 				// holder.tvHouser.setText("");
-				holder.tvHouseState.setText(jsonArray.getJSONObject(pos).getString("houseDetaiStatusName"));
 				holder.llBottom.setVisibility(View.VISIBLE);
 				if (this.flag == FLAG_STATE_LIST_TENANT) {
+					holder.tvHouseState.setText(jsonArray.getJSONObject(pos).getString("orderStatusName"));
 					holder.btnLeft.setText("拨打电话");
-					holder.btnRight.setText("确认入住");
-				} else if (this.flag == FLAG_STATE_LIST_TENANT) {
+					switch (jsonArray.getJSONObject(pos).getInt("orderStatus")) {
+					case 10:
+						holder.btnRight.setText("确认定金");
+						break;
+					case 20:
+						holder.btnRight.setText("完善合同");
+						break;
+					case 30:
+						holder.btnRight.setText("确认合同");
+						break;
+					case 31:
+						holder.btnRight.setText("完善合同");
+						break;
+					case 40:
+						holder.btnRight.setText("确认付款");
+						break;
+					case 50:
+						holder.btnRight.setText("确认入住");
+						break;
+					default:
+						holder.btnRight.setVisibility(View.GONE);
+						break;
+					}
+					
+				} else if (this.flag == FLAG_STATE_LIST_LANDLORD) {
 					holder.btnLeft.setText("电话沟通");
 					holder.btnRight.setText("提醒交租");
-				} else if (this.flag == FLAG_STATE_LIST_TENANT) {
+				} else if (this.flag == FLAG_STATE_LIST_COMPLAINT) {
+					holder.rlTop.setVisibility(View.GONE);
 					holder.btnLeft.setText("拨打电话");
 					holder.btnRight.setText("撤回投诉");
 				}

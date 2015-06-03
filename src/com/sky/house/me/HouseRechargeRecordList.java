@@ -85,10 +85,12 @@ public class HouseRechargeRecordList extends BaseFragment implements
 			JSONObject json = (JSONObject) task.getResult();
 			jsonArray = json.getJSONArray("accountList");
 			listView.setTotalNum(json.getInt("recordCount"));
+			mAdapter.setJsonArray(jsonArray);
 			mAdapter.notifyDataSetChanged();
 		}else if(task == taskClear){
 			jsonArray = new JSONArray();
 			listView.setTotalNum(0);
+			mAdapter.setJsonArray(jsonArray);
 			mAdapter.notifyDataSetChanged();
 		}
 	}
@@ -99,6 +101,7 @@ public class HouseRechargeRecordList extends BaseFragment implements
 //		new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
 		jsonArray = new JSONArray();
 		listView.setTotalNum(0);
+		mAdapter.setJsonArray(jsonArray);
 		mAdapter.notifyDataSetChanged();
 	}
 	@Override

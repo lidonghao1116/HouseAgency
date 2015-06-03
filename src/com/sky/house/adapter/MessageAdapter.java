@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.eroad.base.SHContainerActivity;
 import com.sky.house.R;
+import com.sky.house.report.HouseReportFragment;
 
 public class MessageAdapter extends BaseAdapter {
 	private Context context;
@@ -84,30 +87,35 @@ public class MessageAdapter extends BaseAdapter {
 			holder.btnReport = (Button) convertView.findViewById(R.id.btn_report);
 			if(type == AdapterType.showReport){
 				holder.tvDate.setVisibility(View.GONE);
-				holder.btnReport.setVisibility(View.VISIBLE);
 			}else{
 				holder.tvDate.setVisibility(View.VISIBLE);
-				holder.btnReport.setVisibility(View.GONE);
 			}
+			holder.btnReport.setVisibility(View.GONE);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		try {
 			JSONObject object =  jsonArray.getJSONObject(position);
-			holder.tvTitle.setText(object.optString("accountTypeName"));
+			
 			holder.tvDate.setText(object.optString("createDate"));
 			holder.tvContent.setText(object.optString("content"));
-			
-			if(type == AdapterType.showReport){
-				holder.btnReport.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
+			if(type == AdapterType.showReport ){
+				if(object.optString("pushTypeId").equalsIgnoreCase("3")){
+					holder.btnReport.setVisibility(View.VISIBLE);
+					holder.btnReport.setOnClickListener(new View.OnClickListener() {
 						
-					}
-				});
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							Intent intent = new Intent(context,SHContainerActivity.class);
+							intent.putExtra("class", HouseReportFragment.class.getName());
+							context.startActivity(intent);
+						}
+					});
+				}
+			}else{
+				holder.tvTitle.setText(object.optString("accountTypeName"));
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

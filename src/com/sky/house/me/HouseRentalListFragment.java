@@ -1,9 +1,11 @@
 package com.sky.house.me;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.graphics.Paint.Join;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,9 +78,24 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				Intent intenttest = new Intent(getActivity(), SHContainerActivity.class);
-				intenttest.putExtra("class", HouseRentalDetailFragment.class.getName());
-				startActivity(intenttest);
+				try {
+					JSONObject object  = jsonArray.getJSONObject(position);
+					Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+					switch (object.getInt("orderStatus")) {
+					case 50:
+						intent.putExtra("class", HouseRentalDetailFragment.class.getName());
+						intent.putExtra("orderId", object.getInt("orderId"));
+						intent.putExtra("type", type);
+						break;
+
+					default:
+						break;
+					}
+					startActivity(intent);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 	}
