@@ -22,16 +22,6 @@
         <item>整租</item>
         <item>合租</item>
     </string-array>
-    <string-array name="array_tese">
-        <item>地铁便利</item>
-        <item>学区房</item>
-        <item>专供白领</item>
-        <item>随时入住</item>
-        <item>特色风格</item>
-        <item>景观房</item>
-        <item>独门独卫</item>
-        <item>朝南景观</item>
-    </string-array>
     <string-array name="array_zhuangxiu">
         <item>不限</item>
         <item>毛坯</item>

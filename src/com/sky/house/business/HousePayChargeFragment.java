@@ -18,6 +18,7 @@ public class HousePayChargeFragment extends BaseFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
+		mDetailTitlebar.setTitle("支付订金");
 	}
 
 	@Override

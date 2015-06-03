@@ -10,8 +10,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
@@ -331,7 +329,7 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 				}
 			}
 			final boolean[] boo = new boolean[items_tese.length];
-			AlertDialog b= new AlertDialog.Builder(getActivity()).setTitle("房源特色").setMultiChoiceItems(items_tese, null, new OnMultiChoiceClickListener() {
+			AlertDialog b= new AlertDialog.Builder(getActivity()).setTitle("房源特色（最多3项）").setMultiChoiceItems(items_tese, null, new OnMultiChoiceClickListener() {
 
 				@Override
 				public void onClick(DialogInterface arg0, int arg1, boolean arg2) {
@@ -345,9 +343,11 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
 					JSONArray arr = new JSONArray();
+					StringBuilder str = null;
 					for(int i = 0;i<items_tese.length;i++){
 						if(boo[i]){
 							arr.put(i+1);
+							str.append(items_tese[i]).append("；");
 						}
 					}
 					if(arr.length()>3){
@@ -356,6 +356,7 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 					}else{
 						try {
 							json.put("HouseLableList", arr);
+							mTvTese.setText(str);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
