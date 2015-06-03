@@ -255,10 +255,10 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 				etName.setText(json.optString("userRealName"));
 			}
 			//status=0 等待认证 status=1 认证通过 status=2认证失败(可编辑)
-			if(json.getInt("auditStatus")==0){
+			if(json.getString("auditStatus").equalsIgnoreCase("0")){
 				imgState.setBackgroundResource(R.drawable.ic_auth_fali);
 				checkStatus(false);
-			}else if(json.getInt("auditStatus")==1){
+			}else if(json.getString("auditStatus").equalsIgnoreCase("1")){
 				imgState.setBackgroundResource(R.drawable.ic_auth_success);
 				checkStatus(false);
 			}else{

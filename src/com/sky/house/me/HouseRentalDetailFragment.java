@@ -1,4 +1,7 @@
-	package com.sky.house.me;
+package com.sky.house.me;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +14,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.eroad.base.BaseFragment;
+import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.CommonUtil;
+import com.eroad.base.util.ConfigDefinition;
+import com.eroad.base.util.ImageLoaderUtil;
 import com.eroad.base.util.ViewInit;
 import com.next.intf.ITaskListener;
+import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
+import com.sky.house.adapter.HouseListAdapter;
+import com.sky.widget.SHDialog;
+import com.sky.widget.sweetdialog.SweetDialog;
 
 public class HouseRentalDetailFragment extends BaseFragment implements
 OnClickListener, ITaskListener {
@@ -60,10 +72,10 @@ OnClickListener, ITaskListener {
 	private TextView tvHouseRent;
 
 	@ViewInit(id = R.id.tv_read_times)
-	private TextView tvHouseRentType;
+	private TextView tvHouseReadTimes;
 
 	@ViewInit(id = R.id.tv_rent_type)
-	private TextView tvHouseReadTimes;
+	private TextView tvHouseRentType;
 
 	@ViewInit(id = R.id.ll_tese)
 	private LinearLayout llHouseTese;
@@ -99,6 +111,9 @@ OnClickListener, ITaskListener {
 	@ViewInit(id = R.id.btn_bottom_right, onClick = "onClick")
 	private Button btnBottomRight;
 
+	private  int  type;// 列表类型 查看HouseListAdapter说明
+	private SHPostTaskM taskDetail;
+	private JSONObject mResult;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,7 +134,9 @@ OnClickListener, ITaskListener {
 				// TODO Auto-generated method stub
 			}
 		});
+		type  = getActivity().getIntent().getIntExtra("type", HouseListAdapter.FLAG_HOUSE_LIST);
 		initView();
+		request();
 	}
 	/**
 	 * 初始数据界面
@@ -127,6 +144,14 @@ OnClickListener, ITaskListener {
 	private void initView(){
 		rlHouseTop.setVisibility(View.VISIBLE);
 		llHouseBottom.setVisibility(View.VISIBLE);
+	}
+	private void request(){
+		SHDialog.ShowProgressDiaolg(getActivity(), null);
+		taskDetail = new SHPostTaskM();
+		taskDetail.setUrl(ConfigDefinition.URL+"GetOrderDetail");
+		taskDetail.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
+		taskDetail.setListener(this);
+		taskDetail.start();
 	}
 	@Override
 	public void onClick(View v) {
@@ -150,13 +175,68 @@ OnClickListener, ITaskListener {
 	@Override
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
+		SHDialog.dismissProgressDiaolg();
+		mResult = (JSONObject) task.getResult();
+
+		tvPaidMoney.setText("已支付租金（"+mResult.getInt("hasPayMonth")+"个月）：￥"+mResult.optDouble("totalPayAmount"));
+		tvDeposit.setText("房租押金（"+mResult.getInt("wagerMonth")+"月）：￥"+mResult.optDouble("wagerAmt"));
+		tvTotalPaid.setText("总计支付：￥"+mResult.optDouble("totalPayAmount"));
+
+		tvRentMoney.setText("￥"+mResult.getString("rentAmt"));
+		tvLease.setText(mResult.getString("payTypeName"));
+		tvRentLong.setText(CommonUtil.Date.toYMR(mResult.getString("tenantBeginDate"))+" 至 "+CommonUtil.Date.toYMR(mResult.getString("tenantEndDate")));
+		tvOrderNum.setText(mResult.optInt("contractId")+"");
+		tvDealTime.setText(mResult.getString("dealTime"));
+		tvCheckin.setText(mResult.getString("carryingInTime"));
+
+
+		JSONArray tese = mResult.getJSONArray("houseFeature");
+		String[] items_tese = getActivity().getResources().getStringArray(R.array.array_tese);
+		for (int i = 0; i < tese.length(); i++) {
+			TextView tv = new TextView(getActivity());
+			tv.setTextSize(12);
+			tv.setPadding(5, 1, 5, 1);
+			tv.setText(items_tese[tese.getInt(i)]);
+			LinearLayout.LayoutParams lay = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			lay.setMargins(0, 0, 10, 0);
+			tv.setLayoutParams(lay);
+			tv.setTextColor(getActivity().getResources().getColor(R.color.color_black));
+			switch (i) {
+			case 0:
+				tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_yellow_zhi));
+				break;
+			case 1:
+				tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_green_zhi));
+				break;
+			case 2:
+				tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_red_zhi));
+				break;
+			}
+			llHouseTese.addView(tv);
+		}
+
+		ImageLoaderUtil.displayImage(mResult.getString("houseImgUrl"), ivHouse);
+		tvHouseTitle.setText(mResult.getString("houseTitle"));
+		tvHouseRent.setText(mResult.getString("rentAmt"));
+		tvHouseRentType.setText(mResult.getString("payTypeName"));
+		tvHouseReadTimes.setText(mResult.getString("browseCount"));
+
+		tvHouseState.setText(mResult.getString("orderStatusName"));
+
+		if(type==HouseListAdapter.FLAG_STATE_LIST_TENANT){//房客
+
+		}else{
+
+		}
+
 
 	}
 
 	@Override
 	public void onTaskFailed(SHTask task) {
 		// TODO Auto-generated method stub
-
+		SHDialog.dismissProgressDiaolg();
+		new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
 	}
 
 	@Override

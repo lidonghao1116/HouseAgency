@@ -1,9 +1,11 @@
 package com.sky.house.me;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.graphics.Paint.Join;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +30,6 @@ import com.sky.widget.SHDialog;
 public class HouseRentalListFragment extends BaseFragment implements ITaskListener {
 	private HouseListAdapter mAdapter;
 	SHListView listView;
-	private int pagenum = 1;
 	private SHPostTaskM taskMessage,taskClear;
 	private JSONArray jsonArray = new JSONArray();
     private  int  type;// 列表类型 查看HouseListAdapter说明
@@ -70,16 +71,6 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			listView.setTipsMessage("沟通一定能解决很多问题，您保持的很好哦！32个赞...");
 			break;
 		}
-		
-//		listView.setOnLoadMoreListener(new SHListView.OnLoadMoreListener() {
-//			
-//			@Override
-//			public void onLoadMore() {
-//				// TODO Auto-generated method stub
-//				pagenum++;
-//				requestMessage();
-//			}
-//		});
 		requestMessage();
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -87,17 +78,43 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				Intent intenttest = new Intent(getActivity(), SHContainerActivity.class);
-				intenttest.putExtra("class", HouseRentalDetailFragment.class.getName());
-				startActivity(intenttest);
+				try {
+					JSONObject object  = jsonArray.getJSONObject(position);
+					Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+					switch (object.getInt("orderStatus")) {
+					case 50:
+						intent.putExtra("class", HouseRentalDetailFragment.class.getName());
+						intent.putExtra("orderId", object.getInt("orderId"));
+						intent.putExtra("type", type);
+						break;
+
+					default:
+						break;
+					}
+					startActivity(intent);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 	}
 	private void requestMessage(){
 		taskMessage = new SHPostTaskM();
-		taskMessage.setUrl(ConfigDefinition.URL + "GetUserHouseCollectList");
-//		taskMessage.getTaskArgs().put("pageSize", 10);
-//		taskMessage.getTaskArgs().put("pageIndex",pagenum);
+		switch (type) {
+		case HouseListAdapter.FLAG_HOUSE_LIST:
+			taskMessage.setUrl(ConfigDefinition.URL + "GetUserHouseCollectList");
+			break;
+		case HouseListAdapter.FLAG_STATE_LIST_TENANT:
+			taskMessage.setUrl(ConfigDefinition.URL + "GetTenantList");
+			break;
+		case HouseListAdapter.FLAG_STATE_LIST_LANDLORD:
+			taskMessage.setUrl(ConfigDefinition.URL + "GetLordList");
+			break;
+		case HouseListAdapter.FLAG_STATE_LIST_COMPLAINT:
+			taskMessage.setUrl(ConfigDefinition.URL + "GetUserHouseCollectList");
+			break;
+		}
 		taskMessage.setListener(this);
 		taskMessage.start();
 	}

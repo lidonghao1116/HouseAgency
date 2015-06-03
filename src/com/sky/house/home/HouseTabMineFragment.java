@@ -228,14 +228,14 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			break;
 		case R.id.btn_tenant:
 			intent.putExtra("class", HouseRentalListFragment.class.getName());
-			intent.putExtra("title", "我的租房");
+			intent.putExtra("title", "我是租客");
 			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
 			startActivity(intent);
 			break;
 		case R.id.btn_landlord:
 			intent.putExtra("class", HouseRentalListFragment.class.getName());
-			intent.putExtra("title", "我的租房");
-			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
+			intent.putExtra("title", "我是房东");
+			intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_LANDLORD);
 			startActivity(intent);
 			break;
 		case R.id.rl_message:
