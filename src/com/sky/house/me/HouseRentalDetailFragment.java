@@ -1,9 +1,11 @@
 package com.sky.house.me;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
 import com.sky.house.adapter.HouseListAdapter;
+import com.sky.house.resource.HouseDetailFragment;
 import com.sky.widget.SHDialog;
 import com.sky.widget.sweetdialog.SweetDialog;
 
@@ -112,7 +115,7 @@ OnClickListener, ITaskListener {
 	private Button btnBottomRight;
 
 	private  int  type;// 列表类型 查看HouseListAdapter说明
-	private SHPostTaskM taskDetail;
+	private SHPostTaskM taskDetail,taskComplait;
 	private JSONObject mResult;
 
 	@Override
@@ -160,12 +163,19 @@ OnClickListener, ITaskListener {
 		switch (v.getId()) {
 		case R.id.btn_top_left:// 查看租金
 			intent.putExtra("class", HouseRentPieChartFragment.class.getName());
+			intent.putExtra("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
 			startActivity(intent);
 			break;
 		case R.id.btn_top_right:// 查看合同
-			intent.putExtra("class", HouseContractDetailFragment.class.getName());
-			intent.putExtra("orderId", -1);
-			startActivity(intent);
+			try {
+				intent.putExtra("class", HouseContractDetailFragment.class.getName());
+				intent.putExtra("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
+				intent.putExtra("url", mResult.getString("contracturl"));
+				startActivity(intent);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 
 		default:
@@ -222,11 +232,64 @@ OnClickListener, ITaskListener {
 		tvHouseReadTimes.setText(mResult.getString("browseCount"));
 
 		tvHouseState.setText(mResult.getString("orderStatusName"));
+		Drawable drawableLeft = getActivity().getResources().getDrawable(R.drawable.ic_house_people);
+		Drawable drawableRight = getActivity().getResources().getDrawable(R.drawable.ic_arrow_right);
+		tvHouser.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null);
+		rlHouseContent.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				try {
+					Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+					intent.putExtra("class", HouseDetailFragment.class.getName());
+					intent.putExtra("id", mResult.getInt("houseDetailId"));
+					intent.putExtra("name", mResult.getString("houseName"));
+					startActivity(intent);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		btnBottomLeft.setText("我要投诉");
+		btnBottomLeft.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				taskComplait = new SHPostTaskM();
+				taskComplait.setUrl(ConfigDefinition.URL+"AddUserComplaint");
+				taskComplait.getTaskArgs().put("complaintType", "6");
+				taskComplait.getTaskArgs().put("complaintOrderId", getActivity().getIntent().getIntExtra("orderId", 0));
+				taskComplait.getTaskArgs().put("complaintContent", "");
+				taskComplait.setListener(HouseRentalDetailFragment.this);
+				taskComplait.start();
+
+			}
+		});
 		if(type==HouseListAdapter.FLAG_STATE_LIST_TENANT){//房客
+			tvHouser.setText(mResult.getString("lordName"));
+			tvHouseState.setText("房东信息");
+			rlHouseTop.setOnClickListener(new View.OnClickListener() {
 
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+
+				}
+			});
 		}else{
+			tvHouser.setText(mResult.getString("tenantName"));
+			tvHouseState.setText("租客信息");
+			rlHouseTop.setOnClickListener(new View.OnClickListener() {
 
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+
+				}
+			});
 		}
 
 
