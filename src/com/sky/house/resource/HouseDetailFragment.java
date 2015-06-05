@@ -22,6 +22,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.OnekeyShareTheme;
 
 import com.eroad.base.BaseFragment;
+import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
@@ -367,7 +368,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 	public void onTaskFailed(SHTask task) {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
-		new SweetDialog(getActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
+		new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
 	}
 
 	@Override

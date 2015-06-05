@@ -103,6 +103,7 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 		case R.id.btn_pay:
 			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 			intent.putExtra("class", HousePayChargeFragment.class.getName());
+			intent.putExtra("id", getActivity().getIntent().getIntExtra("id", -1));
 			startActivity(intent);
 			break;
 		case R.id.iv_question:
