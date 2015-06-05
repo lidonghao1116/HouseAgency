@@ -51,7 +51,8 @@ OnClickListener {
 		Intent intent  = new Intent(getActivity(),SHContainerActivity.class);
 		switch (v.getId()) {
 		case R.id.rl_password:
-
+			intent.putExtra("class", HouseChangePayPassword.class.getName());
+			startActivity(intent);
 			break;
 		case R.id.rl_service:
 

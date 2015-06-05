@@ -34,7 +34,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/ic_publish" />
+                        android:src="@drawable/ic_house_pay" />
 
                     <TextView
                         style="@style/TextMidWhite"

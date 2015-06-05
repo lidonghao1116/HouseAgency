@@ -126,6 +126,7 @@ public class HouseLoginFragment extends BaseFragment implements ITaskListener {
 		validateTask.setListener(this);
 		validateTask.setUrl(ConfigDefinition.URL + "sendCode");
 		validateTask.getTaskArgs().put("Mobile", phone);
+		validateTask.getTaskArgs().put("SmsType", 1);
 		SHEnvironment.getInstance().setLoginId(mEtPhone.getText().toString());
 		validateTask.start();
 	}
