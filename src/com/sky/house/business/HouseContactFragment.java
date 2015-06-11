@@ -138,7 +138,7 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 		int star  = Integer.parseInt(object.getString("star"));
 		llRenant.removeAllViews();
 		for (int i = 0; i < sun; i++) {
-			llRenant.addView(getImageView(R.drawable.img_diamond));
+			llRenant.addView(getImageView(R.drawable.img_sun));
 		}
 		for (int j = 0; j < diamond; j++) {
 			llRenant.addView(getImageView(R.drawable.img_diamond));

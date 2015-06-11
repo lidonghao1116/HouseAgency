@@ -7,6 +7,7 @@
     <string name="str_contact_2">请全程使用平台完成交易，平台将会全权保障您的资金和租房安全直到合同结束。</string>
     <string name="str_contact_3">本平台发布房源与租房成交	，均不收取任何费用！合约期内全程保障双方的利益及纠纷。切勿私下交易，以免财物、权益受损！</string>
     <string name="str_contact_4">一旦支付订金，您享有签订此房源的资格，房东确认订金后您获得此房源签订合同资格。房东未确认订金或不履行交易则订金可退回。</string>
+    <string name="str_contact_card">为保障大家的权益，本平台所有交易必须先实名认证，请务必上传真实信息。</string>
 
     <string-array name="array_jushi">
         <item>不限</item>

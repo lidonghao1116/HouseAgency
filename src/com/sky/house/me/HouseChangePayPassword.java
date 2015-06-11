@@ -43,6 +43,9 @@ public class HouseChangePayPassword extends BaseFragment implements
 	@ViewInit(id = R.id.et_pass)
 	private EditText mEtPass;
 	
+	@ViewInit(id = R.id.et_pass_two)
+	private EditText mEtPass2;
+	
 	@ViewInit(id = R.id.btn_login,onClick = "onClick")
 	private Button mBtnLogin;
 	
@@ -89,7 +92,12 @@ public class HouseChangePayPassword extends BaseFragment implements
 		}
 		String password = mEtPass.getText().toString().trim();
 		if (CommonUtil.isEmpty(password)) {
-			SHToast.showToast(getActivity(), "请设置您的密码", Toast.LENGTH_SHORT);
+			SHToast.showToast(getActivity(), "请填写您的密码", Toast.LENGTH_SHORT);
+			return;
+		}
+		String password2 = mEtPass2.getText().toString().trim();
+		if (CommonUtil.isEmpty(password2) || !password.equalsIgnoreCase(password2)) {
+			SHToast.showToast(getActivity(), "两次输入密码不一致", Toast.LENGTH_SHORT);
 			return;
 		}
 		SHDialog.ShowProgressDiaolg(getActivity(), null);
@@ -97,7 +105,7 @@ public class HouseChangePayPassword extends BaseFragment implements
 		loginTask.setListener(this);
 		loginTask.setUrl(ConfigDefinition.URL + "SetPayPassword");
 		loginTask.getTaskArgs().put("smstype", 2);
-		loginTask.getTaskArgs().put("password", phone);//md5
+		loginTask.getTaskArgs().put("password", CommonUtil.encodeMD5(password));//md5
 		loginTask.getTaskArgs().put("code", validate);
 		loginTask.start();
 	}

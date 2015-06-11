@@ -72,6 +72,7 @@ public class SHApplication extends StandardApplication {
 		for (BaseActivity a : activity_list) {
 			a.finish();
 		}
+		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 	
 	public void onlyHome(){
