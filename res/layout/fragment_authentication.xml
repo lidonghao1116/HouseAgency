@@ -145,6 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
+                    android:drawableRight="@drawable/ic_example"
                     android:text="上传证件图片" />
 
                 <ImageView
@@ -174,10 +175,9 @@
                     android:layout_toLeftOf="@id/view_arrow3"
                     android:layout_toRightOf="@id/tv_upload"
                     android:background="@null"
-                    android:drawableLeft="@drawable/ic_tip"
                     android:gravity="right"
                     android:singleLine="true"
-                    android:text="上传身份证原件正面，24小时内审核完毕" />
+                    android:text="上传身份证原件正面" />
             </RelativeLayout>
 
             <ImageView
@@ -225,7 +225,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="@string/str_contact_1"
+                android:text="@string/str_contact_card"
                 android:visibility="invisible" />
         </LinearLayout>
     </ScrollView>

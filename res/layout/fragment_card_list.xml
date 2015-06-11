@@ -2,9 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/color_white" >
-
+    android:background="@color/bgColor"
+    android:orientation="vertical" >
     <include
         android:id="@id/detailTitlebar"
         layout="@layout/titlebar_detail" />
@@ -24,51 +23,33 @@
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:background="@null"
-            android:drawableLeft="@drawable/ic_phone"
+            android:drawableLeft="@drawable/ic_amount"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
-            android:hint="请填写您的手机号"
-            android:inputType="phone" />
+            android:hint="您要提现的金额"
+            android:inputType="numberDecimal" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/color_gray_light" />
-
-        <RelativeLayout
+        <com.sky.widget.SHAutoEditText
+            android:id="@+id/et_card"
+            style="@style/TextMidBlack"
             android:layout_width="match_parent"
-            android:layout_height="60dp" >
-
-            <com.sky.widget.TimerButton
-                android:id="@+id/btn_timer"
-                style="@style/TextMidBlack"
-                android:layout_width="105dp"
-                android:layout_height="36dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/btn_validate"
-                android:gravity="center" />
-
-            <EditText
-                android:id="@+id/et_validate"
-                style="@style/TextMidBlack"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_toLeftOf="@id/btn_timer"
-                android:background="@null"
-                android:drawableLeft="@drawable/ic_validate"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:hint="验证码"
-                android:inputType="number" />
-        </RelativeLayout>
-
-        <View
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@null"
+            android:drawableLeft="@drawable/ic_card"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:hint="请填写您的要转账的银行卡号"
+            android:inputType="numberDecimal" />
+         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/color_gray_light" />
-        <EditText
+          <EditText
             android:id="@+id/et_pass"
             style="@style/TextMidBlack"
             android:layout_width="match_parent"
@@ -78,23 +59,7 @@
             android:drawableLeft="@drawable/ic_pass"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
-            android:hint="请填写您的新支付密码"
-            android:inputType="textPassword" />
-         <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/color_gray_light" />
-         <EditText
-            android:id="@+id/et_pass_two"
-            style="@style/TextMidBlack"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
-            android:drawableLeft="@drawable/ic_pass"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:hint="请再次填写您的支付密码"
+            android:hint="请填写您的支付密码"
             android:inputType="textPassword" />
          <View
             android:layout_width="match_parent"
@@ -110,5 +75,6 @@
             android:background="@drawable/btn_orange_round"
             android:text="提交" />
     </LinearLayout>
+    
 
 </LinearLayout>

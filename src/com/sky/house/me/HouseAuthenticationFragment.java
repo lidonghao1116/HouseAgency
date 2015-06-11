@@ -5,6 +5,7 @@ import java.io.File;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -34,6 +35,8 @@ import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
+import com.sky.house.widget.ExampleDialog;
+import com.sky.house.widget.ExampleDialog.ExampleDialogOnClick;
 import com.sky.widget.SHDialog;
 import com.sky.widget.SHDialog.DialogItemClickListener;
 import com.sky.widget.SHToast;
@@ -56,7 +59,7 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 	@ViewInit(id = R.id.rl_upload, onClick = "onClick")
 	private RelativeLayout rlUpload;
 	
-	@ViewInit(id = R.id.tv_upload)
+	@ViewInit(id = R.id.tv_upload,onClick = "onClick")
 	private TextView tvStateName;
 	
 	@ViewInit(id = R.id.tv_state)
@@ -138,6 +141,16 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 			break;
 		case R.id.rl_upload:
 			modifyPhoto();
+			break;
+		case R.id.tv_upload:
+			new ExampleDialog(getActivity(), R.drawable.img_card_example, new ExampleDialogOnClick() {
+
+				@Override
+				public void exampleOnClick(Dialog d) {
+					// TODO Auto-generated method stub
+					d.dismiss();
+				}
+			}).show();
 			break;
 		case R.id.iv_question:
 			if(tvTips.getVisibility()== View.INVISIBLE){
@@ -249,7 +262,8 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 				ImageLoaderUtil.displayImage(json.getString("picUrl"), imgCard);
 				imgCard.setVisibility(View.VISIBLE);
 				tvStateName.setText("证件审核");
-				tvState.setCompoundDrawables(null, null, null, null);
+				tvStateName.setEnabled(false);
+				tvStateName.setCompoundDrawables(null, null, null, null);
 				tvState.setText(json.optString("auditStatusName"));
 				etCard.setText(json.optString("identityNo"));
 				etName.setText(json.optString("userRealName"));

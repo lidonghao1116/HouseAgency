@@ -95,6 +95,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 	private TextView tvSunPoints;
 
 	private SHPostTaskM taskUserinfo,uploadTask,taskBalance;
+	private JSONObject mResultBalance = new JSONObject();
 
 	private final int TAKE_PICTURE = 0;// 拍照
 	private final int CHOOSE_PICTURE = 1;// 相册
@@ -169,7 +170,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 		int star  = Integer.parseInt(object.getString("star"));
 		llLandlord.removeAllViews();
 		for (int i = 0; i < sun; i++) {
-			llLandlord.addView(getImageView(R.drawable.img_diamond));
+			llLandlord.addView(getImageView(R.drawable.img_sun));
 		}
 		for (int j = 0; j < diamond; j++) {
 			llLandlord.addView(getImageView(R.drawable.img_diamond));
@@ -189,7 +190,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 		int star  = Integer.parseInt(object.getString("star"));
 		llRenant.removeAllViews();
 		for (int i = 0; i < sun; i++) {
-			llRenant.addView(getImageView(R.drawable.img_diamond));
+			llRenant.addView(getImageView(R.drawable.img_sun));
 		}
 		for (int j = 0; j < diamond; j++) {
 			llRenant.addView(getImageView(R.drawable.img_diamond));
@@ -221,6 +222,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			break;
 		case R.id.rl_balance:
 			intent.putExtra("class", HouseBalanceFragment.class.getName());
+			intent.putExtra("detail", mResultBalance.toString());
 			startActivity(intent);
 			break;
 		case R.id.rl_points:
@@ -347,9 +349,9 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			craetLandlord(json);
 			craetTenant(json);
 		}else if(task == taskBalance){
-			JSONObject json = (JSONObject) task.getResult();
-			tvBalance.setText(json.optDouble("amount")+"");
-			tvSunPoints.setText(json.optInt("sunnyAmt")+"");
+			mResultBalance = (JSONObject) task.getResult();
+			tvBalance.setText(mResultBalance.optDouble("amount")+"");
+			tvSunPoints.setText(mResultBalance.optInt("sunnyAmt")+"");
 		}
 	}
 	@Override

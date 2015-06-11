@@ -62,96 +62,19 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 					requestCollectClear();
 				}
 			});
-			listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-					intent.putExtra("class", HouseDetailFragment.class.getName());
-					try {
-						intent.putExtra("id", jsonArray.getJSONObject(position).getInt("houseDetailId"));
-						intent.putExtra("name", jsonArray.getJSONObject(position).getString("houseName"));
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					startActivity(intent);
-				}
-			});
 			
 			break;
 		case HouseListAdapter.FLAG_STATE_LIST_TENANT:
 			listView.setTipsMessage("暂时还没有您的租房信息哦！加油...");
-			listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					try {
-						JSONObject object  = jsonArray.getJSONObject(position);
-						Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-						if(object.getInt("orderStatus")>=50){
-							intent.putExtra("class", HouseRentalDetailFragment.class.getName());
-							intent.putExtra("orderId", object.getInt("orderId"));
-							intent.putExtra("orderStatus", object.getInt("orderStatus"));
-							intent.putExtra("type", type);
-							startActivity(intent);
-						}
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			});
+			
 			break;
 		case HouseListAdapter.FLAG_STATE_LIST_LANDLORD:
 			listView.setTipsMessage("暂时还没有您的租房信息哦！加油...");
-			listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					try {
-						JSONObject object  = jsonArray.getJSONObject(position);
-						Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-						if(object.getInt("orderStatus")>=50){
-							intent.putExtra("class", HouseRentalDetailFragment.class.getName());
-							intent.putExtra("orderId", object.getInt("orderId"));
-							intent.putExtra("orderStatus", object.getInt("orderStatus"));
-							intent.putExtra("type", type);
-							startActivity(intent);
-						}
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			});
+			
 			break;
 		case HouseListAdapter.FLAG_STATE_LIST_COMPLAINT:
 			listView.setTipsMessage("沟通一定能解决很多问题，您保持的很好哦！32个赞...");
-			listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					try {
-						Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-						intent.putExtra("class", HouseDetailFragment.class.getName());
-						intent.putExtra("id", jsonArray.getJSONObject(position).getInt("houseDetailId"));
-						intent.putExtra("name", jsonArray.getJSONObject(position).getString("houseName"));
-						startActivity(intent);
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			});
+			
 			mAdapter.setItemButtonSelectListener(new HouseListAdapter.ItemButtonSelectListencr() {
 
 				@Override
@@ -172,8 +95,27 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			});
 			break;
 		}
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+				intent.putExtra("class", HouseDetailFragment.class.getName());
+				try {
+					intent.putExtra("id", jsonArray.getJSONObject(position).getInt("houseDetailId"));
+					intent.putExtra("name", jsonArray.getJSONObject(position).getString("houseName"));
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				startActivity(intent);
+			}
+		});
 		requestMessage();
 	}
+	
 	private void requestMessage(){
 		taskMessage = new SHPostTaskM();
 		switch (type) {

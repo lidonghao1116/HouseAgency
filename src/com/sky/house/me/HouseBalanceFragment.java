@@ -1,6 +1,10 @@
 package com.sky.house.me;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +14,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
+import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.CommonUtil;
+import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ViewInit;
+import com.next.intf.ITaskListener;
+import com.next.net.SHPostTaskM;
+import com.next.net.SHTask;
 import com.sky.house.R;
+import com.sky.widget.sweetdialog.SweetDialog;
+import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
 
 public class HouseBalanceFragment extends BaseFragment implements
-		OnClickListener {
+OnClickListener,ITaskListener {
 
 	@ViewInit(id = R.id.rl_acconut, onClick = "onClick")
 	private RelativeLayout rlAccount;
@@ -23,13 +35,20 @@ public class HouseBalanceFragment extends BaseFragment implements
 	private RelativeLayout rlBank;
 	@ViewInit(id = R.id.rl_frozen, onClick = "onClick")
 	private RelativeLayout rlFrozen;
-	
+
 	@ViewInit(id = R.id.tv_account)
 	private TextView tvAccount;
 	@ViewInit(id = R.id.tv_bank)
 	private TextView tvBank;
 	@ViewInit(id = R.id.tv_frozen)
 	private TextView tvFrozen;
+
+	private JSONObject mResultBalance = new JSONObject();
+	
+	private SHPostTaskM taskHasPass;
+	
+	private boolean isSetPass;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -52,6 +71,30 @@ public class HouseBalanceFragment extends BaseFragment implements
 				startActivity(intent);
 			}
 		});
+
+		try {
+			mResultBalance  = new JSONObject(getActivity().getIntent().getStringExtra("detail"));
+			//			tvAccount.setText(mResultBalance.optDouble("amount")+"");
+			//			tvBank.setText(mResultBalance.optInt("sunnyAmt")+"");
+			tvFrozen.setText(mResultBalance.optDouble("frozenAmt")+"");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	private void requestHasPass(){
+		
+		taskHasPass = new SHPostTaskM();
+		taskHasPass.setUrl(ConfigDefinition.URL + "GetUserIsSetPayPassword");
+		taskHasPass.setListener(this);
+		taskHasPass.start();
+	}
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		requestHasPass();
 	}
 
 	@Override
@@ -60,15 +103,43 @@ public class HouseBalanceFragment extends BaseFragment implements
 		Intent intent  = new Intent(getActivity(),SHContainerActivity.class);
 		switch (v.getId()) {
 		case R.id.rl_acconut:
-
+			intent.putExtra("class",HouseCardList.class.getName());
 			break;
 		case R.id.rl_bank:
-
+			if(isSetPass){
+				intent.putExtra("class",HouseCardList.class.getName());
+				intent.putExtra("detail", mResultBalance.toString());
+				startActivity(intent);
+			}else{
+				intent.putExtra("class", HouseChangePayPassword.class.getName());
+				startActivity(intent);
+			}
 			break;
 		case R.id.rl_frozen:
 
 			break;
 		}
+	}
+	@Override
+	public void onTaskFinished(SHTask task) throws Exception {
+		// TODO Auto-generated method stub
+		JSONObject object  = (JSONObject) task.getResult() ;
+		isSetPass  = object.getInt("isSet")==0?false:true;
+	}
+	@Override
+	public void onTaskFailed(SHTask task) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onTaskUpdateProgress(SHTask task, int count, int total) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onTaskTry(SHTask task) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
