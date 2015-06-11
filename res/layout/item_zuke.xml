@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp" >
+
+    <TextView
+        android:id="@+id/tv_time"
+        style="@style/TextSmallBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2015-08-08 12:00:00" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/TextMidGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="租客" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/TextMidOrange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="王先生" />
+
+        <TextView
+            style="@style/TextMidGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="支付订金" />
+
+        <TextView
+            android:id="@+id/tv_money"
+            style="@style/TextMidOrange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="550元" 
+            android:layout_weight="1"/>
+        
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextMidWhite"
+            android:text="确认订金"
+            android:background="@drawable/btn_orange_round"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/color_gray_light" />
+
+</LinearLayout>

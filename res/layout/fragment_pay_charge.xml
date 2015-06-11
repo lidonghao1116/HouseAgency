@@ -128,176 +128,204 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_pay_zuke"
+        android:id="@+id/ll_step_pay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/item_house_list" />
-
-        <TextView
-            android:id="@+id/tv_yuyue_money"
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_margin="10dp"
-            android:text="10%房屋预约金：¥550.00" />
+        android:orientation="vertical" 
+        android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/ll_pay_zuke"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom|right"
-            android:orientation="horizontal"
-            android:paddingRight="10dp" >
+            android:orientation="vertical" >
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/item_house_list" />
 
             <TextView
+                android:id="@+id/tv_yuyue_money"
                 style="@style/TextMidGray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="实付款：" />
-
-            <TextView
-                android:id="@+id/tv_yingfu"
-                style="@style/TextBigOrange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="¥550.00" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/color_gray_light" />
-
-        <RelativeLayout
-            android:id="@+id/rl_pay_1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-             >
-
-            <TextView
-                android:id="@+id/label_1"
-                style="@style/TextMicroGray"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:drawableLeft="@drawable/ic_tip"
-                android:text="订金只是预约作用，不会直接进入出租方账户，请放心支付！" />
-
-            <Button
-                android:id="@+id/btn_pay"
-                style="@style/TextBigWhite"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/label_1"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/btn_orange_round"
-                android:text="支付订金" />
-
-            <ImageView
-                android:id="@+id/iv_question"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/btn_pay"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/btn_pay"
-                android:background="@drawable/ic_question"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp" />
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                android:text="10%房屋预约金：¥550.00" />
 
             <LinearLayout
-                android:id="@+id/ll_tips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/btn_pay"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:visibility="gone" >
+                android:gravity="bottom|right"
+                android:orientation="horizontal"
+                android:paddingRight="10dp" >
 
-                <LinearLayout
-                    android:id="@+id/ll_1"
-                    android:layout_width="match_parent"
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:text="实付款：" />
 
-                    <TextView
-                        style="@style/TextMicroOrange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1." />
-
-                    <TextView
-                        style="@style/TextMicroOrange"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/str_contact_1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_2"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_yingfu"
+                    style="@style/TextBigOrange"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        style="@style/TextMicroOrange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2." />
-
-                    <TextView
-                        style="@style/TextMicroOrange"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/str_contact_2" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        style="@style/TextMicroOrange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3." />
-
-                    <TextView
-                        style="@style/TextMicroOrange"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/str_contact_3" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        style="@style/TextMicroOrange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4." />
-
-                    <TextView
-                        style="@style/TextMicroOrange"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/str_contact_4" />
-                </LinearLayout>
+                    android:text="¥550.00" />
             </LinearLayout>
-        </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/color_gray_light" />
+
+            <RelativeLayout
+                android:id="@+id/rl_pay_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/label_1"
+                    style="@style/TextMicroGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:drawableLeft="@drawable/ic_tip"
+                    android:text="订金只是预约作用，不会直接进入出租方账户，请放心支付！" />
+
+                <Button
+                    android:id="@+id/btn_pay"
+                    style="@style/TextBigWhite"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/label_1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/btn_orange_round"
+                    android:text="支付订金" />
+
+                <ImageView
+                    android:id="@+id/iv_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/btn_pay"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/btn_pay"
+                    android:background="@drawable/ic_question"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_pay"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+
+                    <LinearLayout
+                        android:id="@+id/ll_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            style="@style/TextMicroOrange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1." />
+
+                        <TextView
+                            style="@style/TextMicroOrange"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_contact_1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            style="@style/TextMicroOrange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2." />
+
+                        <TextView
+                            style="@style/TextMicroOrange"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_contact_2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            style="@style/TextMicroOrange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3." />
+
+                        <TextView
+                            style="@style/TextMicroOrange"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_contact_3" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            style="@style/TextMicroOrange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4." />
+
+                        <TextView
+                            style="@style/TextMicroOrange"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/str_contact_4" />
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/lv_zuke"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:listSelector="@color/color_full_transparent"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_step_agreement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <ImageView
+            android:id="@+id/iv_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/img_agreement_test"
+            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 
 </LinearLayout>

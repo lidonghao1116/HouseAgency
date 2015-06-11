@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHApplication;
@@ -87,12 +89,27 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 	
 	@ViewInit(id = R.id.tv_yingfu)
 	private TextView mTvYingFu;
+	
+	@ViewInit(id = R.id.rl_pay_1)
+	private RelativeLayout mRlPay;
+	
+	@ViewInit(id = R.id.lv_zuke)
+	private ListView mLvZuke;//确认订金列表
+	
+	@ViewInit(id = R.id.ll_step_pay)
+	private LinearLayout mLlStepPay;
+	
+	@ViewInit(id = R.id.ll_step_agreement)
+	private LinearLayout mLlStepAgreement;
+	
+	private int identification;//0:默认房客  1:房东
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 		mDetailTitlebar.setTitle("支付订金");
+		identification = getActivity().getIntent().getIntExtra("identification", 0);
 		requestData();
 	}
 
@@ -156,6 +173,8 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		int status = json.getInt("orderStatus");
 		switch (status) {
 		case 0:// 初始
+			mLlStepAgreement.setVisibility(View.GONE);
+			mLlStepPay.setVisibility(View.VISIBLE);
 			mBtnPay.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -166,16 +185,27 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			});
 			break;
 		case 10://已支付订金，等待确认
-			mTvLabel.setText("我们已通知出租方尽快确认，请稍等哦～");
-			mBtnPay.setText("取回订金");
-			mBtnPay.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
+			mLlStepAgreement.setVisibility(View.GONE);
+			mLlStepPay.setVisibility(View.VISIBLE);
+			if(identification == 0){//房客
+				mTvLabel.setText("我们已通知出租方尽快确认，请稍等哦～");
+				mBtnPay.setText("取回订金");
+				mBtnPay.setOnClickListener(new OnClickListener() {
 					
-				}
-			});
+					@Override
+					public void onClick(View arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+			}else{//房东
+				mRlPay.setVisibility(View.GONE);
+				mLvZuke.setVisibility(View.VISIBLE);
+			}
+			break;
+		case 20://已确认定金 待完善合同
+			mLlStepPay.setVisibility(View.GONE);
+			mLlStepAgreement.setVisibility(View.VISIBLE);
 			break;
 		}
 
