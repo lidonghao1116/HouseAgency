@@ -3,6 +3,7 @@ package com.sky.house.resource.publish;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.eroad.base.BaseFragment;
@@ -19,6 +20,14 @@ public class HouseAgreementFragment extends BaseFragment {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 		mDetailTitlebar.setTitle("合同");
+		mDetailTitlebar.setRightButton1("提交", new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	@Override

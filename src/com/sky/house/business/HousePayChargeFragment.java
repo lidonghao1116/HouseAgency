@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -28,6 +30,7 @@ import com.alipay.android.app.sdk.AliPay;
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ImageLoaderUtil;
 import com.eroad.base.util.ViewInit;
@@ -38,6 +41,8 @@ import com.sky.car.pay.ali.Keys;
 import com.sky.car.pay.ali.Result;
 import com.sky.car.pay.ali.Rsa;
 import com.sky.house.R;
+import com.sky.house.me.HouseChangePayPassword;
+import com.sky.house.me.HouseRentPieChartFragment;
 import com.sky.widget.SHDialog;
 import com.sky.widget.SHDialog.DialogItemClickListener;
 import com.sky.widget.SHToast;
@@ -121,10 +126,16 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 	
 	private int identification;//0:默认房客  1:房东
 	
+	private boolean isSetPass;//是否设置过密码
+	
 	private static final int RQF_PAY = 1;
 	private static final int RQF_LOGIN = 2;
 	
-	private SHPostTaskM takebackTask,accountTask;//取回订金  //个人帐户
+	private SHPostTaskM takebackTask,accountTask,getOrderIdTask,taskHasPass,payTask;//取回订金  //个人帐户
+	
+	private double payMoney;
+	
+	private String orderId;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -133,6 +144,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		mDetailTitlebar.setTitle("支付订金");
 		identification = getActivity().getIntent().getIntExtra("identification", 0);
 		requestData();
+		requestHasPass();
 	}
 
 	@Override
@@ -159,6 +171,13 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		orderTask.setUrl(ConfigDefinition.URL + "PayDownDetail");
 		orderTask.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
 		orderTask.start();
+	}
+	
+	private void requestHasPass(){
+		taskHasPass = new SHPostTaskM();
+		taskHasPass.setUrl(ConfigDefinition.URL + "GetUserIsSetPayPassword");
+		taskHasPass.setListener(this);
+		taskHasPass.start();
 	}
 
 	private void initView() throws JSONException {
@@ -212,6 +231,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
+//					requestOrderId();//调用接口获取某个编号作为orderid
 					requestAccount();
 				}
 			});
@@ -230,7 +250,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 						SHDialog.ShowProgressDiaolg(getActivity(), null);
 						takebackTask = new SHPostTaskM();
 						takebackTask.setListener(HousePayChargeFragment.this);
-						takebackTask.setUrl(ConfigDefinition.URL+"PayDownConfirm");
+						takebackTask.setUrl(ConfigDefinition.URL+"PayDownCancel");
 						takebackTask.getTaskArgs().put("orderId", json.optInt("orderId"));
 						takebackTask.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
 						takebackTask.getTaskArgs().put("payMoney", json.optString("appointmentAmt").substring(1));
@@ -265,6 +285,16 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 
 	}
 	
+	private void requestOrderId(){
+		getOrderIdTask = new SHPostTaskM();
+		getOrderIdTask.setListener(this);
+		getOrderIdTask.setUrl(ConfigDefinition.URL+"AlipayOptInfoAdd");
+		getOrderIdTask.getTaskArgs().put("orderId", json.optInt("orderId"));
+		getOrderIdTask.getTaskArgs().put("payAmt", payMoney);
+		getOrderIdTask.getTaskArgs().put("optType", 1);//1;订金
+		getOrderIdTask.start();
+	}
+	
 	private void requestAccount(){
 		SHDialog.ShowProgressDiaolg(getActivity(), null);
 		accountTask = new SHPostTaskM();
@@ -273,9 +303,9 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		accountTask.start();
 	}
 	
-	private void pay(double payMoney){
+	private void pay(){
 		try {
-			String info = getNewOrderInfo(payMoney);
+			String info = getNewOrderInfo();
 			String sign = Rsa.sign(info, Keys.PRIVATE);
 			sign = URLEncoder.encode(sign);
 			info += "&sign=\"" + sign + "\"&" + getSignType();
@@ -339,12 +369,12 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		};
 	};
 	
-	private String getNewOrderInfo(double payMoney) throws JSONException {
+	private String getNewOrderInfo() throws JSONException {
 		StringBuilder sb = new StringBuilder();
 		sb.append("partner=\"");
 		sb.append(Keys.DEFAULT_PARTNER);
 		sb.append("\"&out_trade_no=\"");
-		sb.append(json.optInt("orderId"));
+		sb.append(orderId);
 		sb.append("\"&subject=\"");
 		sb.append("阳光租房");
 		sb.append("\"&body=\"");
@@ -392,6 +422,46 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 						// TODO Auto-generated method stub
 						if(result.equals(items[0])){
 							//调用支付接口
+							if(!isSetPass){
+								Intent intent  = new Intent(getActivity(),SHContainerActivity.class);
+								intent.putExtra("class", HouseChangePayPassword.class.getName());
+								startActivity(intent);
+							}else{
+								final Dialog dilogPass = new Dialog(getActivity(),R.style.dialog);
+								dilogPass.setContentView(R.layout.dialog_input_password);
+								final EditText etPass = (EditText) dilogPass.findViewById(R.id.et_password);
+								Button btnCancel = (Button) dilogPass.findViewById(R.id.btn_cancle);
+								Button btnConfirm = (Button) dilogPass.findViewById(R.id.btn_confirm);
+								dilogPass.show();
+								btnCancel.setOnClickListener(new OnClickListener() {
+									
+									@Override
+									public void onClick(View arg0) {
+										// TODO Auto-generated method stub
+										dilogPass.dismiss();
+									}
+								});
+								btnConfirm.setOnClickListener(new OnClickListener() {
+									
+									@Override
+									public void onClick(View arg0) {
+										// TODO Auto-generated method stub
+										if(etPass.getText().toString().trim().length() == 0){
+											SHToast.showToast(getActivity(), "请输入密码");
+											return;
+										}
+										SHDialog.ShowProgressDiaolg(getActivity(), null);
+										payTask = new SHPostTaskM();
+										payTask.setListener(HousePayChargeFragment.this);
+										payTask.setUrl(ConfigDefinition.URL+"PayDownEvent");
+										payTask.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
+										payTask.getTaskArgs().put("payMoney", json.optString("appointmentAmt").substring(1));
+										payTask.getTaskArgs().put("orderId", orderId);
+										payTask.getTaskArgs().put("password", CommonUtil.encodeMD5(etPass.getText().toString().trim()));
+										payTask.start();
+									}
+								});
+							}
 						}
 					}
 				});
@@ -404,12 +474,21 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 						// TODO Auto-generated method stub
 						if(result.equals(items[0])){
 							//调用支付接口
-							double payMoney = Double.valueOf(json.optString("appointmentAmt").substring(1)) - Double.valueOf(String.valueOf(accountJson.optInt("amount")));
-							pay(payMoney);
+							payMoney = Double.valueOf(json.optString("appointmentAmt").substring(1)) - Double.valueOf(String.valueOf(accountJson.optInt("amount")));
+							requestOrderId();
 						}
 					}
 				});
 			}
+		}else if(task == getOrderIdTask){
+			JSONObject jsonObj = (JSONObject) task.getResult();
+			orderId = jsonObj.getString("requestNo");
+			pay();
+		}else if(task == taskHasPass){
+			JSONObject jsonObj = (JSONObject) task.getResult();
+			isSetPass  = jsonObj.getInt("isSet")==0?false:true;
+		}else if(task == payTask){
+			requestData();
 		}
 	}
 

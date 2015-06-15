@@ -89,7 +89,7 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 	
 	private JSONObject json;
 	
-	private int pageType;//0:联系看房   1:房东信息
+	private int pageType;//0:联系看房   1:房东信息  2:房客
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {

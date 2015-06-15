@@ -190,7 +190,17 @@
         style="@style/TextMidGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="备注" 
-        android:padding="5dp"/>
+        android:padding="5dp"
+        android:text="备注" />
+
+    <EditText
+        android:id="@+id/et_beizhu"
+        style="@style/TextMidBlack"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="5dp"
+        android:hint="选填"
+        android:padding="5dp" 
+        android:gravity="top"/>
 
 </LinearLayout>
