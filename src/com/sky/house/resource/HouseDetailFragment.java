@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
+import com.eroad.base.util.ImageLoaderUtil;
 import com.eroad.base.util.ViewInit;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
@@ -108,6 +110,9 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 	@ViewInit(id = R.id.tv_address)
 	private TextView mTvAddress;
+	
+	@ViewInit(id = R.id.iv_map)
+	private ImageView mIvMap;
 
 	@ViewInit(id = R.id.btn_collect, onClick = "onClick")
 	private Button mBtnCollect;
@@ -219,6 +224,12 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			}
 			break;
 		case R.id.btn_contact:
+			if(CommonUtil.isEmpty(SHEnvironment.getInstance().getSession())){
+				Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+				intent.putExtra("class", HouseLoginFragment.class.getName());
+				startActivity(intent);
+				return;
+			}
 			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 			intent.putExtra("class", HouseContactFragment.class.getName());
 			intent.putExtra("name", getActivity().getIntent().getStringExtra("name"));
@@ -288,6 +299,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			mTvArea.setText(json.getString("zoneArea"));
 			mTvAddress.setText(json.getString("address"));
 			mTvReadTimes.setText(json.getString("browseCount"));
+			ImageLoaderUtil.displayImage(json.optString("addressImgUrl"), mIvMap);
 			JSONArray teseArray = json.getJSONArray("houseFeature");
 			String[] items_tese = getActivity().getResources().getStringArray(R.array.array_tese);
 			for (int i = 0; i < teseArray.length(); i++) {

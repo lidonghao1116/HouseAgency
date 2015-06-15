@@ -13,6 +13,6 @@
         android:layout_height="@dimen/actionbar_height"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:text="1000-3000" />
+        android:text="" />
 
 </RelativeLayout>

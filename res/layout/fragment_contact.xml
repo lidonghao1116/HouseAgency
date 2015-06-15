@@ -66,7 +66,7 @@
                 <LinearLayout
                     android:id="@+id/ll_credit"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_alignBottom="@id/label_credit"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/label_credit"
@@ -284,168 +284,246 @@
                 android:background="@color/color_gray_light" />
 
             <LinearLayout
+                android:id="@+id/ll_contact"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/tv_phone"
-                    style="@style/TextMidGray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_phone"
-                    android:drawablePadding="5dp"
-                    android:text="40088888888" />
-
-                <Button
-                    android:id="@+id/btn_contact"
-                    style="@style/TextMidOrange"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/stroke_orange_round"
-                    android:drawableLeft="@drawable/ic_one"
-                    android:drawablePadding="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="联系看房" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/color_gray_light" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp" >
-
-                <TextView
-                    android:id="@+id/label_1"
-                    style="@style/TextMicroGray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:drawableLeft="@drawable/ic_tip"
-                    android:text="为保护真实房东隐私和防止骚扰，电话将转接给房东！" />
-
-                <Button
-                    android:id="@+id/btn_pay"
-                    style="@style/TextBigOrange"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_below="@id/label_1"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/stroke_orange_round"
-                    android:drawableLeft="@drawable/ic_two"
-                    android:drawablePadding="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="预付订金" />
-
-                <ImageView
-                    android:id="@+id/iv_question"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/btn_pay"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/btn_pay"
-                    android:background="@drawable/ic_question"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible" >
 
                 <LinearLayout
-                    android:id="@+id/ll_tips"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/btn_pay"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:visibility="gone" >
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
 
-                    <LinearLayout
-                        android:id="@+id/ll_1"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_phone"
+                        style="@style/TextMidGray"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
+                        android:drawableLeft="@drawable/ic_phone"
+                        android:drawablePadding="5dp"
+                        android:text="40088888888" />
 
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1." />
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_contact_1" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/ll_1"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2." />
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_contact_2" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/ll_2"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3." />
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_contact_3" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/ll_3"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4." />
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_contact_4" />
-                    </LinearLayout>
+                    <Button
+                        android:id="@+id/btn_contact"
+                        style="@style/TextMidOrange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/stroke_orange_round"
+                        android:drawableLeft="@drawable/ic_one"
+                        android:drawablePadding="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="联系看房" />
                 </LinearLayout>
-            </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/color_gray_light" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/label_1"
+                        style="@style/TextMicroGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:drawableLeft="@drawable/ic_tip"
+                        android:text="为保护真实房东隐私和防止骚扰，电话将转接给房东！" />
+
+                    <Button
+                        android:id="@+id/btn_pay"
+                        style="@style/TextBigOrange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_below="@id/label_1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/stroke_orange_round"
+                        android:drawableLeft="@drawable/ic_two"
+                        android:drawablePadding="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="预付订金" />
+
+                    <ImageView
+                        android:id="@+id/iv_question"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/btn_pay"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/btn_pay"
+                        android:background="@drawable/ic_question"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_tips"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/btn_pay"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:visibility="gone" >
+
+                        <LinearLayout
+                            android:id="@+id/ll_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                style="@style/TextMicroOrange"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1." />
+
+                            <TextView
+                                style="@style/TextMicroOrange"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/str_contact_1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ll_1"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                style="@style/TextMicroOrange"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2." />
+
+                            <TextView
+                                style="@style/TextMicroOrange"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/str_contact_2" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ll_2"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                style="@style/TextMicroOrange"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="3." />
+
+                            <TextView
+                                style="@style/TextMicroOrange"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/str_contact_3" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ll_3"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                style="@style/TextMicroOrange"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="4." />
+
+                            <TextView
+                                style="@style/TextMicroOrange"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/str_contact_4" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_renzhen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_renzhen"
+                        style="@style/TextMidGray"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/img_renzhen"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:text="租客认证信息" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_gray_light" />
+
+                    <TextView
+                        android:id="@+id/tv_phone"
+                        style="@style/TextMidGray"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_phone"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:text="40088888888" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/color_gray_light" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp" >
+
+                    <TextView
+                        android:id="@+id/label_1"
+                        style="@style/TextMicroGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:drawableLeft="@drawable/ic_tip"
+                        android:text="承租方信息仅供租房证实之用，请勿用作它途，否则严惩诉至法律！" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_identi"
+                    android:layout_width="200dp"
+                    android:layout_height="120dp"
+                    android:scaleType="fitCenter" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

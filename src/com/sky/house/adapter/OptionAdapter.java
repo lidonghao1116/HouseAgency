@@ -15,16 +15,18 @@ import com.sky.house.R;
 public class OptionAdapter extends BaseAdapter {
 	private Context context;
 	private JSONArray jsonArray;
+	private String[] str;
 
-	public OptionAdapter(Context context) {
+	public OptionAdapter(Context context,String[] str) {
 		super();
 		this.context = context;
+		this.str = str;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 6;
+		return str.length;
 	}
 
 	@Override
@@ -46,10 +48,12 @@ public class OptionAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = LayoutInflater.from(context).inflate(R.layout.item_option, null);
 			holder = new ViewHolder();
+			holder.tvItem = (TextView) convertView.findViewById(R.id.tv_option);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+		holder.tvItem.setText(str[pos]);
 		return convertView;
 	}
 

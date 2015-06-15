@@ -18,6 +18,16 @@
         <item>五居</item>
         <item>五居以上</item>
     </string-array>
+    
+    <string-array name="array_money">
+        <item>1000以下</item>
+        <item>1000-2000</item>
+        <item>2000-3000</item>
+        <item>3000-5000</item>
+        <item>5000-8000</item>
+        <item>8000以上</item>
+    </string-array>
+    
     <string-array name="array_fangshi">
         <item>不限</item>
         <item>整租</item>

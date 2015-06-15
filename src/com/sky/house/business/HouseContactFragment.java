@@ -81,14 +81,33 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 	@ViewInit(id = R.id.btn_contact,onClick = "onClick")
 	private Button mBtnContact;
 	
+	@ViewInit(id = R.id.ll_contact)
+	private LinearLayout mLlContact;
+	
+	@ViewInit(id = R.id.ll_renzhen)
+	private LinearLayout mLlRenzheng;
+	
 	private JSONObject json;
+	
+	private int pageType;//0:联系看房   1:房东信息
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 		mDetailTitlebar.setTitle(getActivity().getIntent().getStringExtra("name"));
-		request();
+		pageType = getActivity().getIntent().getIntExtra("pageType", 0);
+		switch(pageType){
+		case 0:
+			mLlRenzheng.setVisibility(View.GONE);
+			mLlContact.setVisibility(View.VISIBLE);
+			request();
+			break;
+		case 1:
+			mLlContact.setVisibility(View.GONE);
+			mLlRenzheng.setVisibility(View.VISIBLE);
+			break;
+		}
 	}
 
 	@Override
