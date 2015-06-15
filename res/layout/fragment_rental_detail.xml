@@ -307,7 +307,7 @@
                         android:background="@drawable/bg_gray_round_corner"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
-                        android:text="退杂费" />
+                        android:text="--" />
 
                     <Button
                         android:id="@+id/btn_bottom_right"
@@ -320,7 +320,7 @@
                         android:background="@drawable/btn_orange_round"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
-                        android:text="提醒交租" />
+                        android:text="--" />
                 </RelativeLayout>
         </LinearLayout>
     </ScrollView>

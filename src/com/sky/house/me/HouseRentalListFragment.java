@@ -62,35 +62,93 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 					requestCollectClear();
 				}
 			});
-			
+
 			break;
 		case HouseListAdapter.FLAG_STATE_LIST_TENANT:
 			listView.setTipsMessage("暂时还没有您的租房信息哦！加油...");
-			
+			mAdapter.setItemButtonSelectListener(new HouseListAdapter.ItemButtonSelectListencr() {
+
+				@Override
+				public void setRightButtonOnselect(int complaintId, JSONObject object) {
+					// TODO Auto-generated method stub
+					try {
+						Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+						if(object.getInt("orderStatus")>=50){
+							intent.putExtra("class", HouseRentalDetailFragment.class.getName());
+							intent.putExtra("orderId", object.getInt("orderId"));
+							intent.putExtra("orderStatus", object.getInt("orderStatus"));
+							intent.putExtra("type", type);
+							startActivity(intent);
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+
+				@Override
+				public void setLeftButtonOnselect(int complaintId, JSONObject object) {
+					// TODO Auto-generated method stub
+
+				}
+			});
 			break;
 		case HouseListAdapter.FLAG_STATE_LIST_LANDLORD:
 			listView.setTipsMessage("暂时还没有您的租房信息哦！加油...");
-			
+			mAdapter.setItemButtonSelectListener(new HouseListAdapter.ItemButtonSelectListencr() {
+
+				@Override
+				public void setRightButtonOnselect(int complaintId, JSONObject object) {
+					// TODO Auto-generated method stub
+					try {
+						Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+						if(object.getInt("orderStatus")>=50){
+							intent.putExtra("class", HouseRentalDetailFragment.class.getName());
+							intent.putExtra("orderId", object.getInt("orderId"));
+							intent.putExtra("orderStatus", object.getInt("orderStatus"));
+							intent.putExtra("type", type);
+							startActivity(intent);
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+
+				@Override
+				public void setLeftButtonOnselect(int complaintId, JSONObject object) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+
 			break;
 		case HouseListAdapter.FLAG_STATE_LIST_COMPLAINT:
 			listView.setTipsMessage("沟通一定能解决很多问题，您保持的很好哦！32个赞...");
-			
+
 			mAdapter.setItemButtonSelectListener(new HouseListAdapter.ItemButtonSelectListencr() {
 
 				@Override
 				public void setRightButtonOnselect(int complaintId,JSONObject object) {
 					// TODO Auto-generated method stub
-					taskComplain =  new SHPostTaskM() ;
-					taskComplain.setUrl(ConfigDefinition.URL+"UpdateUserComplaintStatus");
-					taskComplain.getTaskArgs().put("complaintId", complaintId);
-					taskComplain.setListener(HouseRentalListFragment.this);
-					taskComplain.start();
+					try {
+						taskComplain =  new SHPostTaskM() ;
+						taskComplain.setUrl(ConfigDefinition.URL+"UpdateUserComplaintStatus");
+						taskComplain.getTaskArgs().put("complaintId", object.getInt("complaintId"));
+						taskComplain.setListener(HouseRentalListFragment.this);
+						taskComplain.start();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 
 				@Override
 				public void setLeftButtonOnselect(int complaintId,JSONObject object) {
 					// TODO Auto-generated method stub
-					
+
 				}
 			});
 			break;
@@ -115,7 +173,7 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 		});
 		requestMessage();
 	}
-	
+
 	private void requestMessage(){
 		taskMessage = new SHPostTaskM();
 		switch (type) {

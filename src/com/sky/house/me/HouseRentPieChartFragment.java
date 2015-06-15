@@ -2,19 +2,24 @@ package com.sky.house.me;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
+import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -24,14 +29,15 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Highlight;
 import com.github.mikephil.charting.utils.PercentFormatter;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
+import com.sky.house.adapter.HouseListAdapter;
 import com.sky.widget.SHDialog;
+import com.sky.widget.SHToast;
 import com.sky.widget.sweetdialog.SweetDialog;
 
 public class HouseRentPieChartFragment extends BaseFragment implements OnChartValueSelectedListener,ITaskListener{
@@ -39,7 +45,17 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 	private PieChart mChart;
 	private TextView tvTitleDeal;
 	private Button btnSubmit;
-	private SHPostTaskM taskSubmit;
+	private SHPostTaskM taskSubmit,taskHasPass,taskNextPay,taskRemind;
+	int type ;
+	private boolean isSetPass;
+	private Dialog dilogPass;
+
+	TextView tvDilogTitle ;
+	EditText etDilogMoney;
+	EditText etDilogPass;
+	Button btnDilogCancle;
+	Button btnDilogComfirm;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -56,16 +72,47 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		mDetailTitlebar.setTitle("租金详情");
+		type  = getActivity().getIntent().getIntExtra("type", HouseListAdapter.FLAG_HOUSE_LIST);
 		initPieDate();
-		btnSubmit.setOnClickListener(new View.OnClickListener() {
+		if(type  == HouseListAdapter.FLAG_STATE_LIST_LANDLORD){
+			btnSubmit.setText("提醒交租");
+			btnSubmit.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					taskRemind = new SHPostTaskM();
+					taskRemind.setUrl(ConfigDefinition.URL+"AlertPayRentAmt");
+					taskRemind.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
+					taskRemind.setListener(HouseRentPieChartFragment.this);
+					taskRemind.start();				}
+			});
+		}else{
+			btnSubmit.setText("交房租");
+			btnSubmit.setOnClickListener(new View.OnClickListener() {
 
-			}
-		});
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					PayNextRent(getActivity().getIntent().getIntExtra("nextPayAmt", 0), getActivity().getIntent().getIntExtra("nextPayMonths", 0));
+				}
+			});
+		}
+		
 		request();
+	}
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		requestHasPass();
+	}
+	private void requestHasPass(){
+
+		taskHasPass = new SHPostTaskM();
+		taskHasPass.setUrl(ConfigDefinition.URL + "GetUserIsSetPayPassword");
+		taskHasPass.setListener(this);
+		taskHasPass.start();
 	}
 	private void request(){
 		SHDialog.ShowProgressDiaolg(getActivity(), null);
@@ -166,9 +213,16 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
 		JSONObject mResult = (JSONObject) task.getResult() ;
-		
-		mChart.setCenterText("已交租金\n"+mResult.optDouble("payAmount")+"\n未交押金\n"+mResult.optDouble("unPayAmount"));
-		setData((float)mResult.optDouble("payAmount"), (float)mResult.optDouble("payAmount"));
+		if(task == taskSubmit){
+			tvTitleTime.setText(mResult.getString("tenantDate"));
+			tvTitleDeal.setText("已缴纳到"+mResult.getString("hasPayDate"));
+			mChart.setCenterText("已交租金\n"+mResult.optDouble("payAmount")+"\n未交押金\n"+mResult.optDouble("unPayAmount"));
+			setData((float)mResult.optDouble("payAmount"), (float)mResult.optDouble("payAmount"));
+		}else if(task == taskHasPass){
+			isSetPass  = mResult.getInt("isSet")==0?false:true;
+		}else if(task == taskRemind){
+			SHToast.showToast(getActivity(), "已成功发送提醒通知");
+		}
 	}
 	@Override
 	public void onTaskFailed(SHTask task) {
@@ -186,5 +240,66 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 	public void onTaskTry(SHTask task) {
 		// TODO Auto-generated method stub
 
+	}
+
+	private void PayNextRent(final int nextPayAmt ,final int nextMonths){
+		if(!isSetPass){
+			Intent intent  = new Intent(getActivity(),SHContainerActivity.class);
+			intent.putExtra("class", HouseChangePayPassword.class.getName());
+			startActivity(intent);
+		}else{
+
+			showDialog("交租金",false,nextPayAmt+"*"+nextMonths+"="+(nextPayAmt*nextMonths), new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					String pass = etDilogPass.getText().toString().trim();
+					if(pass.isEmpty()){
+						SHToast.showToast(getActivity(), "请输入密码");
+						return;
+					}
+					taskNextPay = new SHPostTaskM();
+					taskNextPay.setUrl(ConfigDefinition.URL+"PayNextRent");
+					taskNextPay.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
+					taskNextPay.getTaskArgs().put("password",CommonUtil.encodeMD5(pass));
+					taskNextPay.getTaskArgs().put("rentPay",nextPayAmt);
+					taskNextPay.getTaskArgs().put("payMonth",nextMonths);
+					taskNextPay.setListener(HouseRentPieChartFragment.this);
+					taskNextPay.start();
+					dismissDialog();
+				}
+			});
+		}
+	}
+	private void showDialog(String title,boolean enable,String content,View.OnClickListener confirmListener)
+	{
+		if(dilogPass== null){
+			dilogPass = new Dialog(getActivity(),R.style.dialog);
+			dilogPass.setContentView(R.layout.dialog_salary);
+			tvDilogTitle = (TextView) dilogPass.findViewById(R.id.tv_title);
+			etDilogMoney = (EditText) dilogPass.findViewById(R.id.et_money);
+			etDilogPass = (EditText) dilogPass.findViewById(R.id.et_password);
+			btnDilogCancle =(Button) dilogPass.findViewById(R.id.btn_cancle);
+			btnDilogComfirm =(Button) dilogPass.findViewById(R.id.btn_confirm);
+		}
+		dilogPass.show();
+
+		tvDilogTitle.setText(title);
+		etDilogMoney.setText(content);
+		etDilogMoney.setEnabled(enable);
+		btnDilogCancle.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				dismissDialog();
+			}
+		});
+		btnDilogComfirm.setOnClickListener(confirmListener);
+	}
+	private void dismissDialog(){
+		if(dilogPass != null){
+			dilogPass.dismiss();
+		}
 	}
 }

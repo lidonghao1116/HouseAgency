@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,19 +19,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eroad.base.SHApplication;
-import com.eroad.base.util.CommonUtil;
-import com.eroad.base.util.ConfigDefinition;
+import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.ImageLoaderUtil;
-import com.next.net.SHPostTaskM;
 import com.sky.house.R;
-import com.sky.widget.SHDialog;
+import com.sky.house.me.HouseRentalDetailFragment;
 import com.sky.widget.sweetdialog.SweetDialog;
 import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
 
 /**
  * @author yebaohua
  *
- *
+ *0初始状态 去支付定金
  *10 已付定金 --待确认定金
 20 已确认定金 --待完善合同
 30 已完善合同 --待确认合同
@@ -62,9 +59,9 @@ public class HouseListAdapter extends BaseAdapter {
 	public static final int FLAG_STATE_LIST_COMPLAINT = 3;// 房源状态列表 含有头部 投诉
 	private ItemButtonSelectListencr itemButtonSelectListener;
 	public interface ItemButtonSelectListencr{
-		public void setLeftButtonOnselect(int complaintId,JSONObject object);
+		public void setLeftButtonOnselect(int pos,JSONObject object);
 
-		public void setRightButtonOnselect(int complaintId,JSONObject object);
+		public void setRightButtonOnselect(int pos,JSONObject object);
 
 	}
 
@@ -107,7 +104,7 @@ public class HouseListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int pos, View convertView, ViewGroup arg2) {
+	public View getView(final int pos, View convertView, ViewGroup arg2) {
 		// TODO Auto-generated method stub
 		ViewHolder holder = null;
 		if (convertView == null) {
@@ -168,6 +165,10 @@ public class HouseListAdapter extends BaseAdapter {
 				if (this.flag == FLAG_STATE_LIST_TENANT) {//房客
 					holder.tvHouseState.setText(object.getString("orderStatusName"));
 					switch (object.getInt("orderStatus")) {
+					case 0://10 已付定金 --待确认定金
+						holder.btnRight.setText("等待定金");
+						holder.btnRight.setEnabled(false);
+						break;
 					case 10://10 已付定金 --待确认定金
 						holder.btnRight.setText("等待确认");
 						holder.btnRight.setEnabled(false);
@@ -192,14 +193,26 @@ public class HouseListAdapter extends BaseAdapter {
 							holder.btnRight.setVisibility(View.GONE);
 						}else{
 							holder.btnRight.setText("交易成功");
-							holder.btnRight.setEnabled(false);
+							holder.btnRight.setVisibility(View.VISIBLE);
+//							holder.btnRight.setEnabled(false);
 						}
 						break;
 					}
+					holder.btnRight.setOnClickListener(new  View.OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							itemButtonSelectListener.setRightButtonOnselect(pos,object);
+						}
+					});
 
 				} else if (this.flag == FLAG_STATE_LIST_LANDLORD) {// 房东
 					holder.tvHouseState.setText(object.getString("orderStatusName"));
 					switch (object.getInt("orderStatus")) {
+					case 0://10 已付定金 --待确认定金
+						holder.btnRight.setText("等待定金");
+						break;
 					case 10://10 已付定金 --待确认定金
 						holder.btnRight.setText("确认定金");
 						break;
@@ -223,26 +236,37 @@ public class HouseListAdapter extends BaseAdapter {
 							holder.btnRight.setVisibility(View.GONE);
 						}else{
 							holder.btnRight.setText("交易成功");
-							holder.btnRight.setEnabled(false);
+							holder.btnRight.setVisibility(View.VISIBLE);
+//							holder.btnRight.setEnabled(false);
 						}
 						break;
 					}
-				} else if (this.flag == FLAG_STATE_LIST_COMPLAINT) {
-					holder.rlTop.setVisibility(View.GONE);
-					holder.btnRight.setText("撤回投诉");
 					holder.btnRight.setOnClickListener(new  View.OnClickListener() {
 
 						@Override
 						public void onClick(View v) {
 							// TODO Auto-generated method stub
-							try {
-								itemButtonSelectListener.setRightButtonOnselect(object.getInt("complaintId"),object);
-							} catch (JSONException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+							itemButtonSelectListener.setRightButtonOnselect(pos,object);
 						}
 					});
+				} else if (this.flag == FLAG_STATE_LIST_COMPLAINT) {
+					holder.tvHouseState.setText(object.getString("complaintStatusName"));
+					//0 是 已投诉  1 是 解决 2 是 撤销
+					if(object.getInt("complaintStatus") == 0){
+						holder.btnRight.setText("撤回投诉");
+						holder.btnRight.setOnClickListener(new  View.OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								itemButtonSelectListener.setRightButtonOnselect(pos,object);
+							}
+						});
+						holder.btnRight.setVisibility(View.VISIBLE);
+					}else{
+						holder.btnRight.setVisibility(View.GONE);
+					}
+					
 				}
 				holder.btnLeft.setOnClickListener(new View.OnClickListener() {
 
@@ -282,7 +306,7 @@ public class HouseListAdapter extends BaseAdapter {
 	private void telMoblie(final String moblie){
 		final SweetDialog dia_call = new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.WARNING_TYPE);
 		dia_call.setTitleText("提示");
-		dia_call.setContentText("是否拨打客服电话"+moblie+"？");
+		dia_call.setContentText("是否拨打电话"+moblie+"？");
 		dia_call.showCancelButton(true);
 		dia_call.setConfirmClickListener(new OnSweetClickListener() {
 

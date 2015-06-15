@@ -42,6 +42,7 @@ OnClickListener,ITaskListener {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+		mDetailTitlebar.setTitle("邮件合同");
 	}
 	@Override
 	public void onClick(View v) {
