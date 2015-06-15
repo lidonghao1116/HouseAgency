@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:text="@string/str_contact_1" />
+            android:text="@string/str_contact_email" />
     </LinearLayout>
 
 </LinearLayout>
