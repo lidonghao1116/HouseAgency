@@ -162,16 +162,16 @@ public class HouseListAdapter extends BaseAdapter {
 			if (this.flag != FLAG_HOUSE_LIST) {
 				holder.rlTop.setVisibility(View.VISIBLE);
 				holder.llBottom.setVisibility(View.VISIBLE);
+				holder.btnRight.setEnabled(true);
 				if (this.flag == FLAG_STATE_LIST_TENANT) {//房客
 					holder.tvHouseState.setText(object.getString("orderStatusName"));
 					switch (object.getInt("orderStatus")) {
 					case 0://10 已付定金 --待确认定金
-						holder.btnRight.setText("等待定金");
-//						holder.btnRight.setEnabled(false);
+						holder.btnRight.setText("支付定金");
 						break;
 					case 10://10 已付定金 --待确认定金
 						holder.btnRight.setText("等待确认");
-//						holder.btnRight.setEnabled(false);
+						holder.btnRight.setEnabled(false);
 						break;
 					case 20://20 已确认定金 --待完善合同
 						holder.btnRight.setText("等待合同");
@@ -212,6 +212,7 @@ public class HouseListAdapter extends BaseAdapter {
 					switch (object.getInt("orderStatus")) {
 					case 0://10 已付定金 --待确认定金
 						holder.btnRight.setText("等待定金");
+						holder.btnRight.setEnabled(false);
 						break;
 					case 10://10 已付定金 --待确认定金
 						holder.btnRight.setText("确认定金");
@@ -221,6 +222,7 @@ public class HouseListAdapter extends BaseAdapter {
 						break;
 					case 30://30 已完善合同 --待确认合同
 						holder.btnRight.setText("等待确认");
+//						holder.btnRight.setEnabled(false);
 						break;
 					case 31://31 已驳回 --待完善合同
 						holder.btnRight.setText("完善合同");

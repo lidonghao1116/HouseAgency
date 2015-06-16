@@ -1,5 +1,7 @@
 package com.sky.house.me;
 
+import java.net.URLEncoder;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +10,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,10 +21,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alipay.android.app.sdk.AliPay;
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
@@ -30,6 +37,9 @@ import com.eroad.base.util.ViewInit;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
+import com.sky.car.pay.ali.Keys;
+import com.sky.car.pay.ali.Result;
+import com.sky.car.pay.ali.Rsa;
 import com.sky.house.R;
 import com.sky.house.adapter.HouseListAdapter;
 import com.sky.house.business.HouseContactFragment;
@@ -120,6 +130,7 @@ OnClickListener, ITaskListener {
 
 	private  int  type;// 列表类型 查看HouseListAdapter说明
 	private SHPostTaskM taskDetail,taskComplait,taskCancle,taskPayOther,taskHasPass,taskNextPay,taskRefund,taskRemind;
+	private SHPostTaskM getOrderIdTask,accountTask;
 	private JSONObject mResult;
 	private boolean isSetPass;
 	private Dialog dilogPass;
@@ -129,6 +140,12 @@ OnClickListener, ITaskListener {
 	EditText etDilogPass;
 	Button btnDilogCancle;
 	Button btnDilogComfirm;
+	
+	String aliOrderId;
+	private static final int RQF_PAY = 1;
+	private static final int RQF_LOGIN = 2;
+	private double aliPayMoney;//支付宝 支付金额
+	private int amount;//余额
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -158,8 +175,9 @@ OnClickListener, ITaskListener {
 		// TODO Auto-generated method stub
 		super.onResume();
 		requestHasPass();
+		requestAccount();
 	}
-
+	
 	/**
 	 * 初始数据界面
 	 */
@@ -175,12 +193,135 @@ OnClickListener, ITaskListener {
 		taskDetail.setListener(this);
 		taskDetail.start();
 	}
+	/**
+	 * 是否设置密码
+	 */
 	private void requestHasPass(){
 
 		taskHasPass = new SHPostTaskM();
 		taskHasPass.setUrl(ConfigDefinition.URL + "GetUserIsSetPayPassword");
 		taskHasPass.setListener(this);
 		taskHasPass.start();
+	}
+	/**
+	 * 余额
+	 */
+	private void requestAccount(){
+		accountTask = new SHPostTaskM();
+		accountTask.setListener(this);
+		accountTask.setUrl(ConfigDefinition.URL+"GetMyAccountDetail");
+		accountTask.start();
+	}
+	/**
+	 * 添加支付宝访问日志
+	 */
+	private void requestOrderId(int type){
+		getOrderIdTask = new SHPostTaskM();
+		getOrderIdTask.setListener(this);
+		getOrderIdTask.setUrl(ConfigDefinition.URL+"AlipayOptInfoAdd");
+		getOrderIdTask.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
+		getOrderIdTask.getTaskArgs().put("payAmt", aliPayMoney);
+		getOrderIdTask.getTaskArgs().put("optType", type);//1 定金 2 房租 3 杂费 4 押金
+		getOrderIdTask.start();
+	}
+	/**
+	 * 支付宝发起支付
+	 */
+	private void alipay(){
+		try {
+			String info = getNewOrderInfo();
+			String sign = Rsa.sign(info, Keys.PRIVATE);
+			sign = URLEncoder.encode(sign);
+			info += "&sign=\"" + sign + "\"&" + getSignType();
+			Log.i("ExternalPartner", "start pay");
+			// start the pay.
+			Log.i("pay", "info = " + info);
+
+			final String orderInfo = info;
+			new Thread() {
+				public void run() {
+					AliPay alipay = new AliPay(getActivity(), mHandler);
+					
+					//设置为沙箱模式，不设置默认为线上环境
+					//alipay.setSandBox(true);
+
+					String result = alipay.pay(orderInfo);
+
+					Log.i("SHOPDETAIL", "result = " + result);
+					Message msg = new Message();
+					msg.what = RQF_PAY;
+					msg.obj = result;
+					mHandler.sendMessage(msg);
+				}
+			}.start();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			Toast.makeText(getActivity(), "Failure calling remote service",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+	private String getSignType() {
+		return "sign_type=\"RSA\"";
+	}
+	
+	Handler mHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			Result result = new Result((String) msg.obj);
+			switch (msg.what) {
+			case RQF_PAY:
+				result.parseResult();
+				if(result.isPayOK()){
+					Log.i("支付回调", "支付成功");
+//					changeOrderStatus();
+//					requestData();
+				}
+				else{
+					
+				}
+				break;
+			case RQF_LOGIN: {
+				Toast.makeText(getActivity(), result.getResult(),
+						Toast.LENGTH_SHORT).show();
+
+			}
+				break;
+			default:
+				break;
+			}
+		};
+	};
+	
+	private String getNewOrderInfo() throws JSONException {
+		StringBuilder sb = new StringBuilder();
+		sb.append("partner=\"");
+		sb.append(Keys.DEFAULT_PARTNER);
+		sb.append("\"&out_trade_no=\"");
+		sb.append(aliOrderId);
+		sb.append("\"&subject=\"");
+		sb.append("阳光租房");
+		sb.append("\"&body=\"");
+		sb.append("阳光租房");
+		sb.append("\"&total_fee=\"");
+		sb.append(aliPayMoney);
+		sb.append("\"&notify_url=\"");
+
+		// 网址需要做URL编码
+		sb.append(URLEncoder.encode(ConfigDefinition.URL+"notify_url.jsp"));
+		sb.append("\"&service=\"mobile.securitypay.pay");
+		sb.append("\"&_input_charset=\"UTF-8");
+		sb.append("\"&return_url=\"");
+		sb.append(URLEncoder.encode("http://m.alipay.com"));
+		sb.append("\"&payment_type=\"1");
+		sb.append("\"&seller_id=\"");
+		sb.append(Keys.DEFAULT_SELLER);
+
+		// 如果show_url值为空，可不传
+		// sb.append("\"&show_url=\"");
+		sb.append("\"&it_b_pay=\"1m");
+		sb.append("\"");
+
+		return new String(sb);
 	}
 	@Override
 	public void onClick(View v) {
@@ -190,8 +331,8 @@ OnClickListener, ITaskListener {
 		case R.id.btn_top_left:// 查看租金
 			intent.putExtra("class", HouseRentPieChartFragment.class.getName());
 			intent.putExtra("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
-			intent.putExtra("nextPayAmt", getActivity().getIntent().getIntExtra("nextPayAmt", 0));
-			intent.putExtra("nextPayMonths", getActivity().getIntent().getIntExtra("nextPayMonths", 0));
+			intent.putExtra("nextPayAmt", mResult.getInt("nextPayAmt"));
+			intent.putExtra("nextPayMonths", mResult.getInt("nextPayMonths"));
 			intent.putExtra("type", type);
 			startActivity(intent);
 			break;
@@ -217,6 +358,13 @@ OnClickListener, ITaskListener {
 		SHDialog.dismissProgressDiaolg();
 		if(task == taskComplait){
 			SHToast.showToast(getActivity(), "投诉成功");
+		}else if(task == accountTask ){//余额查询
+			JSONObject accountJson = (JSONObject) task.getResult();
+			amount =  accountJson.getInt("amount");
+		}else if(task == getOrderIdTask ){
+			JSONObject jsonObj = (JSONObject) task.getResult();
+			aliOrderId = jsonObj.getString("requestNo");
+			alipay();
 		}else if(task == taskHasPass ){
 			JSONObject object  = (JSONObject) task.getResult() ;
 			isSetPass  = object.getInt("isSet")==0?false:true;
@@ -497,14 +645,19 @@ OnClickListener, ITaskListener {
 						SHToast.showToast(getActivity(), "请输入密码");
 						return;
 					}
-					taskPayOther = new SHPostTaskM();
-					taskPayOther.setUrl(ConfigDefinition.URL+"PayOtherAmt");
-					taskPayOther.getTaskArgs().put("otherType", type);//1.	退杂费 	2.	缴杂费
-					taskPayOther.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
-					taskPayOther.getTaskArgs().put("password", CommonUtil.encodeMD5(pass));
-					taskPayOther.getTaskArgs().put("otherAmt", money);
-					taskPayOther.setListener(HouseRentalDetailFragment.this);
-					taskPayOther.start();
+					if(amount >= money){
+						taskPayOther = new SHPostTaskM();
+						taskPayOther.setUrl(ConfigDefinition.URL+"PayOtherAmt");
+						taskPayOther.getTaskArgs().put("otherType", type);//1.	退杂费 	2.	缴杂费
+						taskPayOther.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
+						taskPayOther.getTaskArgs().put("password", CommonUtil.encodeMD5(pass));
+						taskPayOther.getTaskArgs().put("otherAmt", money);
+						taskPayOther.setListener(HouseRentalDetailFragment.this);
+						taskPayOther.start();
+					}else{
+						aliPayMoney = money - amount;
+						requestOrderId(3);
+					}
 					dismissDialog();
 				}
 			});
@@ -531,14 +684,20 @@ OnClickListener, ITaskListener {
 						SHToast.showToast(getActivity(), "请输入密码");
 						return;
 					}
-					taskNextPay = new SHPostTaskM();
-					taskNextPay.setUrl(ConfigDefinition.URL+"PayNextRent");
-					taskNextPay.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
-					taskNextPay.getTaskArgs().put("password",CommonUtil.encodeMD5(pass));
-					taskNextPay.getTaskArgs().put("rentPay",nextPayAmt);
-					taskNextPay.getTaskArgs().put("payMonth",nextMonths);
-					taskNextPay.setListener(HouseRentalDetailFragment.this);
-					taskNextPay.start();
+					if(amount >= nextMonths*nextPayAmt){
+						taskNextPay = new SHPostTaskM();
+						taskNextPay.setUrl(ConfigDefinition.URL+"PayNextRent");
+						taskNextPay.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
+						taskNextPay.getTaskArgs().put("password",CommonUtil.encodeMD5(pass));
+						taskNextPay.getTaskArgs().put("rentPay",nextPayAmt);
+						taskNextPay.getTaskArgs().put("payMonth",nextMonths);
+						taskNextPay.setListener(HouseRentalDetailFragment.this);
+						taskNextPay.start();
+					}else{
+						aliPayMoney = nextMonths*nextPayAmt - amount;
+						requestOrderId(2);
+					}
+					
 					dismissDialog();
 				}
 			});
@@ -564,13 +723,18 @@ OnClickListener, ITaskListener {
 						SHToast.showToast(getActivity(), "请输入密码");
 						return;
 					}
-					taskRefund = new SHPostTaskM();
-					taskRefund.setUrl(ConfigDefinition.URL+"RefundWager");
-					taskRefund.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
-					taskRefund.getTaskArgs().put("password", CommonUtil.encodeMD5(pass));
-					taskRefund.getTaskArgs().put("totalWagerAmt", totalWagerAmt);
-					taskRefund.setListener(HouseRentalDetailFragment.this);
-					taskRefund.start();
+					if(amount >= totalWagerAmt){
+						taskRefund = new SHPostTaskM();
+						taskRefund.setUrl(ConfigDefinition.URL+"RefundWager");
+						taskRefund.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
+						taskRefund.getTaskArgs().put("password", CommonUtil.encodeMD5(pass));
+						taskRefund.getTaskArgs().put("totalWagerAmt", totalWagerAmt);
+						taskRefund.setListener(HouseRentalDetailFragment.this);
+						taskRefund.start();
+					}else{
+						aliPayMoney = totalWagerAmt - amount;
+						requestOrderId(4);
+					}
 					dismissDialog();
 				}
 			});
@@ -593,6 +757,7 @@ OnClickListener, ITaskListener {
 		tvDilogTitle.setText(title);
 		etDilogMoney.setText(content);
 		etDilogMoney.setEnabled(enable);
+		etDilogPass.setText("");
 		btnDilogCancle.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
