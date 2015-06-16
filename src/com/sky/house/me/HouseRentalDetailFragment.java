@@ -32,6 +32,7 @@ import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
 import com.sky.house.adapter.HouseListAdapter;
+import com.sky.house.business.HouseContactFragment;
 import com.sky.house.resource.HouseDetailFragment;
 import com.sky.widget.SHDialog;
 import com.sky.widget.SHToast;
@@ -321,7 +322,17 @@ OnClickListener, ITaskListener {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-
+						try {
+							Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+							intent.putExtra("class", HouseContactFragment.class.getName());
+							intent.putExtra("name", "房东信息");
+							intent.putExtra("id", mResult.getInt("lordId"));
+							intent.putExtra("pageType", 1);
+							startActivity(intent);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				});
 				if(mResult.getInt("isCancelLease") == 0){
@@ -376,7 +387,17 @@ OnClickListener, ITaskListener {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-
+						try {
+							Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+							intent.putExtra("class", HouseContactFragment.class.getName());
+							intent.putExtra("name", "租客信息");
+							intent.putExtra("id", mResult.getInt("tenantId"));
+							intent.putExtra("pageType", 2);//1房东   2房客
+							startActivity(intent);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				});
 				if(mResult.getInt("orderStatus") != 70 && mResult.getInt("orderStatus") != 80){

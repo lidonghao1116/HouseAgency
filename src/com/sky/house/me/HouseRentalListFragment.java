@@ -20,6 +20,7 @@ import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
 import com.sky.house.adapter.HouseListAdapter;
+import com.sky.house.business.HousePayChargeFragment;
 import com.sky.house.resource.HouseDetailFragment;
 import com.sky.house.widget.SHListView;
 import com.sky.widget.SHDialog;
@@ -79,6 +80,11 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 							intent.putExtra("orderStatus", object.getInt("orderStatus"));
 							intent.putExtra("type", type);
 							startActivity(intent);
+						}else{
+							intent.putExtra("class", HousePayChargeFragment.class.getName());
+							intent.putExtra("id",  object.getInt("houseDetailId"));
+							intent.putExtra("identification", 0);
+							startActivity(intent);
 						}
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -108,6 +114,11 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 							intent.putExtra("orderId", object.getInt("orderId"));
 							intent.putExtra("orderStatus", object.getInt("orderStatus"));
 							intent.putExtra("type", type);
+							startActivity(intent);
+						}else{
+							intent.putExtra("class", HousePayChargeFragment.class.getName());
+							intent.putExtra("id",  object.getInt("houseDetailId"));
+							intent.putExtra("identification", 1);
 							startActivity(intent);
 						}
 					} catch (JSONException e) {
