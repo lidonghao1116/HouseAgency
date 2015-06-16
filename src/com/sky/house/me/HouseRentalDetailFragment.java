@@ -221,7 +221,7 @@ OnClickListener, ITaskListener {
 		getOrderIdTask.setUrl(ConfigDefinition.URL+"AlipayOptInfoAdd");
 		getOrderIdTask.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
 		getOrderIdTask.getTaskArgs().put("payAmt", aliPayMoney);
-		getOrderIdTask.getTaskArgs().put("optType", type);//1 定金 2 房租 3 杂费 4 押金
+		getOrderIdTask.getTaskArgs().put("optType", type);//1 定金 2 房租 3 杂费 4 押金 5交租金 6 退杂费 7 退押金 
 		getOrderIdTask.start();
 	}
 	/**
@@ -329,12 +329,17 @@ OnClickListener, ITaskListener {
 		Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 		switch (v.getId()) {
 		case R.id.btn_top_left:// 查看租金
-			intent.putExtra("class", HouseRentPieChartFragment.class.getName());
-			intent.putExtra("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
-			intent.putExtra("nextPayAmt", mResult.getInt("nextPayAmt"));
-			intent.putExtra("nextPayMonths", mResult.getInt("nextPayMonths"));
-			intent.putExtra("type", type);
-			startActivity(intent);
+			try {
+				intent.putExtra("class", HouseRentPieChartFragment.class.getName());
+				intent.putExtra("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
+				intent.putExtra("nextPayAmt", mResult.getInt("nextPayAmt"));
+				intent.putExtra("nextPayMonths", mResult.getInt("nextPayMonths"));
+				intent.putExtra("type", type);
+				startActivity(intent);
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			break;
 		case R.id.btn_top_right:// 查看合同
 			try {
@@ -656,7 +661,7 @@ OnClickListener, ITaskListener {
 						taskPayOther.start();
 					}else{
 						aliPayMoney = money - amount;
-						requestOrderId(3);
+						requestOrderId(type == 1?6:3);
 					}
 					dismissDialog();
 				}
@@ -695,7 +700,7 @@ OnClickListener, ITaskListener {
 						taskNextPay.start();
 					}else{
 						aliPayMoney = nextMonths*nextPayAmt - amount;
-						requestOrderId(2);
+						requestOrderId(5);
 					}
 					
 					dismissDialog();
@@ -733,7 +738,7 @@ OnClickListener, ITaskListener {
 						taskRefund.start();
 					}else{
 						aliPayMoney = totalWagerAmt - amount;
-						requestOrderId(4);
+						requestOrderId(7);
 					}
 					dismissDialog();
 				}
