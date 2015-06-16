@@ -27,6 +27,8 @@ public class CalendarDialog {
 	private String date;// 选中时间
 	private boolean flag;// 
 	private CalendarResultListener calendarListener;
+	private int type;//
+	public static final int TYPE_NO_SUISHI = 1;//没有随时
 
 	public CalendarDialog(Context context, CalendarResultListener listener) {
 		this.context = context;
@@ -35,6 +37,16 @@ public class CalendarDialog {
 		dia.setContentView(R.layout.dialog_calendar);
 		dia.setCancelable(true);
 		dia.setCanceledOnTouchOutside(true);
+	}
+	
+	public CalendarDialog(Context context, int type,CalendarResultListener listener) {
+		this.context = context;
+		this.calendarListener = listener;
+		dia = new Dialog(context, R.style.CalendarDialog);
+		dia.setContentView(R.layout.dialog_calendar);
+		dia.setCancelable(true);
+		dia.setCanceledOnTouchOutside(true);
+		this.type = type;
 	}
 
 	public void show() {
@@ -53,6 +65,9 @@ public class CalendarDialog {
 		mCalendar = (KCalendar) dia.findViewById(R.id.dialog_calendar);
 		mTvTime = (TextView) dia.findViewById(R.id.dialog_calendar_time);
 		tv_whenever = (TextView) dia.findViewById(R.id.tv_whenever);
+		if(type == 1){
+			tv_whenever.setVisibility(View.GONE);
+		}
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		date = df.format(c.getTime());

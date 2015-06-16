@@ -42,7 +42,7 @@ import com.sky.car.pay.ali.Result;
 import com.sky.car.pay.ali.Rsa;
 import com.sky.house.R;
 import com.sky.house.me.HouseChangePayPassword;
-import com.sky.house.me.HouseRentPieChartFragment;
+import com.sky.house.resource.HTMLFragment;
 import com.sky.widget.SHDialog;
 import com.sky.widget.SHDialog.DialogItemClickListener;
 import com.sky.widget.SHToast;
@@ -124,6 +124,9 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 	@ViewInit(id = R.id.iv_agreement,onClick = "onClick")
 	private ImageView mIvAgreement;
 	
+	@ViewInit(id = R.id.btn_complete,onClick = "onClick")
+	private Button mBtnCompleteAgreement;
+	
 	private int identification;//0:默认房客  1:房东
 	
 	private boolean isSetPass;//是否设置过密码
@@ -131,11 +134,13 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 	private static final int RQF_PAY = 1;
 	private static final int RQF_LOGIN = 2;
 	
-	private SHPostTaskM takebackTask,accountTask,getOrderIdTask,taskHasPass,payTask;//取回订金  //个人帐户
+	private SHPostTaskM takebackTask,accountTask,getOrderIdTask,taskHasPass,payTask,getContactTimeTask;//取回订金  //个人帐户
 	
 	private double payMoney;
 	
 	private String orderId;
+	
+	private String demoUrl;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -158,9 +163,16 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		switch(v.getId()){
 		case R.id.iv_agreement:
 			Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+			intent.putExtra("class", HTMLFragment.class.getName());
+			intent.putExtra("url", demoUrl);
 			startActivity(intent);
 			break;
-			
+		case R.id.btn_complete:
+			Intent intent2 = new Intent(getActivity(),SHContainerActivity.class);
+			intent2.putExtra("class", HouseEditAgreementFragment.class.getName());
+			intent2.putExtra("orderId", json.optInt("orderId"));
+			startActivity(intent2);
+			break;
 		}
 	}
 	
@@ -280,9 +292,26 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		case 20://已确认定金 待完善合同
 			mLlStepPay.setVisibility(View.GONE);
 			mLlStepAgreement.setVisibility(View.VISIBLE);
+			requestContactTime();//获取合同范本URL 以及 剩余时间  房东信息等等
+			if(identification == 0){
+				mBtnCompleteAgreement.setEnabled(false);
+				mBtnCompleteAgreement.setText("房东正在完善合同");
+			}else{
+				mBtnCompleteAgreement.setEnabled(true);
+				mBtnCompleteAgreement.setText("完善合同");
+			}
 			break;
 		}
 
+	}
+	
+	private void requestContactTime(){
+		SHDialog.ShowProgressDiaolg(getActivity(), null);
+		getContactTimeTask = new SHPostTaskM();
+		getContactTimeTask.setListener(this);
+		getContactTimeTask.setUrl(ConfigDefinition.URL+"OrderContractTime");
+		getContactTimeTask.getTaskArgs().put("orderId", json.optInt("orderId"));
+		getContactTimeTask.start();
 	}
 	
 	private void requestOrderId(){
@@ -290,7 +319,8 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		getOrderIdTask.setListener(this);
 		getOrderIdTask.setUrl(ConfigDefinition.URL+"AlipayOptInfoAdd");
 		getOrderIdTask.getTaskArgs().put("orderId", json.optInt("orderId"));
-		getOrderIdTask.getTaskArgs().put("payAmt", payMoney);
+		getOrderIdTask.getTaskArgs().put("payAmt", json.optString("appointmentAmt").substring(1));
+		getOrderIdTask.getTaskArgs().put("rechargeAmt", payMoney);
 		getOrderIdTask.getTaskArgs().put("optType", 1);//1;订金
 		getOrderIdTask.start();
 	}
@@ -384,7 +414,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		sb.append("\"&notify_url=\"");
 
 		// 网址需要做URL编码
-		sb.append(URLEncoder.encode(ConfigDefinition.URL+"notify_url.jsp"));
+		sb.append(URLEncoder.encode(ConfigDefinition.PAY_URL));
 		sb.append("\"&service=\"mobile.securitypay.pay");
 		sb.append("\"&_input_charset=\"UTF-8");
 		sb.append("\"&return_url=\"");
@@ -489,6 +519,9 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			isSetPass  = jsonObj.getInt("isSet")==0?false:true;
 		}else if(task == payTask){
 			requestData();
+		}else if(task == getContactTimeTask){
+			JSONObject jsonObj = (JSONObject) task.getResult();
+			demoUrl = jsonObj.getString("contractDemoUrl");
 		}
 	}
 

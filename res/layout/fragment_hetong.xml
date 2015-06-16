@@ -25,6 +25,7 @@
             android:text="开始时间" />
 
         <Button
+            android:id="@+id/btn_start"
             style="@style/TextMidBlack"
             android:layout_width="100dp"
             android:layout_height="30dp"
@@ -48,6 +49,7 @@
             android:text="结束时间" />
 
         <Button
+            android:id="@+id/btn_end"
             style="@style/TextMidBlack"
             android:layout_width="100dp"
             android:layout_height="30dp"
@@ -71,6 +73,7 @@
             android:text="月租" />
 
         <EditText
+            android:id="@+id/et_rent"
             style="@style/TextMidBlack"
             android:layout_width="100dp"
             android:layout_height="30dp"
@@ -101,6 +104,7 @@
             android:text="押金" />
 
         <EditText
+            android:id="@+id/et_yajin"
             style="@style/TextMidBlack"
             android:layout_width="100dp"
             android:layout_height="30dp"
@@ -138,6 +142,7 @@
             android:text="押" />
 
         <EditText
+            android:id="@+id/et_ya"
             style="@style/TextMidBlack"
             android:layout_width="50dp"
             android:layout_height="30dp"
@@ -154,6 +159,7 @@
             android:text="付" />
 
         <EditText
+            android:id="@+id/et_fu"
             style="@style/TextMidBlack"
             android:layout_width="50dp"
             android:layout_height="30dp"
@@ -177,6 +183,7 @@
             android:text="房东承担" />
 
         <EditText
+            android:id="@+id/et_chengdan"
             style="@style/TextMidBlack"
             android:layout_width="match_parent"
             android:layout_height="30dp"

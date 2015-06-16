@@ -22,7 +22,7 @@ import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.next.util.SHEnvironment;
 import com.sky.house.R;
-import com.sky.house.home.HouseAgreementFragment;
+import com.sky.house.home.HouseRegisterAgreeFragment;
 import com.sky.widget.SHDialog;
 import com.sky.widget.SHToast;
 import com.sky.widget.TimerButton;

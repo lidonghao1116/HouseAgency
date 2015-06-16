@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
@@ -73,7 +75,7 @@ public class HouseLoginFragment extends BaseFragment implements ITaskListener {
 		switch (v.getId()) {
 		case R.id.tv_agreement:
 			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-			intent.putExtra("class", HouseAgreementFragment.class.getName());
+			intent.putExtra("class", HouseRegisterAgreeFragment.class.getName());
 			startActivity(intent);
 			break;
 		case R.id.btn_login:
@@ -107,6 +109,7 @@ public class HouseLoginFragment extends BaseFragment implements ITaskListener {
 //		SHEnvironment.getInstance().setLoginId(phone);
 		loginTask.getTaskArgs().put("Mobile", phone);
 		loginTask.getTaskArgs().put("Code", validate);
+		loginTask.getTaskArgs().put("Token_jpush", JPushInterface.getRegistrationID(getActivity()));
 		loginTask.start();
 	}
 
