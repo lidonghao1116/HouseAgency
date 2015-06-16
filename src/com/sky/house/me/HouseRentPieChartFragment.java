@@ -436,7 +436,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 		sb.append("\"&notify_url=\"");
 
 		// 网址需要做URL编码
-		sb.append(URLEncoder.encode(ConfigDefinition.URL+"notify_url.jsp"));
+		sb.append(URLEncoder.encode(ConfigDefinition.PAY_URL));
 		sb.append("\"&service=\"mobile.securitypay.pay");
 		sb.append("\"&_input_charset=\"UTF-8");
 		sb.append("\"&return_url=\"");
