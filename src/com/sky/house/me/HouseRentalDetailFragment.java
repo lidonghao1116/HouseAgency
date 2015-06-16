@@ -21,10 +21,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alipay.android.app.sdk.AliPay;
 import com.eroad.base.BaseFragment;
@@ -220,8 +220,9 @@ OnClickListener, ITaskListener {
 		getOrderIdTask.setListener(this);
 		getOrderIdTask.setUrl(ConfigDefinition.URL+"AlipayOptInfoAdd");
 		getOrderIdTask.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
-		getOrderIdTask.getTaskArgs().put("payAmt", aliPayMoney);
-		getOrderIdTask.getTaskArgs().put("optType", type);//1 定金 2 房租 3 杂费 4 押金 5交租金 6 退杂费 7 退押金 
+		getOrderIdTask.getTaskArgs().put("payAmt", aliPayMoney);//充值金额
+		getOrderIdTask.getTaskArgs().put("rechargeAmt", aliPayMoney + amount);//支付金额
+		getOrderIdTask.getTaskArgs().put("optType", type);//1 交定金 2 交房租 3 交杂费 4 交押金 5交租金 6 退杂费 7 退押金 8续交房租
 		getOrderIdTask.start();
 	}
 	/**
