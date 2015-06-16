@@ -1,13 +1,17 @@
 package com.sky.house.me;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +20,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alipay.android.app.sdk.AliPay;
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
@@ -34,6 +40,9 @@ import com.github.mikephil.charting.utils.PercentFormatter;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
+import com.sky.car.pay.ali.Keys;
+import com.sky.car.pay.ali.Result;
+import com.sky.car.pay.ali.Rsa;
 import com.sky.house.R;
 import com.sky.house.adapter.HouseListAdapter;
 import com.sky.widget.SHDialog;
@@ -55,6 +64,13 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 	EditText etDilogPass;
 	Button btnDilogCancle;
 	Button btnDilogComfirm;
+	
+	private SHPostTaskM getOrderIdTask,accountTask;
+	String aliOrderId;
+	private static final int RQF_PAY = 1;
+	private static final int RQF_LOGIN = 2;
+	private double aliPayMoney;//支付宝 支付金额
+	private int amount;//余额
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,6 +122,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 		// TODO Auto-generated method stub
 		super.onResume();
 		requestHasPass();
+		requestAccount();
 	}
 	private void requestHasPass(){
 
@@ -222,6 +239,13 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 			isSetPass  = mResult.getInt("isSet")==0?false:true;
 		}else if(task == taskRemind){
 			SHToast.showToast(getActivity(), "已成功发送提醒通知");
+		}else if(task == accountTask ){//余额查询
+			JSONObject accountJson = (JSONObject) task.getResult();
+			amount =  accountJson.getInt("amount");
+		}else if(task == getOrderIdTask ){
+			JSONObject jsonObj = (JSONObject) task.getResult();
+			aliOrderId = jsonObj.getString("requestNo");
+			alipay();
 		}
 	}
 	@Override
@@ -259,14 +283,19 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 						SHToast.showToast(getActivity(), "请输入密码");
 						return;
 					}
-					taskNextPay = new SHPostTaskM();
-					taskNextPay.setUrl(ConfigDefinition.URL+"PayNextRent");
-					taskNextPay.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
-					taskNextPay.getTaskArgs().put("password",CommonUtil.encodeMD5(pass));
-					taskNextPay.getTaskArgs().put("rentPay",nextPayAmt);
-					taskNextPay.getTaskArgs().put("payMonth",nextMonths);
-					taskNextPay.setListener(HouseRentPieChartFragment.this);
-					taskNextPay.start();
+					if(amount >= nextPayAmt*nextMonths){
+						taskNextPay = new SHPostTaskM();
+						taskNextPay.setUrl(ConfigDefinition.URL+"PayNextRent");
+						taskNextPay.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
+						taskNextPay.getTaskArgs().put("password",CommonUtil.encodeMD5(pass));
+						taskNextPay.getTaskArgs().put("rentPay",nextPayAmt);
+						taskNextPay.getTaskArgs().put("payMonth",nextMonths);
+						taskNextPay.setListener(HouseRentPieChartFragment.this);
+						taskNextPay.start();
+					}else{
+						aliPayMoney = nextPayAmt*nextMonths - amount;
+						requestOrderId(2);
+					}
 					dismissDialog();
 				}
 			});
@@ -301,5 +330,126 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 		if(dilogPass != null){
 			dilogPass.dismiss();
 		}
+	}
+	
+	/**
+	 * 余额
+	 */
+	private void requestAccount(){
+		accountTask = new SHPostTaskM();
+		accountTask.setListener(this);
+		accountTask.setUrl(ConfigDefinition.URL+"GetMyAccountDetail");
+		accountTask.start();
+	}
+	/**
+	 * 添加支付宝访问日志
+	 */
+	private void requestOrderId(int type){
+		getOrderIdTask = new SHPostTaskM();
+		getOrderIdTask.setListener(this);
+		getOrderIdTask.setUrl(ConfigDefinition.URL+"AlipayOptInfoAdd");
+		getOrderIdTask.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
+		getOrderIdTask.getTaskArgs().put("payAmt", aliPayMoney);
+		getOrderIdTask.getTaskArgs().put("optType", type);//1 定金 2 房租 3 杂费 4 押金
+		getOrderIdTask.start();
+	}
+	/**
+	 * 支付宝发起支付
+	 */
+	private void alipay(){
+		try {
+			String info = getNewOrderInfo();
+			String sign = Rsa.sign(info, Keys.PRIVATE);
+			sign = URLEncoder.encode(sign);
+			info += "&sign=\"" + sign + "\"&" + getSignType();
+			Log.i("ExternalPartner", "start pay");
+			// start the pay.
+			Log.i("pay", "info = " + info);
+
+			final String orderInfo = info;
+			new Thread() {
+				public void run() {
+					AliPay alipay = new AliPay(getActivity(), mHandler);
+					
+					//设置为沙箱模式，不设置默认为线上环境
+					//alipay.setSandBox(true);
+
+					String result = alipay.pay(orderInfo);
+
+					Log.i("SHOPDETAIL", "result = " + result);
+					Message msg = new Message();
+					msg.what = RQF_PAY;
+					msg.obj = result;
+					mHandler.sendMessage(msg);
+				}
+			}.start();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			Toast.makeText(getActivity(), "Failure calling remote service",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+	private String getSignType() {
+		return "sign_type=\"RSA\"";
+	}
+	
+	Handler mHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			Result result = new Result((String) msg.obj);
+			switch (msg.what) {
+			case RQF_PAY:
+				result.parseResult();
+				if(result.isPayOK()){
+					Log.i("支付回调", "支付成功");
+//					changeOrderStatus();
+//					requestData();
+				}
+				else{
+					
+				}
+				break;
+			case RQF_LOGIN: {
+				Toast.makeText(getActivity(), result.getResult(),
+						Toast.LENGTH_SHORT).show();
+
+			}
+				break;
+			default:
+				break;
+			}
+		};
+	};
+	
+	private String getNewOrderInfo() throws JSONException {
+		StringBuilder sb = new StringBuilder();
+		sb.append("partner=\"");
+		sb.append(Keys.DEFAULT_PARTNER);
+		sb.append("\"&out_trade_no=\"");
+		sb.append(aliOrderId);
+		sb.append("\"&subject=\"");
+		sb.append("阳光租房");
+		sb.append("\"&body=\"");
+		sb.append("阳光租房");
+		sb.append("\"&total_fee=\"");
+		sb.append(aliPayMoney);
+		sb.append("\"&notify_url=\"");
+
+		// 网址需要做URL编码
+		sb.append(URLEncoder.encode(ConfigDefinition.URL+"notify_url.jsp"));
+		sb.append("\"&service=\"mobile.securitypay.pay");
+		sb.append("\"&_input_charset=\"UTF-8");
+		sb.append("\"&return_url=\"");
+		sb.append(URLEncoder.encode("http://m.alipay.com"));
+		sb.append("\"&payment_type=\"1");
+		sb.append("\"&seller_id=\"");
+		sb.append(Keys.DEFAULT_SELLER);
+
+		// 如果show_url值为空，可不传
+		// sb.append("\"&show_url=\"");
+		sb.append("\"&it_b_pay=\"1m");
+		sb.append("\"");
+
+		return new String(sb);
 	}
 }
