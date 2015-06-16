@@ -38,6 +38,7 @@ import com.next.intf.ITaskListener;
 import com.next.net.SHCacheType;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
+import com.next.util.SHEnvironment;
 import com.sky.house.R;
 import com.sky.house.adapter.NewsAdapter;
 import com.sky.house.adapter.TopAdvertPagerAdapter;
@@ -157,16 +158,24 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 		case R.id.tv_entire_rent:
 			intent.putExtra("class", HouseListFragment.class.getName());
 			intent.putExtra("rentType", 1);
+			startActivity(intent);
 			break;
 		case R.id.tv_joint_rent:
 			intent.putExtra("class", HouseListFragment.class.getName());
 			intent.putExtra("rentType", 2);
+			startActivity(intent);
 			break;
 		case R.id.tv_publish_house:
+			if(CommonUtil.isEmpty(SHEnvironment.getInstance().getSession())){
+				Intent intent_login = new Intent(getActivity(),SHContainerActivity.class);
+				intent_login.putExtra("class", HouseLoginFragment.class.getName());
+				startActivity(intent_login);
+				return;
+			}
 			intent.putExtra("class", HousePublishFragment.class.getName());
+			startActivity(intent);
 			break;
 		}
-		startActivity(intent);
 	}
 
 	private void requestCity() {

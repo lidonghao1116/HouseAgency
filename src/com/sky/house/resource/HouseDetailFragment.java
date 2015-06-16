@@ -163,6 +163,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(getActivity(),SHContainerActivity.class);
 				intent.putExtra("class", HouseReportFragment.class.getName());
+				intent.putExtra("id", json.optInt("houseDetailId"));
 				startActivity(intent);
 			}
 		});
@@ -186,7 +187,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 				}
 			}
 		});
-		mPagerView_TopAdvert.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, CommonUtil.Window.getWidth() / 5 * 2));
+		mPagerView_TopAdvert.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, CommonUtil.Window.getWidth() / 5 * 3));
 		requestDetail();
 	}
 

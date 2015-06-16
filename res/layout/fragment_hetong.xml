@@ -198,6 +198,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
+        android:text="持有证件" />
+
+    <RadioGroup
+        android:id="@+id/rg_zhengjian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RadioButton
+            android:id="@+id/rb_0"
+            style="@style/TextMidBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="房屋所有权" />
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            style="@style/TextMidBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="住房租赁合同" />
+
+        <RadioButton
+            android:id="@+id/rb_2"
+            style="@style/TextMidBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="房屋买卖合同" />
+    </RadioGroup>
+
+    <TextView
+        style="@style/TextMidGray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
         android:text="备注" />
 
     <EditText
@@ -206,8 +242,8 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_margin="5dp"
+        android:gravity="top"
         android:hint="选填"
-        android:padding="5dp" 
-        android:gravity="top"/>
+        android:padding="5dp" />
 
 </LinearLayout>
