@@ -156,9 +156,11 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 		switch (v.getId()) {
 		case R.id.tv_entire_rent:
 			intent.putExtra("class", HouseListFragment.class.getName());
+			intent.putExtra("rentType", 1);
 			break;
 		case R.id.tv_joint_rent:
 			intent.putExtra("class", HouseListFragment.class.getName());
+			intent.putExtra("rentType", 2);
 			break;
 		case R.id.tv_publish_house:
 			intent.putExtra("class", HousePublishFragment.class.getName());

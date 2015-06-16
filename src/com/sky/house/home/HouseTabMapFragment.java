@@ -84,6 +84,7 @@ public class HouseTabMapFragment extends BaseFragment implements ITaskListener {
 		houseTask = new SHPostTaskM();
 		houseTask.setListener(this);
 		houseTask.setUrl(ConfigDefinition.URL + "SearchHouseByMap");
+		houseTask.getTaskArgs().put("searchType", 2);
 		houseTask.getTaskArgs().put("lat", lat);
 		houseTask.getTaskArgs().put("lng", lng);
 		houseTask.getTaskArgs().put("distance", 10);

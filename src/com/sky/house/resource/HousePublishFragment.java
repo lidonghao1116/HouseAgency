@@ -343,7 +343,7 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
 					JSONArray arr = new JSONArray();
-					StringBuilder str = null;
+					StringBuilder str = new StringBuilder();
 					for(int i = 0;i<items_tese.length;i++){
 						if(boo[i]){
 							arr.put(i+1);

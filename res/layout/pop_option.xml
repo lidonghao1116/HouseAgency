@@ -43,6 +43,7 @@
             android:background="@drawable/stroke_gray_zhi"
             android:gravity="center_vertical"
             android:padding="5dp" 
+            android:singleLine="true"
             android:inputType="number"/>
 
         <View
@@ -58,6 +59,7 @@
             android:background="@drawable/stroke_gray_zhi"
             android:gravity="center_vertical"
             android:padding="5dp" 
+            android:singleLine="true"
             android:inputType="number"/>
 
         <Button

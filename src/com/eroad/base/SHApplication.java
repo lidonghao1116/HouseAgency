@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -37,6 +38,8 @@ public class SHApplication extends StandardApplication {
 		application = this;
 		SDKInitializer.initialize(this);
 		initImageLoader(this);
+		JPushInterface.setDebugMode(true);
+		JPushInterface.init(this);
 	}
 	
 	public void initImageLoader(Context context) {

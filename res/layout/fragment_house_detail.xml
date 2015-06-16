@@ -24,7 +24,7 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager_banner"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="160dp"
                 android:background="@drawable/bg_image_default" />
 
             <TextView
@@ -425,12 +425,12 @@
                     android:layout_toRightOf="@id/label_area"
                     android:text="" />
 
-                <TextView
+                <!-- <TextView
                     style="@style/TextSmallBlue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="小区详情" />
+                    android:text="小区详情" /> -->
             </RelativeLayout>
 
             <View
@@ -468,9 +468,11 @@
                 android:layout_height="1dp"
                 android:background="@color/color_gray_dark" />
 
-            <View
+            <ImageView
+                android:id="@+id/iv_map"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="200dp" 
+                android:scaleType="fitXY"/>
         </LinearLayout>
     </com.sky.house.widget.ObservableScrollView>
 
