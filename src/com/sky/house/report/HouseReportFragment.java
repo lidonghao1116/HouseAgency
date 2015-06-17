@@ -71,6 +71,7 @@ public class HouseReportFragment extends BaseFragment implements ITaskListener{
 			reportTask.setListener(this);
 			reportTask.setUrl(ConfigDefinition.URL+"AddUserReport");
 			reportTask.getTaskArgs().put("complaintType", check);
+			reportTask.getTaskArgs().put("complaintHouseDetailId", getActivity().getIntent().getIntExtra("id", -1));
 			reportTask.getTaskArgs().put("complaintContent", mEtContent.getText().toString().trim());
 			reportTask.start();
 			break;
