@@ -44,6 +44,10 @@ import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
 -2 房东取消定金
 -3 订单取消
 -4 介入取消
+
+交杂费 退杂费 [ 60,90) 
+退租金 70 80
+交租金 只有60可以缴
  *
  */
 public class HouseListAdapter extends BaseAdapter {

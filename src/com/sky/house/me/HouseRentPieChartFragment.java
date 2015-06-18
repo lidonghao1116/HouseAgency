@@ -113,6 +113,9 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 					PayNextRent(getActivity().getIntent().getIntExtra("nextPayAmt", 0), getActivity().getIntent().getIntExtra("nextPayMonths", 0));
 				}
 			});
+			if(getActivity().getIntent().getIntExtra("orderStatus", 0)!=60){
+				btnSubmit.setVisibility(View.GONE);
+			}
 		}
 		
 		request();

@@ -335,6 +335,7 @@ OnClickListener, ITaskListener {
 				intent.putExtra("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
 				intent.putExtra("nextPayAmt", mResult.getInt("nextPayAmt"));
 				intent.putExtra("nextPayMonths", mResult.getInt("nextPayMonths"));
+				intent.putExtra("orderStatus", mResult.getInt("orderStatus"));
 				intent.putExtra("type", type);
 				startActivity(intent);
 			} catch (JSONException e1) {
@@ -468,6 +469,7 @@ OnClickListener, ITaskListener {
 
 				}
 			});
+			
 			if(type==HouseListAdapter.FLAG_STATE_LIST_TENANT){//房客
 				tvHouser.setText(mResult.getString("lordName"));
 				tvHouseState.setText("房东信息");
@@ -532,6 +534,12 @@ OnClickListener, ITaskListener {
 						}
 					}
 				});
+				//交租金 只有60可以缴
+				if(mResult.getInt("orderStatus") ==60){
+					btnBottomRight.setVisibility(View.VISIBLE);
+				}else{
+					btnBottomRight.setVisibility(View.GONE);
+				}
 
 			}else{//房东
 				tvHouser.setText(mResult.getString("tenantName"));
@@ -554,7 +562,10 @@ OnClickListener, ITaskListener {
 						}
 					}
 				});
-				if(mResult.getInt("orderStatus") != 70 && mResult.getInt("orderStatus") != 80){
+//    			退租金 70 80
+				if(mResult.getInt("orderStatus") == 70 || mResult.getInt("orderStatus") == 80){
+					btnHouseBottomRight.setVisibility(View.VISIBLE);
+				}else{
 					btnHouseBottomRight.setVisibility(View.GONE);
 				}
 				btnHouseBottomRight.setText("退押金");
@@ -599,6 +610,16 @@ OnClickListener, ITaskListener {
 					}
 				});
 			}
+//			交杂费 退杂费 [ 60,90) 
+			if(mResult.getInt("orderStatus") >=60 &&mResult.getInt("orderStatus")<90 ){
+				btnBottomLeft.setVisibility(View.VISIBLE);
+			}else{
+				btnBottomLeft.setVisibility(View.GONE);
+			}
+			
+			
+			
+			
 		}
 
 
