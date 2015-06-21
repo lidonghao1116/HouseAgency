@@ -148,6 +148,138 @@ public class HouseListAdapter extends BaseAdapter {
 					}
 					holder.llTese.addView(tv);
 				}
+				
+				
+
+				final JSONObject object =  jsonArray.getJSONObject(pos);
+				if (this.flag != FLAG_HOUSE_LIST) {
+					holder.rlTop.setVisibility(View.VISIBLE);
+					holder.llBottom.setVisibility(View.VISIBLE);
+					holder.btnRight.setEnabled(true);
+					if (this.flag == FLAG_STATE_LIST_TENANT) {//房客
+						holder.tvHouseState.setText(object.getString("orderStatusName"));
+						switch (object.getInt("orderStatus")) {
+						case 0://10 已付定金 --待确认定金
+							holder.btnRight.setText("支付订金");
+							break;
+						case 10://10 已付定金 --待确认定金
+							holder.btnRight.setText("等待确认");
+							holder.btnRight.setEnabled(false);
+							break;
+						case 20://20 已确认定金 --待完善合同
+							holder.btnRight.setText("等待合同");
+							break;
+						case 30://30 已完善合同 --待确认合同
+							holder.btnRight.setText("确认合同");
+							break;
+						case 31://31 已驳回 --待完善合同
+							holder.btnRight.setText("完善合同");
+							break;
+						case 40://40 已确认合同 --待付款
+							holder.btnRight.setText("支付房租");
+							break;
+						case 50://50 已付款 --待入住
+							holder.btnRight.setText("确认入住");
+							break;
+						default:
+							if(object.getInt("orderStatus")<0){
+								holder.btnRight.setVisibility(View.GONE);
+							}else{
+								holder.btnRight.setText("交易成功");
+								holder.btnRight.setVisibility(View.VISIBLE);
+//								holder.btnRight.setEnabled(false);
+							}
+							break;
+						}
+						holder.btnRight.setOnClickListener(new  View.OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								itemButtonSelectListener.setRightButtonOnselect(pos,object);
+							}
+						});
+
+					} else if (this.flag == FLAG_STATE_LIST_LANDLORD) {// 房东
+						holder.tvHouseState.setText(object.getString("orderStatusName"));
+						switch (object.getInt("orderStatus")) {
+						case 0://10 已付定金 --待确认定金
+							holder.btnRight.setText("等待订金");
+							holder.btnRight.setEnabled(false);
+							break;
+						case 10://10 已付定金 --待确认定金
+							holder.btnRight.setText("确认订金");
+							break;
+						case 20://20 已确认定金 --待完善合同
+							holder.btnRight.setText("完善合同");
+							break;
+						case 30://30 已完善合同 --待确认合同
+							holder.btnRight.setText("等待确认");
+//							holder.btnRight.setEnabled(false);
+							break;
+						case 31://31 已驳回 --待完善合同
+							holder.btnRight.setText("完善合同");
+							break;
+						case 40://40 已确认合同 --待付款
+							holder.btnRight.setText("等待房租");
+							break;
+						case 50://50 已付款 --待入住
+							holder.btnRight.setText("等待入住");
+							break;
+						default:
+							if(object.getInt("orderStatus")<0){
+								holder.btnRight.setVisibility(View.GONE);
+							}else{
+								holder.btnRight.setText("交易成功");
+								holder.btnRight.setVisibility(View.VISIBLE);
+//								holder.btnRight.setEnabled(false);
+							}
+							break;
+						}
+						holder.btnRight.setOnClickListener(new  View.OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								itemButtonSelectListener.setRightButtonOnselect(pos,object);
+							}
+						});
+					} else if (this.flag == FLAG_STATE_LIST_COMPLAINT) {
+						holder.tvHouseState.setText(object.getString("complaintStatusName"));
+						//0 是 已投诉  1 是 解决 2 是 撤销
+						if(object.getInt("complaintStatus") == 0){
+							holder.btnRight.setText("撤回投诉");
+							holder.btnRight.setOnClickListener(new  View.OnClickListener() {
+
+								@Override
+								public void onClick(View v) {
+									// TODO Auto-generated method stub
+									itemButtonSelectListener.setRightButtonOnselect(pos,object);
+								}
+							});
+							holder.btnRight.setVisibility(View.VISIBLE);
+						}else{
+							holder.btnRight.setVisibility(View.GONE);
+						}
+						
+					}
+					holder.btnLeft.setOnClickListener(new View.OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							try {
+								telMoblie(object.getString("mobilePhone"));
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					});
+				}
+				
+				
+				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -158,132 +290,6 @@ public class HouseListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		try {
-			final JSONObject object =  jsonArray.getJSONObject(pos);
-			if (this.flag != FLAG_HOUSE_LIST) {
-				holder.rlTop.setVisibility(View.VISIBLE);
-				holder.llBottom.setVisibility(View.VISIBLE);
-				holder.btnRight.setEnabled(true);
-				if (this.flag == FLAG_STATE_LIST_TENANT) {//房客
-					holder.tvHouseState.setText(object.getString("orderStatusName"));
-					switch (object.getInt("orderStatus")) {
-					case 0://10 已付定金 --待确认定金
-						holder.btnRight.setText("支付定金");
-						break;
-					case 10://10 已付定金 --待确认定金
-						holder.btnRight.setText("等待确认");
-						holder.btnRight.setEnabled(false);
-						break;
-					case 20://20 已确认定金 --待完善合同
-						holder.btnRight.setText("等待合同");
-						break;
-					case 30://30 已完善合同 --待确认合同
-						holder.btnRight.setText("确认合同");
-						break;
-					case 31://31 已驳回 --待完善合同
-						holder.btnRight.setText("完善合同");
-						break;
-					case 40://40 已确认合同 --待付款
-						holder.btnRight.setText("支付房租");
-						break;
-					case 50://50 已付款 --待入住
-						holder.btnRight.setText("确认入住");
-						break;
-					default:
-						if(object.getInt("orderStatus")<0){
-							holder.btnRight.setVisibility(View.GONE);
-						}else{
-							holder.btnRight.setText("交易成功");
-							holder.btnRight.setVisibility(View.VISIBLE);
-//							holder.btnRight.setEnabled(false);
-						}
-						break;
-					}
-					holder.btnRight.setOnClickListener(new  View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							// TODO Auto-generated method stub
-							itemButtonSelectListener.setRightButtonOnselect(pos,object);
-						}
-					});
-
-				} else if (this.flag == FLAG_STATE_LIST_LANDLORD) {// 房东
-					holder.tvHouseState.setText(object.getString("orderStatusName"));
-					switch (object.getInt("orderStatus")) {
-					case 0://10 已付定金 --待确认定金
-						holder.btnRight.setText("等待定金");
-						holder.btnRight.setEnabled(false);
-						break;
-					case 10://10 已付定金 --待确认定金
-						holder.btnRight.setText("确认定金");
-						break;
-					case 20://20 已确认定金 --待完善合同
-						holder.btnRight.setText("完善合同");
-						break;
-					case 30://30 已完善合同 --待确认合同
-						holder.btnRight.setText("等待确认");
-//						holder.btnRight.setEnabled(false);
-						break;
-					case 31://31 已驳回 --待完善合同
-						holder.btnRight.setText("完善合同");
-						break;
-					case 40://40 已确认合同 --待付款
-						holder.btnRight.setText("等待房租");
-						break;
-					case 50://50 已付款 --待入住
-						holder.btnRight.setText("等待入住");
-						break;
-					default:
-						if(object.getInt("orderStatus")<0){
-							holder.btnRight.setVisibility(View.GONE);
-						}else{
-							holder.btnRight.setText("交易成功");
-							holder.btnRight.setVisibility(View.VISIBLE);
-//							holder.btnRight.setEnabled(false);
-						}
-						break;
-					}
-					holder.btnRight.setOnClickListener(new  View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							// TODO Auto-generated method stub
-							itemButtonSelectListener.setRightButtonOnselect(pos,object);
-						}
-					});
-				} else if (this.flag == FLAG_STATE_LIST_COMPLAINT) {
-					holder.tvHouseState.setText(object.getString("complaintStatusName"));
-					//0 是 已投诉  1 是 解决 2 是 撤销
-					if(object.getInt("complaintStatus") == 0){
-						holder.btnRight.setText("撤回投诉");
-						holder.btnRight.setOnClickListener(new  View.OnClickListener() {
-
-							@Override
-							public void onClick(View v) {
-								// TODO Auto-generated method stub
-								itemButtonSelectListener.setRightButtonOnselect(pos,object);
-							}
-						});
-						holder.btnRight.setVisibility(View.VISIBLE);
-					}else{
-						holder.btnRight.setVisibility(View.GONE);
-					}
-					
-				}
-				holder.btnLeft.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						try {
-							telMoblie(object.getString("mobilePhone"));
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				});
-			}
 
 			ImageLoaderUtil.displayImage(jsonArray.getJSONObject(pos).getString("houseImgUrl"), holder.ivHouse);
 			holder.tvTitle.setText(jsonArray.getJSONObject(pos).getString("houseTitle"));

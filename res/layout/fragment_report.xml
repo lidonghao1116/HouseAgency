@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="请勿恶意举报，举报属实奖励500积分！" />
+                android:text="请勿恶意举报" />
 
             <View
                 android:layout_width="match_parent"

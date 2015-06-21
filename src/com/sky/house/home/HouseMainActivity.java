@@ -14,6 +14,7 @@ import cn.sharesdk.framework.ShareSDK;
 import com.eroad.base.BaseActivity;
 import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.CommonUtil;
 import com.next.util.SHEnvironment;
 import com.sky.house.R;
 import com.sky.widget.sweetdialog.SweetDialog;
@@ -51,7 +52,7 @@ public class HouseMainActivity extends BaseActivity {
 //					changeFragment(tabs[3]);
 //					break;
 				case R.id.rb_3:
-					if(SHEnvironment.getInstance().getSession().isEmpty()){
+					if(CommonUtil.isEmpty(SHEnvironment.getInstance().getSession())){
 						Intent intent = new Intent(HouseMainActivity.this,SHContainerActivity.class);
 						intent.putExtra("class", HouseLoginFragment.class.getName());
 						startActivity(intent);

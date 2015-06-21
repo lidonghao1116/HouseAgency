@@ -10,6 +10,8 @@
         android:id="@+id/tv_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextBigBlack"/>
+        style="@style/TextBigBlack"
+        android:textSize="@dimen/text_big"
+        android:textColor="#4e6367"/>
 
 </LinearLayout>

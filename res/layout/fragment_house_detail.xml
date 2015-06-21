@@ -19,7 +19,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical" 
+            android:paddingBottom="80dp">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager_banner"
@@ -234,7 +235,7 @@
                 android:horizontalSpacing="5dp"
                 android:numColumns="4"
                 android:verticalSpacing="5dp" />
-            
+
             <TextView
                 style="@style/TextSmallBlack"
                 android:layout_width="wrap_content"
@@ -294,8 +295,9 @@
 
                         <TextView
                             style="@style/TextMicroBlack"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
                             android:gravity="center_vertical"
@@ -303,9 +305,9 @@
 
                         <TextView
                             style="@style/TextMicroBlack"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
                             android:gravity="center_vertical"
@@ -322,8 +324,9 @@
 
                         <TextView
                             style="@style/TextMicroBlack"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
                             android:gravity="center_vertical"
@@ -331,9 +334,9 @@
 
                         <TextView
                             style="@style/TextMicroBlack"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
                             android:gravity="center_vertical"
@@ -425,12 +428,14 @@
                     android:layout_toRightOf="@id/label_area"
                     android:text="" />
 
-                <!-- <TextView
+                <!--
+                     <TextView
                     style="@style/TextSmallBlue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="小区详情" /> -->
+                    android:text="小区详情" />
+                -->
             </RelativeLayout>
 
             <View
@@ -471,8 +476,8 @@
             <ImageView
                 android:id="@+id/iv_map"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" 
-                android:scaleType="fitXY"/>
+                android:layout_height="200dp"
+                android:scaleType="fitXY" />
         </LinearLayout>
     </com.sky.house.widget.ObservableScrollView>
 

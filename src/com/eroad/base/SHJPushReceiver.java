@@ -1,26 +1,16 @@
 package com.eroad.base;
 
-import java.util.Iterator;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.eroad.base.util.ConfigDefinition;
-import com.next.message.SHMsgM;
-import com.next.message.SHMsgManager;
-import com.next.message.SHResMsgM;
-import com.next.net.SHRespinfo;
-import com.next.util.SHEnvironment;
-
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.data.JPushLocalNotification;
+
+import com.next.app.StandardApplication;
+import com.next.message.SHMsgManager;
 
 /**
  * 自定义接收器
@@ -59,6 +49,13 @@ public class SHJPushReceiver extends BroadcastReceiver {
 			Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
 			Log.e("push", extras);
+			ComponentName componetName = new ComponentName("com.sky.house", "com.sky.house.HouseMainActivity");  
+			try {  
+			    Intent intent_open = new Intent();  
+			    intent_open.setComponent(componetName);  
+			    SHApplication.getInstance().startActivity(intent_open);  
+			} catch (Exception e) {  
+			}  
 //			try {
 //				JSONObject extraJson = new JSONObject(extras);
 //				if(extraJson != null){
@@ -109,21 +106,25 @@ public class SHJPushReceiver extends BroadcastReceiver {
 		//String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 		String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
 		Log.i("push", extras);
-		try {
-			JSONObject extraJson = new JSONObject(extras);
-			if(extraJson != null){
-				SHResMsgM msg = new SHResMsgM();
-				msg.setResult(extraJson.getString("data"));
-				System.out.println(extraJson.getString("data"));
-				msg.setRespinfo(new SHRespinfo(extraJson.getInt("code"),extraJson.getString("message") ));
-				msg.setResponse(extraJson.getString("response"));
-				reel.processPackage(msg);
-			}
-
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Intent intent = new Intent("JPUSH_MSG");
+		StandardApplication.getInstance().sendBroadcast(intent); 
+//		SHResMsgM msg = new SHResMsgM();
+//		reel.processPackage(msg);
+//		try {
+//			JSONObject extraJson = new JSONObject(extras);
+//			if(extraJson != null){
+//				SHResMsgM msg = new SHResMsgM();
+//				msg.setResult(extraJson.getString("data"));
+//				System.out.println(extraJson.getString("data"));
+//				msg.setRespinfo(new SHRespinfo(extraJson.getInt("code"),extraJson.getString("message") ));
+//				msg.setResponse(extraJson.getString("response"));
+//				reel.processPackage(msg);
+//			}
+//
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 	}
 }

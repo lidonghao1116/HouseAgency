@@ -96,7 +96,7 @@ public class MessageAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		try {
-			JSONObject object =  jsonArray.getJSONObject(position);
+			final JSONObject object =  jsonArray.getJSONObject(position);
 			
 			holder.tvDate.setText(object.optString("createDate"));
 			holder.tvContent.setText(object.optString("content"));
@@ -110,9 +110,12 @@ public class MessageAdapter extends BaseAdapter {
 							// TODO Auto-generated method stub
 							Intent intent = new Intent(context,SHContainerActivity.class);
 							intent.putExtra("class", HouseReportFragment.class.getName());
+							intent.putExtra("complaintPushMsgId", object.optString("id"));
 							context.startActivity(intent);
 						}
 					});
+				}else{
+					holder.btnReport.setVisibility(View.INVISIBLE);
 				}
 			}else{
 				holder.tvTitle.setText(object.optString("accountTypeName"));

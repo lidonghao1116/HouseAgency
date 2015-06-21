@@ -119,6 +119,8 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 							intent.putExtra("class", HousePayChargeFragment.class.getName());
 							intent.putExtra("id",  object.getInt("houseDetailId"));
 							intent.putExtra("identification", 1);
+							intent.putExtra("optType", 10);
+							intent.putExtra("orderId", object.getInt("orderId")+"");
 							startActivity(intent);
 						}
 					} catch (JSONException e) {
@@ -224,7 +226,8 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			mAdapter.notifyDataSetChanged();
 		}else if(task == taskClear){
 			jsonArray = new JSONArray();
-			listView.setTotalNum(0);
+//			listView.setTotalNum(0);
+			listView.setTipsMessage("已加载全部");
 			mAdapter.setJsonArray(jsonArray);
 			mAdapter.notifyDataSetChanged();
 		}else if(task == taskComplain){

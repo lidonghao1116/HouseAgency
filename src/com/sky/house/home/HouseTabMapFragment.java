@@ -148,7 +148,7 @@ public class HouseTabMapFragment extends BaseFragment implements ITaskListener {
 				intent.putExtra("class", HouseListFragment.class.getName());
 				intent.putExtra("from", "map");
 				try {
-					intent.putExtra("zoneId", jsonArray.getJSONObject(marker.getZIndex()).optString("houseZoneId"));
+					intent.putExtra("zoneId", jsonArray.getJSONObject(marker.getZIndex()).optInt("houseZoneId"));
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

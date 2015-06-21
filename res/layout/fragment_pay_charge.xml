@@ -9,406 +9,655 @@
         android:id="@id/detailTitlebar"
         layout="@layout/titlebar_detail" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp" >
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="支付订金" />
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="签订合同" />
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="支付房租" />
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="成功入住" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp" >
-
-        <ImageView
-            android:id="@+id/iv_one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/progress_one_orange" />
-
-        <ImageView
-            android:id="@+id/iv_line_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/progress_line_orange" />
-
-        <ImageView
-            android:id="@+id/iv_line_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/progress_line_gray" />
-
-        <ImageView
-            android:id="@+id/iv_two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/progress_two_gray" />
-
-        <ImageView
-            android:id="@+id/iv_line_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/progress_line_gray" />
-
-        <ImageView
-            android:id="@+id/iv_line_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/progress_line_gray" />
-
-        <ImageView
-            android:id="@+id/iv_three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/progress_three_gray" />
-
-        <ImageView
-            android:id="@+id/iv_line_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/progress_line_gray" />
-
-        <ImageView
-            android:id="@+id/iv_line_6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/progress_line_gray" />
-
-        <ImageView
-            android:id="@+id/iv_four"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/progress_four_gray" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_step_pay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone" >
+        android:scrollbars="none" >
 
         <LinearLayout
-            android:id="@+id/ll_pay_zuke"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/item_house_list" />
-
-            <TextView
-                android:id="@+id/tv_yuyue_money"
-                style="@style/TextMidGray"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="10dp"
-                android:text="10%房屋预约金：¥550.00" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom|right"
                 android:orientation="horizontal"
-                android:paddingRight="10dp" >
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp" >
 
                 <TextView
                     style="@style/TextMidGray"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="实付款：" />
-
-                <TextView
-                    android:id="@+id/tv_yingfu"
-                    style="@style/TextBigOrange"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="¥550.00" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/color_gray_light" />
-
-            <RelativeLayout
-                android:id="@+id/rl_pay_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp" >
-
-                <TextView
-                    android:id="@+id/label_1"
-                    style="@style/TextMicroGray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:drawableLeft="@drawable/ic_tip"
-                    android:text="订金只是预约作用，不会直接进入出租方账户，请放心支付！" />
-
-                <Button
-                    android:id="@+id/btn_pay"
-                    style="@style/TextBigWhite"
-                    android:layout_width="120dp"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/label_1"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/btn_orange_round"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:text="支付订金" />
 
-                <ImageView
-                    android:id="@+id/iv_question"
-                    android:layout_width="wrap_content"
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/btn_pay"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/btn_pay"
-                    android:background="@drawable/ic_question"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp" />
-
-                <LinearLayout
-                    android:id="@+id/ll_tips"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/btn_pay"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:visibility="gone" >
-
-                    <LinearLayout
-                        android:id="@+id/ll_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1." />
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_contact_1" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2." />
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_contact_2" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3." />
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_contact_3" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4." />
-
-                        <TextView
-                            style="@style/TextMicroOrange"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/str_contact_4" />
-                    </LinearLayout>
-                </LinearLayout>
-            </RelativeLayout>
-
-            <ListView
-                android:id="@+id/lv_zuke"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:listSelector="@color/color_full_transparent"
-                android:visibility="gone" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_step_agreement"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible" >
-
-        <ImageView
-            android:id="@+id/iv_agreement"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:background="@drawable/img_agreement_test" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/color_gray_light" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/tv_time"
-                style="@style/TextMidBlack"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_naozhong"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:text="1小时59分20秒" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/color_gray_light" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:id="@+id/iv_fangdong"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/ic_baozhang" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="签订合同" />
 
                 <TextView
-                    android:id="@+id/tv_fangdong"
-                    style="@style/TextMidBlack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    style="@style/TextMidGray"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="房东：某某某" />
+                    android:text="支付房租" />
+
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="成功入住" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp" >
+
+                <ImageView
+                    android:id="@+id/iv_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/progress_one_orange" />
+
+                <ImageView
+                    android:id="@+id/iv_line_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/progress_line_orange" />
+
+                <ImageView
+                    android:id="@+id/iv_line_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/progress_line_gray" />
+
+                <ImageView
+                    android:id="@+id/iv_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/progress_two_gray" />
+
+                <ImageView
+                    android:id="@+id/iv_line_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/progress_line_gray" />
+
+                <ImageView
+                    android:id="@+id/iv_line_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/progress_line_gray" />
+
+                <ImageView
+                    android:id="@+id/iv_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/progress_three_gray" />
+
+                <ImageView
+                    android:id="@+id/iv_line_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/progress_line_gray" />
+
+                <ImageView
+                    android:id="@+id/iv_line_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/progress_line_gray" />
+
+                <ImageView
+                    android:id="@+id/iv_four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/progress_four_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_step_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:id="@+id/ll_pay_zuke"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <include
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        layout="@layout/item_house_list" />
+
+                    <TextView
+                        android:id="@+id/tv_yuyue_money"
+                        style="@style/TextMidGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_margin="10dp"
+                        android:text="10%房屋预约金：¥550.00" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom|right"
+                        android:orientation="horizontal"
+                        android:paddingRight="10dp" >
+
+                        <TextView
+                            style="@style/TextMidGray"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="实付款：" />
+
+                        <TextView
+                            android:id="@+id/tv_yingfu"
+                            style="@style/TextBigOrange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="¥550.00" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/color_gray_light" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_pay_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp" >
+
+                        <TextView
+                            android:id="@+id/label_1"
+                            style="@style/TextMicroGray"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:drawableLeft="@drawable/ic_tip"
+                            android:text="订金只是预约作用，不会直接进入出租方账户，请放心支付！" />
+
+                        <Button
+                            android:id="@+id/btn_pay"
+                            style="@style/TextBigWhite"
+                            android:layout_width="120dp"
+                            android:layout_height="40dp"
+                            android:layout_below="@id/label_1"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="30dp"
+                            android:background="@drawable/btn_orange_round"
+                            android:text="支付订金" />
+
+                        <ImageView
+                            android:id="@+id/iv_question"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/btn_pay"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@id/btn_pay"
+                            android:background="@drawable/ic_question"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_tips"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/btn_pay"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:visibility="gone" >
+
+                            <LinearLayout
+                                android:id="@+id/ll_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/TextMicroOrange"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="1." />
+
+                                <TextView
+                                    style="@style/TextMicroOrange"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/str_contact_1" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ll_2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/TextMicroOrange"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="2." />
+
+                                <TextView
+                                    style="@style/TextMicroOrange"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/str_contact_2" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ll_3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/TextMicroOrange"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="3." />
+
+                                <TextView
+                                    style="@style/TextMicroOrange"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/str_contact_3" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ll_4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    style="@style/TextMicroOrange"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="4." />
+
+                                <TextView
+                                    style="@style/TextMicroOrange"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/str_contact_4" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_pay_rent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:visibility="gone" >
+
+                        <TextView
+                            style="@style/TextMidBlack"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:gravity="right"
+                            android:text="付款方式：" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/color_gray_light" />
+
+                        <TextView
+                            android:id="@+id/tv_fukuan_type"
+                            style="@style/TextMidOrange"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:padding="5dp"
+                            android:text="付三押一" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/color_gray_light" />
+
+                        <TextView
+                            style="@style/TextMidBlack"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_margin="10dp"
+                            android:text="应付金额：" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                style="@style/TextSmallWhite"
+                                android:layout_width="0dp"
+                                android:layout_height="25dp"
+                                android:layout_weight="1"
+                                android:background="@color/color_gray_light"
+                                android:gravity="center"
+                                android:text="房屋租金/月" />
+
+                            <TextView
+                                style="@style/TextSmallWhite"
+                                android:layout_width="0dp"
+                                android:layout_height="25dp"
+                                android:layout_marginLeft="2dp"
+                                android:layout_weight="1"
+                                android:background="@color/color_gray_light"
+                                android:gravity="center"
+                                android:text="应缴月份数" />
+
+                            <TextView
+                                style="@style/TextSmallWhite"
+                                android:layout_width="0dp"
+                                android:layout_height="25dp"
+                                android:layout_marginLeft="2dp"
+                                android:layout_weight="1"
+                                android:background="@color/color_gray_light"
+                                android:gravity="center"
+                                android:text="应缴押金" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:id="@+id/tv_month_pay"
+                                style="@style/TextSmallOrange"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="5500" />
+
+                            <TextView
+                                style="@style/TextSmallOrange"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="X" />
+
+                            <TextView
+                                android:id="@+id/tv_months"
+                                style="@style/TextSmallOrange"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="3" />
+
+                            <TextView
+                                style="@style/TextSmallOrange"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="+" />
+
+                            <TextView
+                                android:id="@+id/tv_yajin"
+                                style="@style/TextSmallOrange"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="5500" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/color_gray_light" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp" >
+
+                            <TextView
+                                android:id="@+id/tv_pay_all"
+                                style="@style/TextSmallBlack"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:gravity="right"
+                                android:text="10000" />
+
+                            <TextView
+                                style="@style/TextMidBlack"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toLeftOf="@id/tv_pay_all"
+                                android:text="应付总额：" />
+
+                            <TextView
+                                android:id="@+id/tv_pay_have"
+                                style="@style/TextSmallBlack"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_below="@id/tv_pay_all"
+                                android:layout_marginTop="5dp"
+                                android:gravity="right"
+                                android:text="100" />
+
+                            <TextView
+                                style="@style/TextMidBlack"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@id/tv_pay_have"
+                                android:layout_toLeftOf="@id/tv_pay_have"
+                                android:text="（订金）已支付" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/color_gray_light" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal" >
+
+                            <CheckBox
+                                android:id="@+id/cb_use_sunny"
+                                style="@style/TextSmallBlack"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="可用阳光值100抵扣100元" />
+
+                            <TextView
+                                style="@style/TextSmallBlack"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="实付款：" />
+
+                            <TextView
+                                android:id="@+id/tv_need_pay"
+                                style="@style/TextMidOrange"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="10000" />
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btn_pay_rent"
+                            android:layout_width="150dp"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/btn_orange_round"
+                            android:text="确认支付"
+                            android:layout_gravity="center_horizontal"
+                            style="@style/TextBigWhite" />
+                    </LinearLayout>
+
+                    <ListView
+                        android:id="@+id/lv_zuke"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:listSelector="@color/color_full_transparent"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_step_agreement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:id="@+id/iv_agreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/img_agreement_test" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_gray_light" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        style="@style/TextMidBlack"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_naozhong"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:text="1小时59分20秒" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_gray_light" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <ImageView
+                            android:id="@+id/iv_fangdong"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/ic_baozhang" />
+
+                        <TextView
+                            android:id="@+id/tv_fangdong"
+                            style="@style/TextMidBlack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="房东：某某某" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_gray_light" />
+
+                <TextView
+                    style="@style/TextSmallGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/ic_tip"
+                    android:text="承租方已支付订金，将于3小时内完善内容" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp" 
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+					 <Button
+                        android:id="@+id/btn_edit"
+                        style="@style/TextBigWhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@drawable/btn_orange_round"
+                        android:gravity="center"
+                        android:text="编辑合同" 
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:visibility="gone"/>
+                    <Button
+                        android:id="@+id/btn_complete"
+                        style="@style/TextBigWhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@drawable/btn_orange_round"
+                        android:gravity="center"
+                        android:text="完善合同" 
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/color_gray_light" />
-
-        <TextView
-            style="@style/TextSmallGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/ic_tip"
-            android:text="承租方已支付订金，将于3小时内完善内容" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp" >
-
-            <Button
-                android:id="@+id/btn_complete"
-                style="@style/TextBigWhite"
-                android:layout_width="150dp"
-                android:layout_height="35dp"
-                android:background="@drawable/btn_orange_round"
-                android:gravity="center"
-                android:layout_centerHorizontal="true"
-                android:text="完善合同" />
-        </RelativeLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

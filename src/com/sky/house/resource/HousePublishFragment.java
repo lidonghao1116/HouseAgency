@@ -89,8 +89,8 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 	@ViewInit(id = R.id.rg_type)
 	private RadioGroup mRgType;
 
-	@ViewInit(id = R.id.rg_sex)
-	private RadioGroup mRgSex;
+//	@ViewInit(id = R.id.rg_sex)
+//	private RadioGroup mRgSex;
 
 	private SHPostTaskM publishTask;
 
@@ -250,6 +250,7 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 					intent.putExtra("class", HousePublishDetailFragment.class.getName());
 					intent.putExtra("type_rent", type_rent);
 					intent.putExtra("json", map.get(view.getTag()).toString());
+					intent.putExtra("from", "more");//more表示多个房间  第二个房间开始不显示几室几厅几卫
 					startActivityForResult(intent, CODE_DETAIL);
 					getActivity().overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
 				}
@@ -366,18 +367,30 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 			}).setNegativeButton("取消", null).show();
 			break;
 		case R.id.btn_next:
+			if(map.size() == 0  ||  CommonUtil.isEmpty(mEtPhone.getText().toString().trim()) || CommonUtil.isEmpty(mEtDes.getText().toString().trim())){
+				SHToast.showToast(getActivity(), "请先完善信息");
+				return;
+			}
 			try {
 				json.put("lordType", mRgLord.getCheckedRadioButtonId() == R.id.rb_0 ? 1 : 2);// 房东类型
-				json.put("rentType", mRgType.getCheckedRadioButtonId() == R.id.rb_type_0 ? 0 : 1);// 出租类型
-				json.put("Gender", mRgSex.getCheckedRadioButtonId() == R.id.rb_male ? 0 : 1);// 性别
+				json.put("rentType", mRgType.getCheckedRadioButtonId() == R.id.rb_type_0 ? 1 : 2);// 出租类型
+//				json.put("Gender", mRgSex.getCheckedRadioButtonId() == R.id.rb_male ? 0 : 1);// 性别
 				json.put("contractPhone", mEtPhone.getText().toString().trim());
 				JSONArray detailArray = new JSONArray();
 				Iterator iter = map.entrySet().iterator();
 				while (iter.hasNext()) {
 					Map.Entry entry = (Map.Entry) iter.next();
 					detailArray.put(entry.getValue());
+//					CommonUtil.JSONUtil.copyJson(json, ((JSONObject)entry.getValue()));
+					JSONObject jsonObj = (JSONObject)entry.getValue();
+					if(jsonObj.optInt("office") != 0 && jsonObj.optInt("room") != 0 && jsonObj.optInt("toilet") != 0){
+						json.put("office", jsonObj.optInt("office"));
+						json.put("room", jsonObj.optInt("room"));
+						json.put("toilet", jsonObj.optInt("toilet"));
+					}
 				}
-				json.put("HouseFitmentList", detailArray);
+				json.put("houseDetailInfoList", detailArray);
+//				json.
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

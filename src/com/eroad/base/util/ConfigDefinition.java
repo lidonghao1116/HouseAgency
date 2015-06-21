@@ -10,5 +10,7 @@ public class ConfigDefinition {
 	public static final int ELE_NUM = 9;//家电数量
 	
 	public static final int FUNI_NUM = 8;//家具数量
+	
+	public static boolean isAuth;//是否认证？
 
 }

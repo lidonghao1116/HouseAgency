@@ -140,10 +140,12 @@ public class HouseLoginFragment extends BaseFragment implements ITaskListener {
 		SHDialog.dismissProgressDiaolg();
 		JSONObject json = (JSONObject) task.getResult();
 		if (task == validateTask) {
-			mEtValidate.setText(json.getString("Code"));
+//			mEtValidate.setText(json.getString("Code"));
 		} else if (task == loginTask) {
+			ConfigDefinition.isAuth = json.optBoolean("isAuth");
 			SHEnvironment.getInstance().setSession(json.getString("SessionId"));
 			UserInfoManager.getInstance().setAutoLogin(true);
+			UserInfoManager.getInstance().setSession(json.getString("SessionId"));
 			UserInfoManager.getInstance().setMoblie(mEtPhone.getText().toString().trim());
 			UserInfoManager.getInstance().setPassword(mEtValidate.getText().toString().trim());
 			UserInfoManager.getInstance().sync(getActivity(), true);

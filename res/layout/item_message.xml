@@ -49,7 +49,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:background="@null"
-            android:text="举报" />
+            android:text="举报" 
+            android:visibility="invisible"/>
     </RelativeLayout>
 
 </LinearLayout>

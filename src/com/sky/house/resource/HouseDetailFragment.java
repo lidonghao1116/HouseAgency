@@ -39,6 +39,7 @@ import com.sky.house.adapter.TopAdvertPagerAdapter;
 import com.sky.house.business.HouseContactFragment;
 import com.sky.house.home.HouseLoginFragment;
 import com.sky.house.interfaces.ScrollViewListener;
+import com.sky.house.map.HouseMapActivity;
 import com.sky.house.report.HouseReportFragment;
 import com.sky.house.widget.MyGridView;
 import com.sky.house.widget.ObservableScrollView;
@@ -111,7 +112,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 	@ViewInit(id = R.id.tv_address)
 	private TextView mTvAddress;
 	
-	@ViewInit(id = R.id.iv_map)
+	@ViewInit(id = R.id.iv_map,onClick = "onClick")
 	private ImageView mIvMap;
 
 	@ViewInit(id = R.id.btn_collect, onClick = "onClick")
@@ -161,6 +162,12 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				if(CommonUtil.isEmpty(SHEnvironment.getInstance().getSession())){
+					Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+					intent.putExtra("class", HouseLoginFragment.class.getName());
+					startActivity(intent);
+					return;
+				}
 				Intent intent = new Intent(getActivity(),SHContainerActivity.class);
 				intent.putExtra("class", HouseReportFragment.class.getName());
 				intent.putExtra("id", json.optInt("houseDetailId"));
@@ -241,6 +248,13 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 				e.printStackTrace();
 			}
 			startActivity(intent);
+			break;
+		case R.id.iv_map:
+			Intent intent_map = new Intent(getActivity(),HouseMapActivity.class);
+			intent_map.putExtra("Lng", json.optDouble("lng"));
+			intent_map.putExtra("Lat", json.optDouble("lat"));
+			intent_map.putExtra("name", json.optString("address"));
+			startActivity(intent_map);
 			break;
 		}
 	}
@@ -400,9 +414,9 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 		final OnekeyShare oks = new OnekeyShare();
 
 		// oks.setAddress("12345678901");
-		oks.setTitle("title");
-		oks.setTitleUrl("http://mob.com");
-		oks.setText("content");
+		oks.setTitle("阳关租房");
+//		oks.setTitleUrl("http://mob.com");
+		oks.setText("我正在使用《阳光租房》App哦～");
 
 		// oks.setImagePath(CustomShareFieldsPage.getString("imagePath",
 		// MainActivity.TEST_IMAGE));
@@ -410,11 +424,11 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 		// oks.setImageArray(new String[]{MainActivity.TEST_IMAGE,
 		// MainActivity.TEST_IMAGE_URL});
 
-		oks.setUrl("http://www.mob.com");
+//		oks.setUrl("http://www.mob.com");
 //		oks.setFilePath(CustomShareFieldsPage.getString("filePath", MainActivity.TEST_IMAGE));
 //		oks.setComment(CustomShareFieldsPage.getString("comment", context.getString(R.string.share)));
-		oks.setSite(getActivity().getResources().getString(R.string.app_name));
-		oks.setSiteUrl("http://mob.com");
+//		oks.setSite(getActivity().getResources().getString(R.string.app_name));
+//		oks.setSiteUrl("http://mob.com");
 		// oks.setVenueName(CustomShareFieldsPage.getString("venueName",
 		// "ShareSDK"));
 		// oks.setVenueDescription(CustomShareFieldsPage.getString("venueDescription",

@@ -107,6 +107,9 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 	@ViewInit(id = R.id.iv_agreement, onClick = "onClick")
 	private ImageView mIvAgreement;
 
+	@ViewInit(id = R.id.iv_example_fangchan,onClick = "onClick")
+	private ImageView mIvExampleFangchan;
+	
 	@ViewInit(id = R.id.iv_example_identi, onClick = "onClick")
 	private ImageView mIvExampleIdenti;
 
@@ -184,7 +187,17 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 			}).show();
 			break;
 		case R.id.iv_example_identi:
-			new ExampleDialog(getActivity(), R.drawable.test, new ExampleDialogOnClick() {
+			new ExampleDialog(getActivity(), R.drawable.img_card_example, new ExampleDialogOnClick() {
+
+				@Override
+				public void exampleOnClick(Dialog d) {
+					// TODO Auto-generated method stub
+					d.dismiss();
+				}
+			}).show();
+			break;
+		case R.id.iv_example_fangchan:
+			new ExampleDialog(getActivity(), R.drawable.ic_fangchan, new ExampleDialogOnClick() {
 
 				@Override
 				public void exampleOnClick(Dialog d) {
@@ -346,7 +359,7 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 						break;
 					case 3:
 						bmProperty = smallBitmap;
-						mIvProperty.setImageBitmap(bmIdenti);
+						mIvProperty.setImageBitmap(bmProperty);
 						break;
 					}
 					bitmap_choose.recycle();

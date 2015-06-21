@@ -9,241 +9,262 @@
         android:id="@id/detailTitlebar"
         layout="@layout/titlebar_detail" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp" >
+        android:layout_height="wrap_content" >
 
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="开始时间" />
-
-        <Button
-            android:id="@+id/btn_start"
-            style="@style/TextMidBlack"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:background="@drawable/bg_gray_round_corner"
-            android:gravity="center"
-            android:text="2015-01-01" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp" >
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="结束时间" />
-
-        <Button
-            android:id="@+id/btn_end"
-            style="@style/TextMidBlack"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:background="@drawable/bg_gray_round_corner"
-            android:gravity="center"
-            android:text="2015-01-01" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp" >
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="月租" />
-
-        <EditText
-            android:id="@+id/et_rent"
-            style="@style/TextMidBlack"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:background="@drawable/bg_gray_round_corner"
-            android:gravity="center"
-            android:inputType="number" />
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="元" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp" >
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="押金" />
-
-        <EditText
-            android:id="@+id/et_yajin"
-            style="@style/TextMidBlack"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:background="@drawable/bg_gray_round_corner"
-            android:gravity="center"
-            android:inputType="number" />
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="元" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp" >
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="付款方式" />
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="押" />
-
-        <EditText
-            android:id="@+id/et_ya"
-            style="@style/TextMidBlack"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:background="@drawable/bg_gray_round_corner"
-            android:gravity="center"
-            android:inputType="number" />
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="付" />
-
-        <EditText
-            android:id="@+id/et_fu"
-            style="@style/TextMidBlack"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:background="@drawable/bg_gray_round_corner"
-            android:gravity="center"
-            android:inputType="number" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp" >
-
-        <TextView
-            style="@style/TextMidGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="房东承担" />
-
-        <EditText
-            android:id="@+id/et_chengdan"
-            style="@style/TextMidBlack"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@drawable/bg_gray_round_corner"
-            android:gravity="center_vertical"
-            android:hint="选填，例如：物业费，水电煤"
-            android:paddingLeft="10dp" />
-    </LinearLayout>
-
-    <TextView
-        style="@style/TextMidGray"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="持有证件" />
-
-    <RadioGroup
-        android:id="@+id/rg_zhengjian"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <RadioButton
-            android:id="@+id/rb_0"
-            style="@style/TextMidBlack"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="房屋所有权" />
+            android:orientation="vertical" >
 
-        <RadioButton
-            android:id="@+id/rb_1"
-            style="@style/TextMidBlack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="住房租赁合同" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="5dp" >
 
-        <RadioButton
-            android:id="@+id/rb_2"
-            style="@style/TextMidBlack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="房屋买卖合同" />
-    </RadioGroup>
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="开始时间" />
 
-    <TextView
-        style="@style/TextMidGray"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="备注" />
+                <Button
+                    android:id="@+id/btn_start"
+                    style="@style/TextMidBlack"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_gray_round_corner"
+                    android:gravity="center"
+                    android:text="2015-01-01" />
+            </LinearLayout>
 
-    <EditText
-        android:id="@+id/et_beizhu"
-        style="@style/TextMidBlack"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_margin="5dp"
-        android:gravity="top"
-        android:hint="选填"
-        android:padding="5dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="5dp" >
+
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="结束时间" />
+
+                <Button
+                    android:id="@+id/btn_end"
+                    style="@style/TextMidBlack"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_gray_round_corner"
+                    android:gravity="center"
+                    android:text="2015-01-01" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="5dp" >
+
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="月租" />
+
+                <EditText
+                    android:id="@+id/et_rent"
+                    style="@style/TextMidBlack"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_gray_round_corner"
+                    android:gravity="center"
+                    android:inputType="number" />
+
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="元" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="5dp" >
+
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="押金" />
+
+                <EditText
+                    android:id="@+id/et_yajin"
+                    style="@style/TextMidBlack"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_gray_round_corner"
+                    android:gravity="center"
+                    android:inputType="number" />
+
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="元" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="5dp" >
+
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="付款方式" />
+
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="押" />
+
+                <EditText
+                    android:id="@+id/et_ya"
+                    style="@style/TextMidBlack"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_gray_round_corner"
+                    android:gravity="center"
+                    android:inputType="number" />
+
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="付" />
+
+                <EditText
+                    android:id="@+id/et_fu"
+                    style="@style/TextMidBlack"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_gray_round_corner"
+                    android:gravity="center"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="5dp" >
+
+                <TextView
+                    style="@style/TextMidGray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="房东承担" />
+
+                <EditText
+                    android:id="@+id/et_chengdan"
+                    style="@style/TextMidBlack"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_gray_round_corner"
+                    android:gravity="center_vertical"
+                    android:hint="选填，例如：物业费，水电煤"
+                    android:paddingLeft="10dp" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextMidGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="持有证件" />
+
+            <RadioGroup
+                android:id="@+id/rg_zhengjian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RadioButton
+                    android:id="@+id/rb_0"
+                    style="@style/TextMidBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="房屋所有权" />
+
+                <RadioButton
+                    android:id="@+id/rb_1"
+                    style="@style/TextMidBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="住房租赁合同" />
+
+                <RadioButton
+                    android:id="@+id/rb_2"
+                    style="@style/TextMidBlack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="房屋买卖合同" />
+            </RadioGroup>
+
+            <TextView
+                style="@style/TextMidGray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="备注" />
+
+            <EditText
+                android:id="@+id/et_beizhu"
+                style="@style/TextMidBlack"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="5dp"
+                android:gravity="top"
+                android:hint="选填"
+                android:padding="5dp" />
+
+            <Button
+                android:id="@+id/btn_commit"
+                style="@style/TextBigWhite"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:background="@drawable/btn_orange_round" 
+                android:text="提交"
+                android:layout_margin="20dp"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

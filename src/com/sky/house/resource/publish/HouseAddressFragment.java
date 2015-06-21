@@ -101,10 +101,10 @@ public class HouseAddressFragment extends BaseFragment {
 			SHToast.showToast(getActivity(), "请输入楼号");
 			return false;
 		}
-		if (CommonUtil.isEmpty(mEtDanYuan.getText().toString().trim())) {
-			SHToast.showToast(getActivity(), "请输入单元号");
-			return false;
-		}
+//		if (CommonUtil.isEmpty(mEtDanYuan.getText().toString().trim())) {
+//			SHToast.showToast(getActivity(), "请输入单元号");
+//			return false;
+//		}
 		if (CommonUtil.isEmpty(mEtMenPaiHao.getText().toString().trim())) {
 			SHToast.showToast(getActivity(), "请输入门牌号");
 			return false;
@@ -151,8 +151,8 @@ public class HouseAddressFragment extends BaseFragment {
 		if (resultCode == Activity.RESULT_OK && data != null) {
 			mTvAddress.setText(data.getStringExtra("houseZoneName"));
 			try {
-				json.put("city", data.getStringExtra("city"));
-				json.put("district", data.getStringExtra("district"));
+				json.put("cityName", data.getStringExtra("city"));
+				json.put("districtName", data.getStringExtra("district"));
 				json.put("houseZoneName", data.getStringExtra("houseZoneName"));
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block

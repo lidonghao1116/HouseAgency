@@ -24,7 +24,11 @@ public class HTMLFragment extends BaseFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		mDetailTitlebar.setTitle("合同");
+		if(getActivity().getIntent().getStringExtra("title") != null){
+			mDetailTitlebar.setTitle(getActivity().getIntent().getStringExtra("title"));
+		}else{
+			mDetailTitlebar.setTitle("合同");
+		}
 		webView.getSettings().setJavaScriptEnabled(true);//支持js脚本
 		webView.getSettings().setLoadsImagesAutomatically(true);
 		// 自适应屏幕

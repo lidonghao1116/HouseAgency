@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.eroad.base.util.CommonUtil;
+import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.ImageLoaderUtil;
 import com.sky.house.R;
+import com.sky.house.resource.HTMLFragment;
 
 public class TopAdvertPagerAdapter extends PagerAdapter {
 
@@ -43,8 +45,13 @@ public class TopAdvertPagerAdapter extends PagerAdapter {
 			@Override
 			public void onClick(View v) {
 
-//				ViewHolder holder = (ViewHolder) v.getTag();
-//				String url = holder.ulr;
+				ViewHolder holder = (ViewHolder) v.getTag();
+				String url = holder.ulr;
+				Intent intent  = new Intent(mContext,SHContainerActivity.class);
+				intent.putExtra("class", HTMLFragment.class.getName());
+				intent.putExtra("url", url);
+				intent.putExtra("title", "广告");
+				mContext.startActivity(intent);
 			}
 		};
 	}

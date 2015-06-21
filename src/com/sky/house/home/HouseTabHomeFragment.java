@@ -31,6 +31,7 @@ import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
+import com.eroad.base.util.UserInfoManager;
 import com.eroad.base.util.ViewInit;
 import com.eroad.base.util.location.Location;
 import com.eroad.base.util.location.SHLocationManager;
@@ -43,9 +44,11 @@ import com.sky.house.R;
 import com.sky.house.adapter.NewsAdapter;
 import com.sky.house.adapter.TopAdvertPagerAdapter;
 import com.sky.house.city.HouseCityFragment;
+import com.sky.house.me.HouseAuthenticationFragment;
 import com.sky.house.resource.HouseListFragment;
 import com.sky.house.resource.HousePublishFragment;
 import com.sky.widget.SHDialog;
+import com.sky.widget.SHToast;
 import com.sky.widget.sweetdialog.SweetDialog;
 
 /**
@@ -143,6 +146,7 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 		}
 		requestTopAdv();
 		requestNews();
+		SHEnvironment.getInstance().setSession(UserInfoManager.getInstance().getSession());
 	}
 
 	@Override
@@ -156,11 +160,19 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 		Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 		switch (v.getId()) {
 		case R.id.tv_entire_rent:
+			if(CommonUtil.isEmpty(Location.getInstance().getSelectedCityId()+"")){
+				SHToast.showToast(getActivity(), "请选择城市");
+				return;
+			}
 			intent.putExtra("class", HouseListFragment.class.getName());
 			intent.putExtra("rentType", 1);
 			startActivity(intent);
 			break;
 		case R.id.tv_joint_rent:
+			if(CommonUtil.isEmpty(Location.getInstance().getSelectedCityId()+"")){
+				SHToast.showToast(getActivity(), "请选择城市");
+				return;
+			}
 			intent.putExtra("class", HouseListFragment.class.getName());
 			intent.putExtra("rentType", 2);
 			startActivity(intent);
@@ -170,6 +182,12 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 				Intent intent_login = new Intent(getActivity(),SHContainerActivity.class);
 				intent_login.putExtra("class", HouseLoginFragment.class.getName());
 				startActivity(intent_login);
+				return;
+			}
+			if(!ConfigDefinition.isAuth){
+				Intent intent_auth = new Intent(getActivity(),SHContainerActivity.class);
+				intent_auth.putExtra("class", HouseAuthenticationFragment.class.getName());
+				startActivity(intent_auth);
 				return;
 			}
 			intent.putExtra("class", HousePublishFragment.class.getName());

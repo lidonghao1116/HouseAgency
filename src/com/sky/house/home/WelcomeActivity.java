@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import cn.jpush.android.api.JPushInterface;
 
 import com.eroad.base.util.UserInfoManager;
 import com.eroad.base.util.location.SHLocationManager;
@@ -38,5 +39,20 @@ public class WelcomeActivity extends Activity {
 		mHandler = new Handler();
 		mHandler.postDelayed(mEnterAppRunnable, 1000);
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		JPushInterface.onResume(WelcomeActivity.this);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		JPushInterface.onPause(WelcomeActivity.this);
+	}
+
 
 }

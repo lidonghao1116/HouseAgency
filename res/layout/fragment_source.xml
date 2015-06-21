@@ -131,6 +131,19 @@
         android:layout_height="wrap_content"
         android:divider="@color/color_full_transparent"
         android:dividerHeight="0dp"
-        android:listSelector="@drawable/list_item" />
+        android:listSelector="@drawable/list_item" 
+        android:visibility="gone"/>
+    
+    <com.sky.house.widget.SHGridView
+        android:id="@+id/gv_house"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/color_full_transparent"
+        android:dividerHeight="0dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="15dp"
+        android:numColumns="2"
+        android:listSelector="@drawable/list_item"
+        android:padding="5dp" />
 
 </LinearLayout>

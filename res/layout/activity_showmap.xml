@@ -5,11 +5,11 @@
     android:orientation="vertical" >
 
     <include
-        android:id="@id/detailTitlebar"
+        android:id="@+id/detailTitlebar"
         layout="@layout/titlebar_detail" />
 
-    <WebView
-        android:id="@+id/web_html"
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmap_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

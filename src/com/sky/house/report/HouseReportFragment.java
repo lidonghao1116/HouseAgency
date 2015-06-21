@@ -71,7 +71,11 @@ public class HouseReportFragment extends BaseFragment implements ITaskListener{
 			reportTask.setListener(this);
 			reportTask.setUrl(ConfigDefinition.URL+"AddUserReport");
 			reportTask.getTaskArgs().put("complaintType", check);
-			reportTask.getTaskArgs().put("complaintHouseDetailId", getActivity().getIntent().getIntExtra("id", -1));
+			if(getActivity().getIntent().getStringExtra("complaintPushMsgId") != null){
+				reportTask.getTaskArgs().put("complaintPushMsgId", getActivity().getIntent().getStringExtra("complaintPushMsgId"));
+			}else{
+				reportTask.getTaskArgs().put("complaintHouseDetailId", getActivity().getIntent().getIntExtra("id", -1));
+			}
 			reportTask.getTaskArgs().put("complaintContent", mEtContent.getText().toString().trim());
 			reportTask.start();
 			break;
@@ -82,6 +86,7 @@ public class HouseReportFragment extends BaseFragment implements ITaskListener{
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
+		finish();
 	}
 
 	@Override

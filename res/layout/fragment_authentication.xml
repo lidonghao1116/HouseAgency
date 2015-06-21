@@ -126,7 +126,6 @@
                     android:ellipsize="end"
                     android:gravity="right"
                     android:hint="请正确填写证件号"
-                    android:inputType="number"
                     android:singleLine="true"
                     android:text="" />
             </RelativeLayout>

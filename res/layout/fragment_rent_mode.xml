@@ -33,7 +33,8 @@
             android:layout_weight="1"
             android:background="@null"
             android:gravity="center_vertical"
-            android:hint="请输入租金" />
+            android:hint="请输入租金" 
+            android:inputType="number"/>
 
         <TextView
             style="@style/TextSmallGray"

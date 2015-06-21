@@ -75,6 +75,9 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 	@ViewInit(id = R.id.tv_phone)
 	private TextView mTvPhone;
 	
+	@ViewInit(id = R.id.label_fangdong)
+	private TextView mLabIdenti;
+	
 	@ViewInit(id = R.id.iv_photo)
 	private ImageView mIvPhoto;
 	
@@ -87,9 +90,23 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 	@ViewInit(id = R.id.ll_renzhen)
 	private LinearLayout mLlRenzheng;
 	
+	@ViewInit(id = R.id.tv_renzhen,onClick = "onClick")
+	private TextView mTvRenzheng;
+	
+	@ViewInit(id = R.id.tv_phone_fangdong,onClick = "onClick")
+	private TextView mTvPhoneFangdong;
+	
+	@ViewInit(id = R.id.iv_identi)
+	private ImageView mIvIdenti;
+	
+	@ViewInit(id = R.id.iv_house_renzheng)
+	private ImageView mIvHouse;
+	
 	private JSONObject json;
 	
 	private int pageType;//0:联系看房   1:房东信息  2:房客
+	
+	private SHPostTaskM fangkeTask,addPush;
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -106,6 +123,16 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 		case 1:
 			mLlContact.setVisibility(View.GONE);
 			mLlRenzheng.setVisibility(View.VISIBLE);
+			mTvRenzheng.setText("房东认证信息");
+			mLabIdenti.setText("房东：");
+			request();
+			break;
+		case 2:
+			mLlContact.setVisibility(View.GONE);
+			mLlRenzheng.setVisibility(View.VISIBLE);
+			mTvRenzheng.setText("房客认证信息");
+			mLabIdenti.setText("房客：");
+			requestFangke();
 			break;
 		}
 	}
@@ -135,10 +162,42 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 			}
 			break;
 		case R.id.btn_contact:
-			Intent intent_call = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+json.optString("phoneFor400")));  
+			requestAddPush();
+			Intent intent_call;
+			if(pageType == 0){
+				intent_call = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+json.optString("phoneFor400"))); 
+			}else{
+				intent_call = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+json.optString("mobilePhone"))); 
+			}
             startActivity(intent_call);  
 			break;
+		case R.id.tv_renzhen:
+			mIvIdenti.setVisibility(View.VISIBLE);
+			mIvHouse.setVisibility(View.VISIBLE);
+//			mIvIdenti.setVisibility(View.INVISIBLE);
+			break;
+		case R.id.tv_phone_fangdong:
+			Intent intent_call2 = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+json.optString("mobilePhone"))); 
+			startActivity(intent_call2);
+			break;
 		}
+	}
+	
+	private void requestAddPush(){
+		addPush = new SHPostTaskM();
+		addPush.setUrl(ConfigDefinition.URL+"AddPushMsgByContactLord");
+//		addPush.setListener(this);
+		addPush.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
+		addPush.start();
+	}
+	
+	private void requestFangke(){
+		SHDialog.ShowProgressDiaolg(getActivity(), null);
+		fangkeTask = new SHPostTaskM();
+		fangkeTask.setListener(this);
+		fangkeTask.setUrl(ConfigDefinition.URL+"GetTenantDetail");
+		fangkeTask.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", -1));
+		fangkeTask.start();
 	}
 	
 	private void request(){
@@ -181,16 +240,26 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
 		json = (JSONObject) task.getResult();
-		mTvFangDong.setText(json.optString("userRealName"));
-		mTvGoutong.setText(json.optString("communicateEvaluation"));
-		mTvXiangchu.setText(json.optString("attitudeEvaluation"));
-		mTvChuli.setText(json.optString("speedEvaluation"));
-		mTvPublishNum.setText(json.optString("publishHouseCount"));
-		mTvComplaintNum.setText(json.optString("complaintCount"));
-		mTvRecommendNum.setText(json.optString("pfRecommend"));
-		mTvPhone.setText(json.optString("phoneFor400"));
-		ImageLoaderUtil.displayImage(json.optString("picUrl"), mIvPhoto);
-		craetTenant(json);
+			mTvFangDong.setText(json.optString("userRealName"));
+			mTvGoutong.setText(json.optString("communicateEvaluation"));
+			mTvXiangchu.setText(json.optString("attitudeEvaluation"));
+			mTvChuli.setText(json.optString("speedEvaluation"));
+			mTvPublishNum.setText(json.optString("publishHouseCount"));
+			mTvComplaintNum.setText(json.optString("complaintCount"));
+			mTvRecommendNum.setText(json.optString("pfRecommend"));
+			if(task == fangkeTask){
+				mTvPhoneFangdong.setText(json.optString("mobilePhone"));
+			}else{
+				if(pageType == 1){
+					mTvPhone.setText(json.optString("mobilePhone"));
+				}else{
+					mTvPhone.setText(json.optString("phoneFor400").substring(0, json.optString("phoneFor400").indexOf(",")));
+				}
+			}
+			ImageLoaderUtil.displayImage(json.optString("picUrl"), mIvPhoto);
+			ImageLoaderUtil.displayImage(json.optString("indentityNoUrl"), mIvIdenti);
+			ImageLoaderUtil.displayImage(json.optString("houseCertifyUrl"), mIvHouse);
+			craetTenant(json);
 	}
 
 	@Override

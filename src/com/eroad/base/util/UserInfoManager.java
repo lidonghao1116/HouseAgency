@@ -26,7 +26,16 @@ public class UserInfoManager {
 	private String email;
 	private String moblie;
 	private String displayName;
+	private String session;
 
+
+	public String getSession() {
+		return session;
+	}
+
+	public void setSession(String session) {
+		this.session = session;
+	}
 
 	/**
 	 * 
@@ -75,6 +84,9 @@ public class UserInfoManager {
 			if (displayName != null) {
 				editor.putString("displayName", displayName);
 			}
+			if(session != null){
+				editor.putString("session", session);
+			}
 			editor.putBoolean("personInfoState", personInfoState);
 			editor.putBoolean("firstInstall", firstInstall);
 			editor.putBoolean("autoLogin", autoLogin);
@@ -89,7 +101,8 @@ public class UserInfoManager {
 			this.displayName = pref.getString("displayName", null);
 			this.personInfoState = pref.getBoolean("personInfoState", false);
 			this.firstInstall = pref.getBoolean("firstInstall", true);//  
-			this.autoLogin = pref.getBoolean("autoLogin", true);//  
+			this.autoLogin = pref.getBoolean("autoLogin", true);// 
+			this.session = pref.getString("session", null);
 		}
 	}
 	

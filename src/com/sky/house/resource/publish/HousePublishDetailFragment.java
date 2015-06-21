@@ -43,6 +43,9 @@ public class HousePublishDetailFragment extends BaseFragment {
 	@ViewInit(id = R.id.ll_fixture, onClick = "onClick")
 	private LinearLayout mLlFixture;
 
+	@ViewInit(id = R.id.ll_shi)
+	private LinearLayout mLlShi;
+
 	@ViewInit(id = R.id.label_square)
 	private TextView mTvSquare;
 
@@ -121,6 +124,11 @@ public class HousePublishDetailFragment extends BaseFragment {
 				}
 			}
 		});
+
+		if ("more".equals(getActivity().getIntent().getStringExtra("from"))) {
+			mLlShi.setVisibility(View.GONE);
+		}
+
 		items_fixture_all = getResources().getStringArray(R.array.array_fixture);
 		items_room = getResources().getStringArray(R.array.array_room);
 		items_gender = getResources().getStringArray(R.array.array_sex);
@@ -227,10 +235,18 @@ public class HousePublishDetailFragment extends BaseFragment {
 	}
 
 	private boolean validate() {
-		if (CommonUtil.isEmpty(mEtShi.getText().toString().trim()) || CommonUtil.isEmpty(mEtTing.getText().toString().trim()) || CommonUtil.isEmpty(mEtWei.getText().toString().trim())
-				|| CommonUtil.isEmpty(mEtSquare.getText().toString().trim())) {
-			SHToast.showToast(getActivity(), "请先完善信息");
-			return false;
+
+		if ("more".equals(getActivity().getIntent().getStringExtra("from"))) {
+			if (CommonUtil.isEmpty(mEtSquare.getText().toString().trim())) {
+				SHToast.showToast(getActivity(), "请先完善信息");
+				return false;
+			}
+		} else {
+			if (CommonUtil.isEmpty(mEtShi.getText().toString().trim()) || CommonUtil.isEmpty(mEtTing.getText().toString().trim()) || CommonUtil.isEmpty(mEtWei.getText().toString().trim())
+					|| CommonUtil.isEmpty(mEtSquare.getText().toString().trim())) {
+				SHToast.showToast(getActivity(), "请先完善信息");
+				return false;
+			}
 		}
 		return true;
 	}

@@ -106,10 +106,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:clickable="true"
                     android:drawablePadding="5dp"
                     android:drawableTop="@drawable/ic_agreement"
                     android:gravity="center"
-                    android:clickable="true"
                     android:text="合同图片" />
 
                 <LinearLayout
@@ -137,13 +137,41 @@
                     android:background="@color/color_gray_dark" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/iv_example_identi"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:layout_margin="10dp"
-                android:background="@drawable/ic_example" />
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" 
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/iv_example_identi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@drawable/ic_example" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal" 
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/iv_example_fangchan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@drawable/ic_example" />
+                </LinearLayout>
+            </LinearLayout>
 
             <com.sky.house.widget.MyGridView
                 android:id="@+id/gv_house"
@@ -174,8 +202,8 @@
                         android:id="@+id/iv_identification"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:scaleType="centerCrop" 
-                        android:background="@drawable/ic_identification"/>
+                        android:background="@drawable/ic_identification"
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:id="@+id/tv_add_identification"
@@ -183,9 +211,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="身份证" 
-                        android:layout_marginTop="5dp"/>
+                        android:text="身份证" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -200,17 +228,17 @@
                         android:id="@+id/iv_property"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:scaleType="centerCrop" 
-                        android:background="@drawable/ic_property"/>
+                        android:background="@drawable/ic_property"
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         style="@style/TextSmallBlack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="房产证件" 
-                        android:layout_marginTop="5dp"/>
+                        android:text="房产证件" />
                 </LinearLayout>
             </LinearLayout>
 

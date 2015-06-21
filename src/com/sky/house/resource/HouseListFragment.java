@@ -21,6 +21,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -28,6 +30,7 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.ToggleButton;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHContainerActivity;
@@ -38,13 +41,19 @@ import com.eroad.base.util.location.Location;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
+import com.next.util.SHEnvironment;
 import com.sky.house.R;
+import com.sky.house.adapter.HouseGridAdapter;
 import com.sky.house.adapter.HouseListAdapter;
 import com.sky.house.adapter.OptionAdapter;
 import com.sky.house.entity.MenuItem;
+import com.sky.house.home.HouseLoginFragment;
 import com.sky.house.interfaces.CascadingMenuViewOnSelectListener;
+import com.sky.house.me.HouseAuthenticationFragment;
 import com.sky.house.resource.filter.HouseFilterFragment;
 import com.sky.house.widget.CascadingMenuPopWindow;
+import com.sky.house.widget.SHGridView;
+import com.sky.house.widget.SHGridView.OnGridLoadMoreListener;
 import com.sky.house.widget.SHListView;
 import com.sky.house.widget.SHListView.OnLoadMoreListener;
 import com.sky.widget.SHDialog;
@@ -58,7 +67,7 @@ import com.sky.widget.sweetdialog.SweetDialog;
  * @author skypan
  * 
  */
-public class HouseListFragment extends BaseFragment implements ITaskListener, OnLoadMoreListener {
+public class HouseListFragment extends BaseFragment implements ITaskListener, OnLoadMoreListener ,OnGridLoadMoreListener{
 
 	private ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 	private PopupWindow mPopRent;
@@ -85,8 +94,16 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 
 	@ViewInit(id = R.id.lv_house)
 	private SHListView mLvHouse;
+	
+	@ViewInit(id = R.id.gv_house)
+	private SHGridView mGvHouse;
+	
+	@ViewInit(id = R.id.tb_layout)
+	private ToggleButton mTbLayout;
 
 	private HouseListAdapter listAdapter;
+	
+	private HouseGridAdapter gridAdapter;
 
 	private JSONArray jsonArray;// 房源数组
 
@@ -113,12 +130,15 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 	private int houseType;// 房屋类型：公寓、住宅、床位等等
 
 	String[] items_money;
+	
+	private int searchType = 1;
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 		if ("map".equals(getActivity().getIntent().getStringExtra("from"))) {
+			searchType = 3;
 			mLlSearch.setVisibility(View.INVISIBLE);
 			mDetailTitlebar.setTitle("房源列表");
 		} else {
@@ -128,6 +148,18 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
+					if(CommonUtil.isEmpty(SHEnvironment.getInstance().getSession())){
+						Intent intent_login = new Intent(getActivity(),SHContainerActivity.class);
+						intent_login.putExtra("class", HouseLoginFragment.class.getName());
+						startActivity(intent_login);
+						return;
+					}
+					if(!ConfigDefinition.isAuth){
+						Intent intent_auth = new Intent(getActivity(),SHContainerActivity.class);
+						intent_auth.putExtra("class", HouseAuthenticationFragment.class.getName());
+						startActivity(intent_auth);
+						return;
+					}
 					Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 					intent.putExtra("class", HousePublishFragment.class.getName());
 					startActivity(intent);
@@ -161,6 +193,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 
 	private void setListeners() {
 		mLvHouse.setOnLoadMoreListener(this);
+		mGvHouse.setOnGridLoadMoreListener(this);
 		mEtKeyword.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override
@@ -171,6 +204,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 					reset();
 					jsonArray = new JSONArray();
 					pageNum = 1;
+					searchType = 5;
 					requestHouseList();
 					return true;
 				}
@@ -192,6 +226,38 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 					e.printStackTrace();
 				}
 				startActivity(intent);
+			}
+		});
+		
+		mGvHouse.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+				intent.putExtra("class", HouseDetailFragment.class.getName());
+				try {
+					intent.putExtra("id", jsonArray.getJSONObject(arg2).getInt("houseDetailId"));
+					intent.putExtra("name", jsonArray.getJSONObject(arg2).getString("houseName"));
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				startActivity(intent);
+			}
+		});
+		mTbLayout.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				// TODO Auto-generated method stub
+				if(!arg1){
+					mLvHouse.setVisibility(View.GONE);
+					mGvHouse.setVisibility(View.VISIBLE);
+				}else{
+					mGvHouse.setVisibility(View.GONE);
+					mLvHouse.setVisibility(View.VISIBLE);
+				}
 			}
 		});
 	}
@@ -243,7 +309,10 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 		houseListTask.setListener(this);
 		houseListTask.setUrl(ConfigDefinition.URL + "SearchHouse");
 		houseListTask.getTaskArgs().put("cityId", Location.getInstance().getSelectedCityId());
-		houseListTask.getTaskArgs().put("searchType", 1);
+		houseListTask.getTaskArgs().put("searchType", searchType);
+		if(searchType == 3){
+			houseListTask.getTaskArgs().put("houseZoneId", getActivity().getIntent().getIntExtra("zoneId", -1));
+		}
 		houseListTask.getTaskArgs().put("pageSize", 20);
 		houseListTask.getTaskArgs().put("pageIndex", pageNum);
 		houseListTask.getTaskArgs().put("cityId", Location.getInstance().getSelectedCityId());
@@ -319,7 +388,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 				}
 				countyId = 0;
 			} else {
-
+				countyId = menuItem.getId();
 			}
 			jsonArray = new JSONArray();
 			pageNum = 1;
@@ -467,9 +536,16 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 			jsonArray = CommonUtil.combineArray(jsonArray, json.getJSONArray("rentHouseList"));
 			if (listAdapter == null) {
 				listAdapter = new HouseListAdapter(getActivity(), HouseListAdapter.FLAG_HOUSE_LIST, jsonArray);
+				mLvHouse.setAdapter(listAdapter);
+			}
+			if (gridAdapter == null) {
+				gridAdapter = new HouseGridAdapter(getActivity(), jsonArray);
+				mGvHouse.setAdapter(gridAdapter);
 			}
 			mLvHouse.setTotalNum(json.getInt("recordCount"));
-			mLvHouse.setAdapter(listAdapter);
+			mGvHouse.setTotalNum(json.getInt("recordCount"));
+			listAdapter.notifyDataSetChanged();
+			gridAdapter.notifyDataSetChanged();
 		}
 	}
 
@@ -494,6 +570,13 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 
 	@Override
 	public void onLoadMore() {
+		// TODO Auto-generated method stub
+		pageNum++;
+		requestHouseList();
+	}
+
+	@Override
+	public void onGridLoadMore() {
 		// TODO Auto-generated method stub
 		pageNum++;
 		requestHouseList();

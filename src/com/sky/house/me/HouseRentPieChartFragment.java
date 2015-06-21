@@ -186,7 +186,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 
 		ArrayList<String> xVals = new ArrayList<String>();
 		xVals.add("已交租金");
-		xVals.add("未交押金");
+		xVals.add("未交租金");
 
 		PieDataSet dataSet = new PieDataSet(yVals1, "");
 		dataSet.setSliceSpace(3f);
