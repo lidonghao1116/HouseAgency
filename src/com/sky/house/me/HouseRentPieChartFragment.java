@@ -113,6 +113,9 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 					PayNextRent(getActivity().getIntent().getIntExtra("nextPayAmt", 0), getActivity().getIntent().getIntExtra("nextPayMonths", 0));
 				}
 			});
+			if(getActivity().getIntent().getIntExtra("orderStatus", 0)!=60){
+				btnSubmit.setVisibility(View.GONE);
+			}
 		}
 		
 		request();
@@ -350,6 +353,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 		getOrderIdTask.setUrl(ConfigDefinition.URL+"AlipayOptInfoAdd");
 		getOrderIdTask.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
 		getOrderIdTask.getTaskArgs().put("payAmt", aliPayMoney);
+		getOrderIdTask.getTaskArgs().put("rechargeAmt", aliPayMoney + amount);//支付金额
 		getOrderIdTask.getTaskArgs().put("optType", type);//1 定金 2 房租 3 杂费 4 押金
 		getOrderIdTask.start();
 	}
