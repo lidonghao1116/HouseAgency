@@ -128,8 +128,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
                     android:paddingLeft="10dp" >
 
                     <TextView
@@ -141,7 +141,7 @@
                         android:text="租金/月：" />
 
                     <TextView
-                       android:id="@+id/tv_rent"
+                        android:id="@+id/tv_rent_money"
                         style="@style/TextSmallBlack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -150,6 +150,7 @@
                         android:singleLine="true"
                         android:text="￥0.00" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -174,11 +175,12 @@
                         android:singleLine="true"
                         android:text="--" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
                     android:paddingLeft="10dp" >
 
                     <TextView
@@ -205,6 +207,7 @@
                     android:layout_height="1dp"
                     android:background="@color/color_gray_light" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -214,8 +217,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
                     android:paddingLeft="10dp" >
 
                     <TextView
@@ -236,6 +239,7 @@
                         android:singleLine="true"
                         android:text="--" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -260,11 +264,12 @@
                         android:singleLine="true"
                         android:text="--" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
                     android:paddingLeft="10dp" >
 
                     <TextView
@@ -291,37 +296,36 @@
                     android:layout_height="1dp"
                     android:background="@color/color_gray_light" />
             </LinearLayout>
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp" >
 
-                    <Button
-                        android:id="@+id/btn_bottom_left"
-                        style="@style/TextMidBlack"
-                        android:layout_width="80dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toLeftOf="@+id/btn_bottom_right"
-                        android:background="@drawable/bg_gray_round_corner"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:text="--" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="right|center_vertical" >
 
-                    <Button
-                        android:id="@+id/btn_bottom_right"
-                        style="@style/TextMidWhite"
-                        android:layout_width="80dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/btn_orange_round"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:text="--" />
-                </RelativeLayout>
+                <Button
+                    android:id="@+id/btn_bottom_left"
+                    style="@style/TextMidBlack"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/bg_gray_round_corner"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="--" />
+
+                <Button
+                    android:id="@+id/btn_bottom_right"
+                    style="@style/TextMidWhite"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_orange_round"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="--" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

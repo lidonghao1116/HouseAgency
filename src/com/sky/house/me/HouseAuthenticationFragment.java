@@ -6,11 +6,13 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -30,6 +32,7 @@ import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ImageLoaderUtil;
 import com.eroad.base.util.ImageTools;
+import com.eroad.base.util.Utils;
 import com.eroad.base.util.ViewInit;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
@@ -81,7 +84,8 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 	private TextView tvTips;
 
 	private final int TAKE_PICTURE = 0;// 拍照
-	private final int CHOOSE_PICTURE = 1;// 相册
+	private final int CHOOSE_PICTURE_LESS = 1;// 相册 4.4以下
+	private final int CHOOSE_PICTURE_ABOVE = 5;// 相册 4.4以上（包含4.4）
 
 	private SHPostTaskM taskSubmit, taskAuthinfo;
 	private Bitmap bitmapCard;
@@ -185,8 +189,23 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 					startActivityForResult(openCameraIntent, TAKE_PICTURE);
 				} else {
 
-					Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-					startActivityForResult(intent, CHOOSE_PICTURE);
+					if (Build.VERSION.SDK_INT < 19) {
+						Intent intent = new Intent();
+						intent.setType("image/*");
+						intent.setAction(Intent.ACTION_GET_CONTENT);
+						// 由于startActivityForResult()的第二个参数"requestCode"为常量，
+						// 个人喜好把常量用一个类全部装起来，不知道各位大神对这种做法有异议没？
+						startActivityForResult(intent, CHOOSE_PICTURE_LESS);
+					} else {
+						Intent intent = new Intent();
+						intent.setType("image/*");
+						// 由于Intent.ACTION_OPEN_DOCUMENT的版本是4.4以上的内容
+						// 所以注意这个方法的最上面添加了@SuppressLint("InlinedApi")
+						// 如果客户使用的不是4.4以上的版本，因为前面有判断，所以根本不会走else，
+						// 也就不会出现任何因为这句代码引发的错误
+						intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+						startActivityForResult(intent, CHOOSE_PICTURE_ABOVE);
+					}
 				}
 			}
 		});
@@ -208,7 +227,7 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 				imgCard.setImageBitmap(bitmap_tack);
 				imgCard.setVisibility(View.VISIBLE);
 				break;
-			case CHOOSE_PICTURE:
+			case CHOOSE_PICTURE_LESS:
 				// ContentResolver resolver =
 				// getActivity().getContentResolver();
 				Uri originalUri = data.getData();
@@ -222,6 +241,23 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 					// Bitmap bitmap_choose =
 					// MediaStore.Images.Media.getBitmap(resolver, originalUri);
 					Bitmap bitmap_choose = BitmapFactory.decodeFile(picturePath, bitmapOptions);
+					Bitmap smallBitmap = ImageTools.zoomBitmap(bitmap_choose, bitmap_choose.getWidth() / 6, bitmap_choose.getHeight() / 6);
+					// bitmap_choose.recycle();
+					bitmapCard = bitmap_choose;
+					imgCard.setImageBitmap(bitmap_choose);
+					imgCard.setVisibility(View.VISIBLE);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case CHOOSE_PICTURE_ABOVE:
+				Uri uri = data.getData();
+				ContentResolver cr = getActivity().getContentResolver();  
+				// 先将这个uri转换为path，然后再转换为uri
+				String thePath = Utils.getInstance().getPath(getActivity(), uri);
+				try {
+					Bitmap bitmap_choose = BitmapFactory.decodeFile(thePath, bitmapOptions);
 					Bitmap smallBitmap = ImageTools.zoomBitmap(bitmap_choose, bitmap_choose.getWidth() / 6, bitmap_choose.getHeight() / 6);
 					// bitmap_choose.recycle();
 					bitmapCard = bitmap_choose;

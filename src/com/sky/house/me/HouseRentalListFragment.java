@@ -22,6 +22,7 @@ import com.sky.house.R;
 import com.sky.house.adapter.HouseListAdapter;
 import com.sky.house.business.HousePayChargeFragment;
 import com.sky.house.resource.HouseDetailFragment;
+import com.sky.house.resource.publish.HouseSuccessFragment;
 import com.sky.house.widget.SHListView;
 import com.sky.widget.SHDialog;
 import com.sky.widget.sweetdialog.SweetDialog;
@@ -33,7 +34,7 @@ import com.sky.widget.sweetdialog.SweetDialog;
 public class HouseRentalListFragment extends BaseFragment implements ITaskListener {
 	private HouseListAdapter mAdapter;
 	SHListView listView;
-	private SHPostTaskM taskMessage,taskClear,taskComplain;
+	private SHPostTaskM taskMessage,taskClear,taskComplain,taskCheckIn;
 	private JSONArray jsonArray = new JSONArray();
 	private  int  type;// 列表类型 查看HouseListAdapter说明
 	@Override
@@ -74,12 +75,19 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 					// TODO Auto-generated method stub
 					try {
 						Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-						if(object.getInt("orderStatus")>=50){
+						if(object.getInt("orderStatus")>50){
 							intent.putExtra("class", HouseRentalDetailFragment.class.getName());
 							intent.putExtra("orderId", object.getInt("orderId"));
 							intent.putExtra("orderStatus", object.getInt("orderStatus"));
 							intent.putExtra("type", type);
 							startActivity(intent);
+						}else if(object.getInt("orderStatus")==50){
+							SHDialog.ShowProgressDiaolg(getActivity(), null);
+							taskCheckIn =  new SHPostTaskM() ;
+							taskCheckIn.setUrl(ConfigDefinition.URL+"CheckIn");
+							taskCheckIn.getTaskArgs().put("orderId", object.getInt("orderId"));
+							taskCheckIn.setListener(HouseRentalListFragment.this);
+							taskCheckIn.start();
 						}else{
 							intent.putExtra("class", HousePayChargeFragment.class.getName());
 							intent.putExtra("id",  object.getInt("houseDetailId"));
@@ -147,6 +155,7 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 				public void setRightButtonOnselect(int complaintId,JSONObject object) {
 					// TODO Auto-generated method stub
 					try {
+						SHDialog.ShowProgressDiaolg(getActivity(), null);
 						taskComplain =  new SHPostTaskM() ;
 						taskComplain.setUrl(ConfigDefinition.URL+"UpdateUserComplaintStatus");
 						taskComplain.getTaskArgs().put("complaintId", object.getInt("complaintId"));
@@ -223,7 +232,7 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			jsonArray = json.getJSONArray("rentHouseList");
 			listView.setTotalNum(json.getInt("recordCount"));
 			mAdapter.setJsonArray(jsonArray);
-			mAdapter.notifyDataSetChanged();
+			listView.setAdapter(mAdapter);
 		}else if(task == taskClear){
 			jsonArray = new JSONArray();
 //			listView.setTotalNum(0);
@@ -232,6 +241,14 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			mAdapter.notifyDataSetChanged();
 		}else if(task == taskComplain){
 			requestMessage();
+		}else if(task  == taskCheckIn){
+			requestMessage();
+			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+			intent.putExtra("class", HouseSuccessFragment.class.getName());
+			intent.putExtra("identification", 0);
+			intent.putExtra("flag", 1);
+			startActivity(intent);
+			
 		}
 	}
 	@Override

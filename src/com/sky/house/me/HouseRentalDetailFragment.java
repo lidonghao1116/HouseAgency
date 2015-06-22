@@ -104,7 +104,7 @@ OnClickListener, ITaskListener {
 	@ViewInit(id = R.id.btn_remind, onClick = "onClick")
 	private Button btnHouseBottomRight;
 
-	@ViewInit(id = R.id.tv_rent)
+	@ViewInit(id = R.id.tv_rent_money)
 	private TextView tvRentMoney;//租金/月
 
 	@ViewInit(id = R.id.tv_lease)
@@ -390,9 +390,8 @@ OnClickListener, ITaskListener {
 
 			tvPaidMoney.setText("已支付租金（"+mResult.getInt("hasPayMonth")+"个月）：￥"+mResult.optDouble("totalPayAmount"));
 			tvDeposit.setText("房租押金（"+mResult.getInt("wagerMonth")+"月）：￥"+mResult.optDouble("wagerAmt"));
-			tvTotalPaid.setText("总计支付：￥"+mResult.optDouble("totalPayAmount"));
-
-			tvRentMoney.setText("￥"+mResult.getString("rentAmt"));
+			tvTotalPaid.setText("总计支付：￥"+mResult.optDouble("orderPayAmount"));
+			tvRentMoney.setText(mResult.getString("rentAmt"));
 			tvLease.setText(mResult.getString("payTypeName"));
 			tvRentLong.setText(CommonUtil.Date.toYMR(mResult.getString("tenantBeginDate"))+" 至 "+CommonUtil.Date.toYMR(mResult.getString("tenantEndDate")));
 			tvOrderNum.setText(mResult.optInt("contractId")+"");
@@ -535,7 +534,7 @@ OnClickListener, ITaskListener {
 					}
 				});
 				//交租金 只有60可以缴
-				if(mResult.getInt("orderStatus") ==60){
+				if(mResult.getInt("orderStatus") ==60 && mResult.getInt("nextPayAmt")>0){
 					btnBottomRight.setVisibility(View.VISIBLE);
 				}else{
 					btnBottomRight.setVisibility(View.GONE);

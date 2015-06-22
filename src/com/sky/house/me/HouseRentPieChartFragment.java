@@ -113,7 +113,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 					PayNextRent(getActivity().getIntent().getIntExtra("nextPayAmt", 0), getActivity().getIntent().getIntExtra("nextPayMonths", 0));
 				}
 			});
-			if(getActivity().getIntent().getIntExtra("orderStatus", 0)!=60){
+			if(getActivity().getIntent().getIntExtra("orderStatus", 0)!=60 || getActivity().getIntent().getIntExtra("nextPayAmt", 0)<=0){
 				btnSubmit.setVisibility(View.GONE);
 			}
 		}
@@ -236,7 +236,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 		if(task == taskSubmit){
 			tvTitleTime.setText(mResult.getString("tenantDate"));
 			tvTitleDeal.setText("已缴纳到"+mResult.getString("hasPayDate"));
-			mChart.setCenterText("已交租金\n"+mResult.optDouble("payAmount")+"\n未交押金\n"+mResult.optDouble("unPayAmount"));
+			mChart.setCenterText("已交租金\n"+mResult.optDouble("payAmount")+"\n未交租金\n"+mResult.optDouble("unPayAmount"));
 			setData((float)mResult.optDouble("payAmount"), (float)mResult.optDouble("payAmount"));
 		}else if(task == taskHasPass){
 			isSetPass  = mResult.getInt("isSet")==0?false:true;
