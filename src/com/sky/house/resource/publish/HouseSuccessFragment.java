@@ -3,12 +3,12 @@ package com.sky.house.resource.publish;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
+import com.eroad.base.SHApplication;
 import com.eroad.base.util.ViewInit;
 import com.sky.house.R;
 /**
@@ -26,7 +26,7 @@ public class HouseSuccessFragment extends BaseFragment {
 	
 	private int flag;//0:发布房源   1:成功入住
 	
-	@ViewInit(id = R.id.btn_back,onClick = "onClick")
+	@ViewInit(id = R.id.btn_home,onClick = "onClick")
 	private Button mBtnBack;
 	
 	@ViewInit(id = R.id.view1)
@@ -47,7 +47,7 @@ public class HouseSuccessFragment extends BaseFragment {
 //			public void onClick(View arg0) {
 //				// TODO Auto-generated method stub
 //				finish();
-////				SHApplication.getInstance().onlyHome();
+////				
 //			}
 //		});
 		if(flag == 1){
@@ -70,8 +70,9 @@ public class HouseSuccessFragment extends BaseFragment {
 
 	private void onClick(View v){
 		switch(v.getId()){
-		case R.id.btn_back:
+		case R.id.btn_home:
 			finish();
+			SHApplication.getInstance().onlyHome();
 			break;
 		}
 	}

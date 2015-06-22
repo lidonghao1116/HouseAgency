@@ -124,14 +124,14 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 			mLlContact.setVisibility(View.GONE);
 			mLlRenzheng.setVisibility(View.VISIBLE);
 			mTvRenzheng.setText("房东认证信息");
-			mLabIdenti.setText("房东：");
+			mLabIdenti.setText("房  东：");
 			request();
 			break;
 		case 2:
 			mLlContact.setVisibility(View.GONE);
 			mLlRenzheng.setVisibility(View.VISIBLE);
 			mTvRenzheng.setText("房客认证信息");
-			mLabIdenti.setText("房客：");
+			mLabIdenti.setText("房  客：");
 			requestFangke();
 			break;
 		}
