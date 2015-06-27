@@ -312,7 +312,7 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 			switch (requestCode) {
 			case TAKE_PICTURE:
 				Bitmap bitmap_tack = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/house_temp.png", bitmapOptions);
-				Bitmap newBitmap = ImageTools.zoomBitmap(bitmap_tack, bitmap_tack.getWidth() / 6, bitmap_tack.getHeight() / 6);
+				Bitmap newBitmap = ImageTools.zoomBitmap(bitmap_tack, bitmap_tack.getWidth() / 2, bitmap_tack.getHeight() / 2);
 				switch (currentSelect) {
 				case 0:
 					houseImageList.add(newBitmap);
@@ -343,7 +343,7 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 				c.close();
 				try {
 					Bitmap bitmap_choose = BitmapFactory.decodeFile(picturePath, bitmapOptions);
-					Bitmap smallBitmap = ImageTools.zoomBitmap(bitmap_choose, bitmap_choose.getWidth() / 6, bitmap_choose.getHeight() / 6);
+					Bitmap smallBitmap = ImageTools.zoomBitmap(bitmap_choose, bitmap_choose.getWidth() / 2, bitmap_choose.getHeight() / 2);
 					switch (currentSelect) {
 					case 0:
 						houseImageList.add(smallBitmap);

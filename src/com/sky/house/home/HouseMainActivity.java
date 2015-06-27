@@ -120,6 +120,7 @@ public class HouseMainActivity extends BaseActivity {
 			@Override
 			public void onClick(SweetDialog sweetAlertDialog) {
 				// TODO Auto-generated method stub
+				SHEnvironment.getInstance().setSession("");
 				SHApplication.getInstance().exitApplication();
 			}
 		});

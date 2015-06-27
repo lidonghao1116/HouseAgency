@@ -452,7 +452,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			// SHToast.showToast(getActivity(), "已完善合同，待确认合同");
 			mLlStepPay.setVisibility(View.GONE);
 			mLlStepAgreement.setVisibility(View.VISIBLE);
-			mIvAgreement.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.img_agreement_real));
+			mIvAgreement.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.ic_agreement_done));
 			requestContactTime();// 获取合同 以及 剩余时间 房东信息等等
 			if (identification == 0) {
 				mBtnCompleteAgreement.setEnabled(true);
@@ -490,6 +490,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			}else{
 				mBtnPayRent.setText("等待支付");
 				mBtnPayRent.setEnabled(false);
+				mCbSunny.setVisibility(View.GONE);
 			}
 			requestPayDetail();
 			// asd

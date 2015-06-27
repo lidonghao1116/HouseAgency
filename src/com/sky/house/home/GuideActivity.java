@@ -46,6 +46,7 @@ public class GuideActivity extends BaseActivity{
 				Intent intent = new Intent(GuideActivity.this,HouseMainActivity.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.base_slide_right_in, R.anim.base_slide_remain);
+				finish();
 			}
 		});
 		list.add(view3);
