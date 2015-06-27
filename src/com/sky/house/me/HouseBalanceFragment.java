@@ -45,7 +45,7 @@ OnClickListener,ITaskListener {
 
 	private JSONObject mResultBalance = new JSONObject();
 	
-	private SHPostTaskM taskHasPass;
+	private SHPostTaskM taskHasPass,taskBalance;
 	
 	private boolean isSetPass;
 
@@ -71,16 +71,6 @@ OnClickListener,ITaskListener {
 				startActivity(intent);
 			}
 		});
-
-		try {
-			mResultBalance  = new JSONObject(getActivity().getIntent().getStringExtra("detail"));
-			//			tvAccount.setText(mResultBalance.optDouble("amount")+"");
-			//			tvBank.setText(mResultBalance.optInt("sunnyAmt")+"");
-			tvFrozen.setText(mResultBalance.optDouble("frozenAmt")+"");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 	private void requestHasPass(){
@@ -90,11 +80,21 @@ OnClickListener,ITaskListener {
 		taskHasPass.setListener(this);
 		taskHasPass.start();
 	}
+	/**
+	 * 账号金额信息 
+	 */
+	private void requestBalanceInfo(){
+		taskBalance = new SHPostTaskM();
+		taskBalance.setUrl(ConfigDefinition.URL+"GetMyAccountDetail");
+		taskBalance.setListener(this);
+		taskBalance.start();
+	}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		requestHasPass();
+		requestBalanceInfo();
 	}
 
 	@Override
@@ -123,8 +123,14 @@ OnClickListener,ITaskListener {
 	@Override
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
-		JSONObject object  = (JSONObject) task.getResult() ;
-		isSetPass  = object.getInt("isSet")==0?false:true;
+		if(task  ==  taskHasPass){
+			JSONObject object  = (JSONObject) task.getResult() ;
+			isSetPass  = object.getInt("isSet")==0?false:true;
+		}else if(task == taskBalance){
+			mResultBalance = (JSONObject) task.getResult();
+			tvFrozen.setText(mResultBalance.optDouble("frozenAmt")+"");
+		}
+		
 	}
 	@Override
 	public void onTaskFailed(SHTask task) {
