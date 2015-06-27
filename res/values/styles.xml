@@ -35,6 +35,12 @@
         <item name="android:textColor">@color/color_black</item>
     </style>
     
+    <!-- 大号蓝色 -->
+    <style name="TextBigBlue">
+        <item name="android:textSize">@dimen/text_big</item>
+        <item name="android:textColor">@color/color_blue</item>
+    </style>
+    
     <!-- 大号黑色加粗 -->
     <style name="TextBigBlackBlod">
         <item name="android:textSize">@dimen/text_big</item>

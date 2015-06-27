@@ -166,7 +166,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 				}
 			});
 		}
-		rentType = getActivity().getIntent().getIntExtra("rentType", 1);
+		rentType = getActivity().getIntent().getIntExtra("rentType", 0);
 		setListeners();
 		requestArea();
 		requestHouseList();
@@ -199,7 +199,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 			@Override
 			public boolean onEditorAction(TextView arg0, int actionId, KeyEvent arg2) {
 				// TODO Auto-generated method stub
-				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+				if (actionId == EditorInfo.IME_ACTION_SEARCH && CommonUtil.isEmpty(mEtKeyword.getText().toString().trim())) {
 					CommonUtil.InputTools.HideKeyboard(mEtKeyword);
 					reset();
 					jsonArray = new JSONArray();
@@ -433,6 +433,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 					jsonArray = new JSONArray();
 					pageNum = 1;
 					requestHouseList();
+					mPopRent.dismiss();
 				}
 			});
 			ListView lv = (ListView) view.findViewById(R.id.lv_option);
@@ -542,6 +543,8 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 				gridAdapter = new HouseGridAdapter(getActivity(), jsonArray);
 				mGvHouse.setAdapter(gridAdapter);
 			}
+			listAdapter.setJsonArray(jsonArray);
+			gridAdapter.setJsonArray(jsonArray);
 			mLvHouse.setTotalNum(json.getInt("recordCount"));
 			mGvHouse.setTotalNum(json.getInt("recordCount"));
 			listAdapter.notifyDataSetChanged();

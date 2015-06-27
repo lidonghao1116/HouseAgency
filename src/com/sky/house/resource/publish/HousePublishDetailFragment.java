@@ -101,9 +101,11 @@ public class HousePublishDetailFragment extends BaseFragment {
 				// TODO Auto-generated method stub
 				if (validate()) {
 					try {
-						json.put("room", Integer.valueOf(mEtShi.getText().toString().trim()));
-						json.put("office", Integer.valueOf(mEtTing.getText().toString().trim()));
-						json.put("toilet", Integer.valueOf(mEtWei.getText().toString().trim()));
+						if (!"more".equals(getActivity().getIntent().getStringExtra("from"))) {
+							json.put("room", Integer.valueOf(mEtShi.getText().toString().trim()));
+							json.put("office", Integer.valueOf(mEtTing.getText().toString().trim()));
+							json.put("toilet", Integer.valueOf(mEtWei.getText().toString().trim()));
+						}
 						json.put("area", mEtSquare.getText().toString().trim());
 						if (!json.has("fitment")) {
 							json.put("fitment", 3);// 中等装修
@@ -262,6 +264,7 @@ public class HousePublishDetailFragment extends BaseFragment {
 					mTvRoom.setText(items_room[witch]);
 					try {
 						json.put("shareNumber", witch + 1);
+						json.put("rentType", witch + 1);//里面的renttype表示主卧／次卧。。
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

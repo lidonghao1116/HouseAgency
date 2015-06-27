@@ -450,6 +450,7 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 					// json.optJSONArray("HouseFitmentList"));
 					// detailJson.put("HouseDeviceList",
 					// json.optJSONArray("HouseDeviceList"));
+					System.out.println("detail_json:"+json);
 					JSONObject newJson = map.get(json.getInt("roomNum"));
 					newJson.put("room", json.optInt("room"));
 					newJson.put("office", json.optInt("office"));

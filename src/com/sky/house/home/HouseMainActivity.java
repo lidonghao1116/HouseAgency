@@ -15,6 +15,7 @@ import com.eroad.base.BaseActivity;
 import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
+import com.eroad.base.util.UserInfoManager;
 import com.next.util.SHEnvironment;
 import com.sky.house.R;
 import com.sky.widget.sweetdialog.SweetDialog;
@@ -120,7 +121,8 @@ public class HouseMainActivity extends BaseActivity {
 			@Override
 			public void onClick(SweetDialog sweetAlertDialog) {
 				// TODO Auto-generated method stub
-				SHEnvironment.getInstance().setSession("");
+				UserInfoManager.getInstance().setSession("");
+				UserInfoManager.getInstance().sync(HouseMainActivity.this, true);
 				SHApplication.getInstance().exitApplication();
 			}
 		});

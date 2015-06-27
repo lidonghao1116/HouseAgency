@@ -112,6 +112,9 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 	@ViewInit(id = R.id.tv_address)
 	private TextView mTvAddress;
 	
+	@ViewInit(id = R.id.ll_same,onClick = "onClick")
+	private LinearLayout mLlSame;
+	
 	@ViewInit(id = R.id.iv_map,onClick = "onClick")
 	private ImageView mIvMap;
 
@@ -120,10 +123,22 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 	@ViewInit(id = R.id.btn_contact, onClick = "onClick")
 	private Button mBtnContact;
+	
+	@ViewInit(id = R.id.ll_xianzhi)
+	private LinearLayout mLlXianzhi;
+	
+	@ViewInit(id = R.id.tv_xianzhi)
+	private TextView mTvXianzhi;
 
 	@ViewInit(id = R.id.pager_banner)
 	private ViewPager mPagerView_TopAdvert;
-
+	
+	@ViewInit(id = R.id.tv_same)
+	private TextView mTvSame;
+	
+	@ViewInit(id = R.id.tv_num)
+	private TextView mTvNum;
+	
 	private SHPostTaskM detailTask, collectTask;
 
 	private JSONObject json;// 详情对象
@@ -256,6 +271,18 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			intent_map.putExtra("name", json.optString("address"));
 			startActivity(intent_map);
 			break;
+		case R.id.ll_same:
+			Intent intent_same = new Intent(getActivity(),SHContainerActivity.class);
+			intent_same.putExtra("class", HouseListFragment.class.getName());
+			intent_same.putExtra("from", "map");
+			try {
+				intent_same.putExtra("zoneId", json.getInt("houseDetailId"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			startActivity(intent_same);
+			break;
 		}
 	}
 
@@ -314,6 +341,12 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			mTvArea.setText(json.getString("zoneArea"));
 			mTvAddress.setText(json.getString("address"));
 			mTvReadTimes.setText(json.getString("browseCount"));
+			mTvSame.setText(json.getString("zoneName")+" 同小区房源");
+			mTvNum.setText(json.getString("otherCount"));
+			if(json.getInt("rentType") == 2){
+				mLlXianzhi.setVisibility(View.VISIBLE);
+				mTvXianzhi.setText(json.getString("genderType"));
+			}
 			ImageLoaderUtil.displayImage(json.optString("addressImgUrl"), mIvMap);
 			JSONArray teseArray = json.getJSONArray("houseFeature");
 			String[] items_tese = getActivity().getResources().getStringArray(R.array.array_tese);

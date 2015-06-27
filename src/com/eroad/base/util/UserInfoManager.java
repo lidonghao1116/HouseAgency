@@ -21,7 +21,16 @@ public class UserInfoManager {
 
 	private boolean personInfoState;
 	private boolean firstInstall;//  
-	private boolean autoLogin;//  
+	private boolean autoLogin;// 
+	private boolean isAuth;
+
+	public boolean isAuth() {
+		return isAuth;
+	}
+
+	public void setAuth(boolean isAuth) {
+		this.isAuth = isAuth;
+	}
 
 	private String email;
 	private String moblie;
@@ -90,6 +99,7 @@ public class UserInfoManager {
 			editor.putBoolean("personInfoState", personInfoState);
 			editor.putBoolean("firstInstall", firstInstall);
 			editor.putBoolean("autoLogin", autoLogin);
+			editor.putBoolean("isAuth", isAuth);
 			editor.commit();
 			
 		} else {
@@ -103,6 +113,7 @@ public class UserInfoManager {
 			this.firstInstall = pref.getBoolean("firstInstall", true);//  
 			this.autoLogin = pref.getBoolean("autoLogin", true);// 
 			this.session = pref.getString("session", null);
+			this.isAuth = pref.getBoolean("isAuth", true);// 
 		}
 	}
 	

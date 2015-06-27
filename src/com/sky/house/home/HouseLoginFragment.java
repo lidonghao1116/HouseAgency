@@ -146,6 +146,7 @@ public class HouseLoginFragment extends BaseFragment implements ITaskListener {
 			SHEnvironment.getInstance().setSession(json.getString("SessionId"));
 			UserInfoManager.getInstance().setAutoLogin(true);
 			UserInfoManager.getInstance().setSession(json.getString("SessionId"));
+			UserInfoManager.getInstance().setAuth(json.optBoolean("isAuth"));
 			UserInfoManager.getInstance().setMoblie(mEtPhone.getText().toString().trim());
 			UserInfoManager.getInstance().setPassword(mEtValidate.getText().toString().trim());
 			UserInfoManager.getInstance().sync(getActivity(), true);

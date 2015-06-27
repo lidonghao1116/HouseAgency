@@ -34,13 +34,13 @@
         <item>整租</item>
         <item>合租</item>
     </string-array>
-    <string-array name="array_zhuangxiu">
+    <!-- <string-array name="array_zhuangxiu">
         <item>不限</item>
         <item>毛坯</item>
         <item>中等装修</item>
         <item>精装修</item>
         <item>豪装</item>
-    </string-array>
+    </string-array> -->
     <string-array name="array_type">
         <item>不限</item>
         <item>普通住宅</item>
@@ -53,7 +53,6 @@
         <item>主卧</item>
         <item>次卧</item>
         <item>隔断间</item>
-        <item>床位</item>
     </string-array>
     <string-array name="array_sex">
         <item>不限</item>

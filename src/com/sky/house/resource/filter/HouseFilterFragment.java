@@ -29,8 +29,6 @@ public class HouseFilterFragment extends BaseFragment {
 	private TextView mTvTese;
 	@ViewInit(id = R.id.tv_zhuangxiu, onClick = "onClick")
 	private TextView mTvZhuangxiu;
-	@ViewInit(id = R.id.tv_type, onClick = "onClick")
-	private TextView mTvType;
 	
 	private int roomNum;//居室
 	
@@ -85,7 +83,7 @@ public class HouseFilterFragment extends BaseFragment {
 		items_jushi = getResources().getStringArray(R.array.array_jushi);
 		items_fangshi = getResources().getStringArray(R.array.array_fangshi);
 		items_tese = getResources().getStringArray(R.array.array_tese);
-		items_zhuangxiu = getResources().getStringArray(R.array.array_zhuangxiu);
+		items_zhuangxiu = getResources().getStringArray(R.array.array_fixture);
 		items_type = getResources().getStringArray(R.array.array_type);
 		
 		Intent intent = getActivity().getIntent();
@@ -97,7 +95,6 @@ public class HouseFilterFragment extends BaseFragment {
 		mTvJushi.setText(items_jushi[roomNum]);
 		mTvTese.setText(items_tese[houseFeature]);
 		mTvZhuangxiu.setText(items_zhuangxiu[fitment]);
-		mTvType.setText(items_type[houseType]);
 	}
 	
 	private void onClick(View v) {
@@ -143,17 +140,6 @@ public class HouseFilterFragment extends BaseFragment {
 					// TODO Auto-generated method stub
 					mTvZhuangxiu.setText(items_zhuangxiu[witch]);
 					fitment = witch;
-				}
-			}).show();
-			break;
-		case R.id.tv_type:
-			new AlertDialog.Builder(getActivity()).setTitle("类型").setItems(items_type, new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface arg0, int witch) {
-					// TODO Auto-generated method stub
-					mTvType.setText(items_type[witch]);
-					houseType = witch;
 				}
 			}).show();
 			break;

@@ -147,6 +147,7 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 		requestTopAdv();
 		requestNews();
 		SHEnvironment.getInstance().setSession(UserInfoManager.getInstance().getSession());
+		UserInfoManager.getInstance().setAuth(UserInfoManager.getInstance().isAuth());
 	}
 
 	@Override
