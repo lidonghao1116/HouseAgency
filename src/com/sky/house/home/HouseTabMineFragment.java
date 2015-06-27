@@ -322,7 +322,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 				Bitmap newBitmap = ImageTools.zoomBitmap(bitmap_tack, bitmap_tack.getWidth() / 6, bitmap_tack.getHeight() / 6);
 				// bitmap_tack.recycle();
 				imagePhoto.setImageBitmap(newBitmap);
-				uploadPhoto(bitmap_tack);
+				uploadPhoto(newBitmap);
 				break;
 			case CHOOSE_PICTURE_LESS:
 				// ContentResolver resolver =
@@ -341,7 +341,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 					Bitmap smallBitmap = ImageTools.zoomBitmap(bitmap_choose, bitmap_choose.getWidth() / 6, bitmap_choose.getHeight() / 6);
 					// bitmap_choose.recycle();
 					imagePhoto.setImageBitmap(smallBitmap);
-					uploadPhoto(bitmap_choose);
+					uploadPhoto(smallBitmap);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -357,7 +357,7 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 					Bitmap smallBitmap = ImageTools.zoomBitmap(bitmap_choose, bitmap_choose.getWidth() / 6, bitmap_choose.getHeight() / 6);
 					// bitmap_choose.recycle();
 					imagePhoto.setImageBitmap(smallBitmap);
-					uploadPhoto(bitmap_choose);
+					uploadPhoto(smallBitmap);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
