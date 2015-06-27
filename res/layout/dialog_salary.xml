@@ -30,7 +30,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
             android:gravity="center_vertical"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:singleLine="true"

@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHApplication;
@@ -34,11 +36,43 @@ public class HouseReportFragment extends BaseFragment implements ITaskListener{
 	@ViewInit(id = R.id.et_des)
 	private EditText mEtContent;
 	
+	@ViewInit(id = R.id.tv_label)
+	private TextView mtvTitleLabel;
+	
+	@ViewInit(id = R.id.rb_0)
+	private RadioButton mRb1;
+	
+	@ViewInit(id = R.id.rb_1)
+	private RadioButton mRb2;
+	
+	@ViewInit(id = R.id.rb_2)
+	private RadioButton mRb3;
+	
+	@ViewInit(id = R.id.rb_3)
+	private RadioButton mRb4;
+	
+	@ViewInit(id = R.id.rb_4)
+	private RadioButton mRb5;
+	
+	@ViewInit(id = R.id.rb_5)
+	private RadioButton mRb6;
+	
+	
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 		mDetailTitlebar.setTitle("用户举报");
+		if(getActivity().getIntent().getBooleanExtra("isMsgReport", false)){
+			mtvTitleLabel.setText("如果您被电话骚扰了，请举报，我们会立即处理");
+			mRb1.setVisibility(View.GONE);
+			mRb2.setVisibility(View.GONE);
+			mRb3.setVisibility(View.GONE);
+			mRb4.setVisibility(View.GONE);
+			mBtnConfirm.setText("严惩骚扰");
+			mRg.check(R.id.rb_4);
+		}
 	}
 
 	@Override
@@ -64,6 +98,12 @@ public class HouseReportFragment extends BaseFragment implements ITaskListener{
 				break;
 			case R.id.rb_3:
 				check = 4;
+				break;
+			case R.id.rb_4:
+				check = 5;
+				break;
+			case R.id.rb_5:
+				check = 6;
 				break;
 			}
 			SHDialog.ShowProgressDiaolg(getActivity(), null);

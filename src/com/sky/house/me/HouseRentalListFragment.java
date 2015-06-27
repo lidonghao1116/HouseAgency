@@ -4,16 +4,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
@@ -25,6 +30,7 @@ import com.sky.house.resource.HouseDetailFragment;
 import com.sky.house.resource.publish.HouseSuccessFragment;
 import com.sky.house.widget.SHListView;
 import com.sky.widget.SHDialog;
+import com.sky.widget.SHToast;
 import com.sky.widget.sweetdialog.SweetDialog;
 
 /**
@@ -34,9 +40,11 @@ import com.sky.widget.sweetdialog.SweetDialog;
 public class HouseRentalListFragment extends BaseFragment implements ITaskListener {
 	private HouseListAdapter mAdapter;
 	SHListView listView;
-	private SHPostTaskM taskMessage,taskClear,taskComplain,taskCheckIn;
+	private SHPostTaskM taskMessage,taskClear,taskComplain,taskCheckIn,taskHasPass;
 	private JSONArray jsonArray = new JSONArray();
 	private  int  type;// 列表类型 查看HouseListAdapter说明
+	private boolean isSetPass;// 是否设置过密码
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -82,12 +90,7 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 							intent.putExtra("type", type);
 							startActivity(intent);
 						}else if(object.getInt("orderStatus")==50){
-							SHDialog.ShowProgressDiaolg(getActivity(), null);
-							taskCheckIn =  new SHPostTaskM() ;
-							taskCheckIn.setUrl(ConfigDefinition.URL+"CheckIn");
-							taskCheckIn.getTaskArgs().put("orderId", object.getInt("orderId"));
-							taskCheckIn.setListener(HouseRentalListFragment.this);
-							taskCheckIn.start();
+							checkIn(object.getInt("orderId"));
 						}else{
 							intent.putExtra("class", HousePayChargeFragment.class.getName());
 							intent.putExtra("id",  object.getInt("houseDetailId"));
@@ -193,9 +196,21 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 				startActivity(intent);
 			}
 		});
+		
+	}
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		requestHasPass();
 		requestMessage();
 	}
-
+	private void requestHasPass() {
+		taskHasPass = new SHPostTaskM();
+		taskHasPass.setUrl(ConfigDefinition.URL + "GetUserIsSetPayPassword");
+		taskHasPass.setListener(this);
+		taskHasPass.start();
+	}
 	private void requestMessage(){
 		taskMessage = new SHPostTaskM();
 		switch (type) {
@@ -235,10 +250,10 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			listView.setAdapter(mAdapter);
 		}else if(task == taskClear){
 			jsonArray = new JSONArray();
-//			listView.setTotalNum(0);
+			//			listView.setTotalNum(0);
 			listView.setTipsMessage("已加载全部");
 			mAdapter.setJsonArray(jsonArray);
-			mAdapter.notifyDataSetChanged();
+			listView.setAdapter(mAdapter);
 		}else if(task == taskComplain){
 			requestMessage();
 		}else if(task  == taskCheckIn){
@@ -248,7 +263,10 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			intent.putExtra("identification", 0);
 			intent.putExtra("flag", 1);
 			startActivity(intent);
-			
+
+		} else if (task == taskHasPass) {
+			JSONObject jsonObj = (JSONObject) task.getResult();
+			isSetPass = jsonObj.getInt("isSet") == 0 ? false : true;
 		}
 	}
 	@Override
@@ -259,7 +277,7 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			jsonArray = new JSONArray();
 			listView.setTotalNum(0);
 			mAdapter.setJsonArray(jsonArray);
-			mAdapter.notifyDataSetChanged();
+			listView.setAdapter(mAdapter);
 		}else{
 			new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
 		}
@@ -276,4 +294,49 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 		// TODO Auto-generated method stub
 
 	}	
+
+	/**
+	 * 确认入住
+	 */
+	private void checkIn(final int  orderId){
+		if (!isSetPass) {
+			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+			intent.putExtra("class", HouseChangePayPassword.class.getName());
+			startActivity(intent);
+		} else {
+			final Dialog dilogPass = new Dialog(getActivity(), R.style.dialog);
+			dilogPass.setContentView(R.layout.dialog_input_password);
+			final EditText etPass = (EditText) dilogPass.findViewById(R.id.et_password);
+			Button btnCancel = (Button) dilogPass.findViewById(R.id.btn_cancle);
+			Button btnConfirm = (Button) dilogPass.findViewById(R.id.btn_confirm);
+			dilogPass.show();
+			btnCancel.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					dilogPass.dismiss();
+				}
+			});
+			btnConfirm.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					if (etPass.getText().toString().trim().length() == 0) {
+						SHToast.showToast(getActivity(), "请输入密码");
+						return;
+					}
+					SHDialog.ShowProgressDiaolg(getActivity(), null);
+					taskCheckIn =  new SHPostTaskM() ;
+					taskCheckIn.setUrl(ConfigDefinition.URL+"CheckIn");
+					taskCheckIn.getTaskArgs().put("orderId", orderId);
+					taskCheckIn.getTaskArgs().put("password",  CommonUtil.encodeMD5(etPass.getText().toString().trim()));
+					taskCheckIn.setListener(HouseRentalListFragment.this);
+					taskCheckIn.start();
+				}
+			});
+		}
+
+	}
 }

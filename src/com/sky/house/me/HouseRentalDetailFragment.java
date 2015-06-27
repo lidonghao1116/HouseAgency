@@ -1,5 +1,6 @@
 package com.sky.house.me;
 
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 
 import org.json.JSONArray;
@@ -661,7 +662,7 @@ OnClickListener, ITaskListener {
 						SHToast.showToast(getActivity(), "请输入金额");
 						return;
 					}
-					int money = Integer.parseInt(etDilogMoney.getText().toString().trim());
+					float money = Float.parseFloat(etDilogMoney.getText().toString().trim());
 					String pass = etDilogPass.getText().toString().trim();
 					if(money <= 0){
 						SHToast.showToast(getActivity(), "请输入金额");
@@ -677,7 +678,7 @@ OnClickListener, ITaskListener {
 						taskPayOther.getTaskArgs().put("otherType", type);//1.	退杂费 	2.	缴杂费
 						taskPayOther.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
 						taskPayOther.getTaskArgs().put("password", CommonUtil.encodeMD5(pass));
-						taskPayOther.getTaskArgs().put("otherAmt", money);
+						taskPayOther.getTaskArgs().put("otherAmt", new BigDecimal(money).setScale(2,BigDecimal.ROUND_HALF_UP).floatValue());
 						taskPayOther.setListener(HouseRentalDetailFragment.this);
 						taskPayOther.start();
 					}else{

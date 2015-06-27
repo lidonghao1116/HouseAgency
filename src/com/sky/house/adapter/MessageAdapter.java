@@ -111,6 +111,7 @@ public class MessageAdapter extends BaseAdapter {
 							Intent intent = new Intent(context,SHContainerActivity.class);
 							intent.putExtra("class", HouseReportFragment.class.getName());
 							intent.putExtra("complaintPushMsgId", object.optString("id"));
+							intent.putExtra("isMsgReport",true);
 							context.startActivity(intent);
 						}
 					});

@@ -86,6 +86,28 @@
                     android:paddingLeft="10dp"
                     android:text="要求私下交易（对自身权益没保障）"
                     android:textColor="@color/rb_text_selector_top" />
+                <RadioButton
+                    android:id="@+id/rb_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_orange_round_report"
+                    android:button="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="中介骚扰"
+                    android:textColor="@color/rb_text_selector_top" />
+                <RadioButton
+                    android:id="@+id/rb_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_orange_round_report"
+                    android:button="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="恶意电话骚扰"
+                    android:textColor="@color/rb_text_selector_top" />
             </RadioGroup>
 
             <TextView
