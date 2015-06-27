@@ -14,8 +14,10 @@ import android.widget.TextView;
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
+import com.eroad.base.util.UserInfoManager;
 import com.eroad.base.util.ViewInit;
 import com.sky.house.R;
+import com.sky.house.home.HouseMainActivity;
 import com.sky.widget.sweetdialog.SweetDialog;
 import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
 
@@ -86,6 +88,8 @@ OnClickListener {
 				@Override
 				public void onClick(SweetDialog sweetAlertDialog) {
 					// TODO Auto-generated method stub
+					UserInfoManager.getInstance().setSession("");
+					UserInfoManager.getInstance().sync(getActivity(), true);
 					SHApplication.getInstance().exitApplication();
 				}
 			});

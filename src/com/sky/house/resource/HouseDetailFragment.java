@@ -111,10 +111,10 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 	@ViewInit(id = R.id.tv_address)
 	private TextView mTvAddress;
-	
+
 	@ViewInit(id = R.id.ll_same,onClick = "onClick")
 	private LinearLayout mLlSame;
-	
+
 	@ViewInit(id = R.id.iv_map,onClick = "onClick")
 	private ImageView mIvMap;
 
@@ -123,23 +123,23 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 	@ViewInit(id = R.id.btn_contact, onClick = "onClick")
 	private Button mBtnContact;
-	
+
 	@ViewInit(id = R.id.ll_xianzhi)
 	private LinearLayout mLlXianzhi;
-	
+
 	@ViewInit(id = R.id.tv_xianzhi)
 	private TextView mTvXianzhi;
 
 	@ViewInit(id = R.id.pager_banner)
 	private ViewPager mPagerView_TopAdvert;
-	
+
 	@ViewInit(id = R.id.tv_same)
 	private TextView mTvSame;
-	
+
 	@ViewInit(id = R.id.tv_num)
 	private TextView mTvNum;
-	
-	private SHPostTaskM detailTask, collectTask;
+
+	private SHPostTaskM detailTask, collectTask,contactTask;
 
 	private JSONObject json;// 详情对象
 
@@ -173,7 +173,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 		mDetailTitlebar.setTitle(getActivity().getIntent().getStringExtra("name"));
 		mDetailTitlebar.setRightButton1("举报", new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
@@ -190,7 +190,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			}
 		});
 		mDetailTitlebar.setRightButton2("分享", new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
@@ -253,16 +253,18 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 				startActivity(intent);
 				return;
 			}
-			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-			intent.putExtra("class", HouseContactFragment.class.getName());
-			intent.putExtra("name", getActivity().getIntent().getStringExtra("name"));
 			try {
-				intent.putExtra("id", json.getInt("houseDetailId"));
+				// 自己不能联系自己
+				contactTask = new SHPostTaskM();
+				contactTask.setListener(this);
+				contactTask.setUrl(ConfigDefinition.URL+"GetLandlordDetail");
+				contactTask.getTaskArgs().put("houseDetailId", json.getInt("houseDetailId"));
+				contactTask.start();
+
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			startActivity(intent);
 			break;
 		case R.id.iv_map:
 			Intent intent_map = new Intent(getActivity(),HouseMapActivity.class);
@@ -421,6 +423,12 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			}
 		} else if (task == collectTask) {
 			SHToast.showToast(getActivity(), "收藏成功", 1000);
+		}else if(task == contactTask){
+			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+			intent.putExtra("class", HouseContactFragment.class.getName());
+			intent.putExtra("name", getActivity().getIntent().getStringExtra("name"));
+			intent.putExtra("id", json.getInt("houseDetailId"));
+			startActivity(intent);
 		}
 	}
 
@@ -448,20 +456,20 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 		// oks.setAddress("12345678901");
 		oks.setTitle("阳关租房");
-//		oks.setTitleUrl("http://mob.com");
+		//		oks.setTitleUrl("http://mob.com");
 		oks.setText("我正在使用《阳光租房》App哦～");
 
 		// oks.setImagePath(CustomShareFieldsPage.getString("imagePath",
 		// MainActivity.TEST_IMAGE));
-//		oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/05/21/oESpJ78_533x800.jpg");
+		//		oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/05/21/oESpJ78_533x800.jpg");
 		// oks.setImageArray(new String[]{MainActivity.TEST_IMAGE,
 		// MainActivity.TEST_IMAGE_URL});
 
-//		oks.setUrl("http://www.mob.com");
-//		oks.setFilePath(CustomShareFieldsPage.getString("filePath", MainActivity.TEST_IMAGE));
-//		oks.setComment(CustomShareFieldsPage.getString("comment", context.getString(R.string.share)));
-//		oks.setSite(getActivity().getResources().getString(R.string.app_name));
-//		oks.setSiteUrl("http://mob.com");
+		//		oks.setUrl("http://www.mob.com");
+		//		oks.setFilePath(CustomShareFieldsPage.getString("filePath", MainActivity.TEST_IMAGE));
+		//		oks.setComment(CustomShareFieldsPage.getString("comment", context.getString(R.string.share)));
+		//		oks.setSite(getActivity().getResources().getString(R.string.app_name));
+		//		oks.setSiteUrl("http://mob.com");
 		// oks.setVenueName(CustomShareFieldsPage.getString("venueName",
 		// "ShareSDK"));
 		// oks.setVenueDescription(CustomShareFieldsPage.getString("venueDescription",
@@ -487,7 +495,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 		oks.setCallback(new OneKeyShareCallback());
 
 		// 为EditPage设置一个背景的View
-//		oks.setEditPageBackground(getPage());
+		//		oks.setEditPageBackground(getPage());
 		oks.show(getActivity());
 	}
 }

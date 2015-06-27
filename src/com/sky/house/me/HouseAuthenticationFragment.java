@@ -299,18 +299,10 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 		SHDialog.dismissProgressDiaolg();
 		if (task == taskAuthinfo) {
 			JSONObject json = (JSONObject) task.getResult();
-			if (!json.getString("picUrl").isEmpty()) {
-				ImageLoaderUtil.displayImage(json.getString("picUrl"), imgCard);
-//				imgCard.setVisibility(View.VISIBLE);
-				tvStateName.setText("证件审核");
-				tvStateName.setEnabled(false);
-				tvStateName.setCompoundDrawables(null, null, null, null);
-				tvState.setText(json.optString("auditStatusName") == null ? "" : json.optString("auditStatusName"));
-				etCard.setText(json.optString("identityNo") == null ? "" : json.optString("identityNo"));
-				etName.setText(json.optString("userRealName") == null ? "" : json.optString("userRealName"));
-			}
-			// status=0 等待认证 status=1 认证通过 status=2认证失败(可编辑)
-			if (json.getString("auditStatus").equalsIgnoreCase("0")) {
+			//status=-1 未认证 status=0 等待认证 status=1 认证通过 status=2认证失败(可编辑)
+			if (json.getString("auditStatus").equalsIgnoreCase("-1")) {
+				return;
+			}else if (json.getString("auditStatus").equalsIgnoreCase("0")) {
 				imgState.setBackgroundResource(R.drawable.ic_auth_fali);
 				checkStatus(false);
 			} else if (json.getString("auditStatus").equalsIgnoreCase("1")) {
@@ -320,6 +312,16 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 			} else {
 				imgState.setBackgroundResource(R.drawable.ic_auth_fali);
 				checkStatus(true);
+			}
+			if (!json.getString("picUrl").isEmpty()) {
+				ImageLoaderUtil.displayImage(json.getString("picUrl"), imgCard);
+//				imgCard.setVisibility(View.VISIBLE);
+				tvStateName.setText("证件审核");
+				tvStateName.setEnabled(false);
+				tvStateName.setCompoundDrawables(null, null, null, null);
+				tvState.setText(json.optString("auditStatusName") == null ? "" : json.optString("auditStatusName"));
+				etCard.setText(json.optString("identityNo") == null ? "" : json.optString("identityNo"));
+				etName.setText(json.optString("userRealName") == null ? "" : json.optString("userRealName"));
 			}
 		} else if (task == taskSubmit) {
 			getActivity().finish();

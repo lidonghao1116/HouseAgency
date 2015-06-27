@@ -44,6 +44,7 @@ import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
 -2 房东取消定金
 -3 订单取消
 -4 介入取消
+-10 可删除
 
 交杂费 退杂费 [ 60,90) 
 退租金 70 80
@@ -156,6 +157,20 @@ public class HouseListAdapter extends BaseAdapter {
 				
 
 				final JSONObject object =  jsonArray.getJSONObject(pos);
+				holder.btnLeft.setOnClickListener(new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						try {
+							telMoblie(object.getString("mobilePhone"));
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+				
 				if (this.flag != FLAG_HOUSE_LIST) {
 					holder.rlTop.setVisibility(View.VISIBLE);
 					holder.llBottom.setVisibility(View.VISIBLE);
@@ -163,6 +178,18 @@ public class HouseListAdapter extends BaseAdapter {
 					if (this.flag == FLAG_STATE_LIST_TENANT) {//房客
 						holder.tvHouseState.setText(object.getString("orderStatusName"));
 						switch (object.getInt("orderStatus")) {
+						case -10://50 删除
+							holder.btnRight.setVisibility(View.GONE);
+							holder.btnLeft.setText("删除");
+							holder.btnLeft.setOnClickListener(new  View.OnClickListener() {
+
+								@Override
+								public void onClick(View v) {
+									// TODO Auto-generated method stub
+									itemButtonSelectListener.setLeftButtonOnselect(pos, object);
+								}
+							});
+							break;
 						case 0://10 已付定金 --待确认定金
 							holder.btnRight.setText("支付订金");
 							break;
@@ -267,19 +294,7 @@ public class HouseListAdapter extends BaseAdapter {
 						}
 						
 					}
-					holder.btnLeft.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							// TODO Auto-generated method stub
-							try {
-								telMoblie(object.getString("mobilePhone"));
-							} catch (JSONException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					});
+					
 				}
 				
 				
