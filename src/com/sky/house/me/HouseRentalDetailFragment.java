@@ -221,8 +221,8 @@ OnClickListener, ITaskListener {
 		getOrderIdTask.setListener(this);
 		getOrderIdTask.setUrl(ConfigDefinition.URL+"AlipayOptInfoAdd");
 		getOrderIdTask.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
-		getOrderIdTask.getTaskArgs().put("payAmt", aliPayMoney);//充值金额
-		getOrderIdTask.getTaskArgs().put("rechargeAmt", aliPayMoney + amount);//支付金额
+		getOrderIdTask.getTaskArgs().put("payAmt", aliPayMoney+amount);//支付金额
+		getOrderIdTask.getTaskArgs().put("rechargeAmt", aliPayMoney );//充值金额
 		getOrderIdTask.getTaskArgs().put("optType", type);//1 交定金 2 交房租 3 交杂费 4 交押金 5交租金 6 退杂费 7 退押金 8续交房租
 		getOrderIdTask.start();
 	}
@@ -482,7 +482,7 @@ OnClickListener, ITaskListener {
 							Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 							intent.putExtra("class", HouseContactFragment.class.getName());
 							intent.putExtra("name", "房东信息");
-							intent.putExtra("id", mResult.getInt("lordId"));
+							intent.putExtra("id", mResult.getInt("houseDetailId"));
 							intent.putExtra("pageType", 1);
 							startActivity(intent);
 						} catch (JSONException e) {
@@ -554,6 +554,7 @@ OnClickListener, ITaskListener {
 							intent.putExtra("class", HouseContactFragment.class.getName());
 							intent.putExtra("name", "租客信息");
 							intent.putExtra("id", mResult.getInt("tenantId"));
+							intent.putExtra("orderId",getActivity().getIntent().getIntExtra("orderId", 0));
 							intent.putExtra("pageType", 2);//1房东   2房客
 							startActivity(intent);
 						} catch (JSONException e) {
@@ -701,7 +702,7 @@ OnClickListener, ITaskListener {
 			intent.putExtra("class", HouseChangePayPassword.class.getName());
 			startActivity(intent);
 		}else{
-			showDialog("交租金",false,nextPayAmt+"*"+nextMonths+"="+(nextPayAmt*nextMonths), new View.OnClickListener() {
+			showDialog("交租金",false,nextPayAmt+"", new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -711,7 +712,7 @@ OnClickListener, ITaskListener {
 						SHToast.showToast(getActivity(), "请输入密码");
 						return;
 					}
-					if(amount >= nextMonths*nextPayAmt){
+					if(amount >= nextPayAmt){
 						taskNextPay = new SHPostTaskM();
 						taskNextPay.setUrl(ConfigDefinition.URL+"PayNextRent");
 						taskNextPay.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
@@ -721,7 +722,7 @@ OnClickListener, ITaskListener {
 						taskNextPay.setListener(HouseRentalDetailFragment.this);
 						taskNextPay.start();
 					}else{
-						aliPayMoney = nextMonths*nextPayAmt - amount;
+						aliPayMoney = nextPayAmt - amount;
 						requestOrderId(8);
 					}
 					

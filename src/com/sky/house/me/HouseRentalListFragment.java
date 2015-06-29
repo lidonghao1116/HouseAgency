@@ -40,7 +40,7 @@ import com.sky.widget.sweetdialog.SweetDialog;
 public class HouseRentalListFragment extends BaseFragment implements ITaskListener {
 	private HouseListAdapter mAdapter;
 	SHListView listView;
-	private SHPostTaskM taskMessage,taskClear,taskComplain,taskCheckIn,taskHasPass;
+	private SHPostTaskM taskMessage,taskClear,taskComplain,taskCheckIn,taskHasPass,taskDelete;
 	private JSONArray jsonArray = new JSONArray();
 	private  int  type;// 列表类型 查看HouseListAdapter说明
 	private boolean isSetPass;// 是否设置过密码
@@ -120,7 +120,14 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 					// TODO Auto-generated method stub
 					try {
 						Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-						if(object.getInt("orderStatus")>=50){
+					    if(object.getInt("orderStatus")==50){//??支付房租。
+					    	intent.putExtra("class", HousePayChargeFragment.class.getName());
+							intent.putExtra("id",  object.getInt("houseDetailId"));
+							intent.putExtra("identification", 1);
+							intent.putExtra("optType", 10);
+							intent.putExtra("orderId", object.getInt("orderId")+"");
+							startActivity(intent);
+						}else if(object.getInt("orderStatus")>50){
 							intent.putExtra("class", HouseRentalDetailFragment.class.getName());
 							intent.putExtra("orderId", object.getInt("orderId"));
 							intent.putExtra("orderStatus", object.getInt("orderStatus"));
@@ -144,7 +151,19 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 				@Override
 				public void setLeftButtonOnselect(int complaintId, JSONObject object) {
 					// TODO Auto-generated method stub
-
+					try {
+						if(object.getInt("orderStatus")==-10){// 删除
+							SHDialog.ShowProgressDiaolg(getActivity(), null);
+							taskDelete =  new SHPostTaskM() ;
+							taskDelete.setUrl(ConfigDefinition.URL+"removeHouse");
+							taskDelete.getTaskArgs().put("houseDetailId", object.getInt("houseDetailId"));
+							taskDelete.setListener(HouseRentalListFragment.this);
+							taskDelete.start();
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
 
@@ -254,6 +273,8 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			listView.setTipsMessage("已加载全部");
 			mAdapter.setJsonArray(jsonArray);
 			listView.setAdapter(mAdapter);
+		}else if(task == taskDelete){
+			requestMessage();
 		}else if(task == taskComplain){
 			requestMessage();
 		}else if(task  == taskCheckIn){

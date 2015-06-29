@@ -237,7 +237,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 			tvTitleTime.setText(mResult.getString("tenantDate"));
 			tvTitleDeal.setText("已缴纳到"+mResult.getString("hasPayDate"));
 			mChart.setCenterText("已交租金\n"+mResult.optDouble("payAmount")+"\n未交租金\n"+mResult.optDouble("unPayAmount"));
-			setData((float)mResult.optDouble("payAmount"), (float)mResult.optDouble("payAmount"));
+			setData((float)mResult.optDouble("payAmount"), (float)mResult.optDouble("unPayAmount"));
 		}else if(task == taskHasPass){
 			isSetPass  = mResult.getInt("isSet")==0?false:true;
 		}else if(task == taskRemind){
@@ -276,7 +276,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 			startActivity(intent);
 		}else{
 
-			showDialog("交租金",false,nextPayAmt+"*"+nextMonths+"="+(nextPayAmt*nextMonths), new View.OnClickListener() {
+			showDialog("交租金",false,nextPayAmt+"", new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -286,7 +286,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 						SHToast.showToast(getActivity(), "请输入密码");
 						return;
 					}
-					if(amount >= nextPayAmt*nextMonths){
+					if(amount >= nextPayAmt){
 						taskNextPay = new SHPostTaskM();
 						taskNextPay.setUrl(ConfigDefinition.URL+"PayNextRent");
 						taskNextPay.getTaskArgs().put("orderid", getActivity().getIntent().getIntExtra("orderId", 0));
@@ -296,7 +296,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 						taskNextPay.setListener(HouseRentPieChartFragment.this);
 						taskNextPay.start();
 					}else{
-						aliPayMoney = nextPayAmt*nextMonths - amount;
+						aliPayMoney = nextPayAmt - amount;
 						requestOrderId(2);
 					}
 					dismissDialog();
@@ -352,8 +352,8 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 		getOrderIdTask.setListener(this);
 		getOrderIdTask.setUrl(ConfigDefinition.URL+"AlipayOptInfoAdd");
 		getOrderIdTask.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", 0));
-		getOrderIdTask.getTaskArgs().put("payAmt", aliPayMoney);
-		getOrderIdTask.getTaskArgs().put("rechargeAmt", aliPayMoney + amount);//支付金额
+		getOrderIdTask.getTaskArgs().put("payAmt", aliPayMoney+ amount);
+		getOrderIdTask.getTaskArgs().put("rechargeAmt", aliPayMoney );//支付金额
 		getOrderIdTask.getTaskArgs().put("optType", type);//1 定金 2 房租 3 杂费 4 押金
 		getOrderIdTask.start();
 	}

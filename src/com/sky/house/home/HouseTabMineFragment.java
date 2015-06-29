@@ -383,6 +383,8 @@ public class HouseTabMineFragment extends BaseFragment implements OnClickListene
 			mResultBalance = (JSONObject) task.getResult();
 			tvBalance.setText(mResultBalance.optDouble("amount")+"");
 			tvSunPoints.setText(mResultBalance.optInt("sunnyAmt")+"");
+		}else if(task  == uploadTask){
+			requestUserInfo();
 		}
 	}
 	@Override
