@@ -1,16 +1,21 @@
 package com.eroad.base;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 import cn.jpush.android.api.JPushInterface;
 
+import com.eroad.base.util.UserInfoManager;
 import com.next.app.StandardApplication;
 import com.next.message.SHMsgManager;
+import com.sky.house.home.HouseLoginFragment;
+import com.sky.house.home.HouseMainActivity;
 
 /**
  * 自定义接收器
@@ -105,6 +110,22 @@ public class SHJPushReceiver extends BroadcastReceiver {
 		//	if (MainActivity.isForeground) {
 		//String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 		String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+		if(extras != null){
+			try {
+				JSONObject extraJson = new JSONObject(extras);
+				if(extraJson.getInt("code") == -5){
+					SHApplication.getInstance().exitApplication();
+					Intent intent = new Intent(SHApplication.getInstance(),SHContainerActivity.class);
+					intent.putExtra("class", HouseLoginFragment.class.getName());
+					SHApplication.getInstance().startActivity(intent);
+					UserInfoManager.getInstance().setSession("");
+					UserInfoManager.getInstance().sync(SHApplication.getInstance(), true);
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		Log.i("push", extras);
 		Intent intent = new Intent("JPUSH_MSG");
 		StandardApplication.getInstance().sendBroadcast(intent); 
