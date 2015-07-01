@@ -348,7 +348,9 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 					tv.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.stroke_red_zhi));
 					break;
 				}
-				mLlTese.addView(tv);
+				if(mLlTese.getChildCount() < 3){
+					mLlTese.addView(tv);
+				}
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

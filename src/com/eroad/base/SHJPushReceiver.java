@@ -114,21 +114,20 @@ public class SHJPushReceiver extends BroadcastReceiver {
 			try {
 				JSONObject extraJson = new JSONObject(extras);
 				if(extraJson.getInt("code") == -5){
-					SHApplication.getInstance().exitApplication();
-					Intent intent = new Intent(SHApplication.getInstance(),SHContainerActivity.class);
-					intent.putExtra("class", HouseLoginFragment.class.getName());
-					SHApplication.getInstance().startActivity(intent);
-					UserInfoManager.getInstance().setSession("");
-					UserInfoManager.getInstance().sync(SHApplication.getInstance(), true);
+//					SHApplication.getInstance().exitApplication();
+					Log.i("push", extras);
+					Intent intent = new Intent("JPUSH_EXIT");
+					StandardApplication.getInstance().sendBroadcast(intent); 
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}else{
+			Log.i("push", extras);
+			Intent intent = new Intent("JPUSH_MSG");
+			StandardApplication.getInstance().sendBroadcast(intent); 
 		}
-		Log.i("push", extras);
-		Intent intent = new Intent("JPUSH_MSG");
-		StandardApplication.getInstance().sendBroadcast(intent); 
 //		SHResMsgM msg = new SHResMsgM();
 //		reel.processPackage(msg);
 //		try {

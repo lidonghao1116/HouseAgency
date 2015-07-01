@@ -3,7 +3,10 @@ package com.sky.house.home;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +19,7 @@ import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.UserInfoManager;
+import com.eroad.base.util.location.SHLocationManager;
 import com.next.util.SHEnvironment;
 import com.sky.house.R;
 import com.sky.widget.sweetdialog.SweetDialog;
@@ -26,6 +30,7 @@ public class HouseMainActivity extends BaseActivity {
 	private List<Fragment> mFragmentList = new ArrayList<Fragment>();
 	private String[] tabs = new String[] { "home", "map", "order", "mine" };
 	private int lastCheckId = -1;
+	private BroadcastReceiver rec;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,37 @@ public class HouseMainActivity extends BaseActivity {
 			}
 		});
 		changeFragment(tabs[0]);
+		rec = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context arg0, Intent arg1) {
+				// TODO Auto-generated method stub
+				UserInfoManager.getInstance().setSession("");
+				UserInfoManager.getInstance().sync(HouseMainActivity.this, true);
+				Intent intent = new Intent(HouseMainActivity.this,SHContainerActivity.class);
+				intent.putExtra("class", HouseLoginFragment.class.getName());
+				startActivity(intent);
+			}
+		};
+		registerBroadcast();
+	}
+
+	private void registerBroadcast() {
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(SHLocationManager.BROADCAST_LOCATION);
+		intentFilter.addAction("JPUSH_EXIT");
+		registerReceiver(rec, intentFilter);
+	}
+	
+	
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if (rec != null) {
+			unregisterReceiver(rec);
+		}
 	}
 
 	/**
