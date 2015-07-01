@@ -102,6 +102,9 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 	@ViewInit(id = R.id.iv_house_renzheng)
 	private ImageView mIvHouse;
 	
+	@ViewInit(id = R.id.iv_renzhen)
+	private ImageView mIvRenzhen;
+	
 	private JSONObject json;
 	
 	private int pageType;//0:联系看房   1:房东信息  2:房客
@@ -125,6 +128,7 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 			mLlRenzheng.setVisibility(View.VISIBLE);
 			mTvRenzheng.setText("房东认证信息");
 			mLabIdenti.setText("房  东：");
+			mIvRenzhen.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.ic_real_fangdong));
 			request();
 			break;
 		case 2:
@@ -132,6 +136,7 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 			mLlRenzheng.setVisibility(View.VISIBLE);
 			mTvRenzheng.setText("房客认证信息");
 			mLabIdenti.setText("房  客：");
+			mIvRenzhen.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.ic_renzhen_zuke));
 			requestFangke();
 			break;
 		}

@@ -130,7 +130,7 @@
         <!-- meta-data需要写在application中 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="TCPOLfG1DZcgSxcwT0tDNQek" />
+            android:value="vn6Kx9j0XBlfzi3U2g9gh9ZH" />
 
         <activity
             android:name="com.mob.tools.MobUIShell"
