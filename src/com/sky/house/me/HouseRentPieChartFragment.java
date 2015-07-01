@@ -297,7 +297,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 						taskNextPay.start();
 					}else{
 						aliPayMoney = nextPayAmt - amount;
-						requestOrderId(2);
+						requestOrderId(8);
 					}
 					dismissDialog();
 				}
