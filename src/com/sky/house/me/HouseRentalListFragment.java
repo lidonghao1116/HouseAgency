@@ -5,7 +5,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
+import com.eroad.base.util.location.SHLocationManager;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
@@ -44,7 +48,14 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 	private JSONArray jsonArray = new JSONArray();
 	private  int  type;// 列表类型 查看HouseListAdapter说明
 	private boolean isSetPass;// 是否设置过密码
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
 
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			// TODO Auto-generated method stub
+			requestMessage();
+		}
+	};
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -57,6 +68,11 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("JPUSH_MSG");
+		getActivity().registerReceiver(receiver, intentFilter);
+
 		type  = getActivity().getIntent().getIntExtra("type", HouseListAdapter.FLAG_HOUSE_LIST);
 		mDetailTitlebar.setTitle(getActivity().getIntent().getStringExtra("title"));
 		mAdapter  = new HouseListAdapter(getActivity(), type, jsonArray);
@@ -120,8 +136,8 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 					// TODO Auto-generated method stub
 					try {
 						Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-					    if(object.getInt("orderStatus")==50){//??支付房租。
-					    	intent.putExtra("class", HousePayChargeFragment.class.getName());
+						if(object.getInt("orderStatus")==50){//??支付房租。
+							intent.putExtra("class", HousePayChargeFragment.class.getName());
 							intent.putExtra("id",  object.getInt("houseDetailId"));
 							intent.putExtra("identification", 1);
 							intent.putExtra("optType", 10);
@@ -215,7 +231,7 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 				startActivity(intent);
 			}
 		});
-		
+
 	}
 	@Override
 	public void onResume() {
@@ -223,6 +239,13 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 		super.onResume();
 		requestHasPass();
 		requestMessage();
+	}
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if(receiver!=null)
+			getActivity().unregisterReceiver(receiver);
 	}
 	private void requestHasPass() {
 		taskHasPass = new SHPostTaskM();

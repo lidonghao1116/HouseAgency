@@ -168,10 +168,10 @@ public class HouseListAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					try {
-						if( flag == HouseListAdapter.FLAG_STATE_LIST_LANDLORD || object.getInt("orderStatus")>=20){
-							telMoblie(object.getString("mobilePhone"));
-						}else{
+						if( flag == HouseListAdapter.FLAG_STATE_LIST_TENANT && object.getInt("orderStatus")<20){
 							telMoblie(object.getString("phoneFor400"));
+						}else{
+							telMoblie(object.getString("mobilePhone"));
 						}
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -284,7 +284,6 @@ public class HouseListAdapter extends BaseAdapter {
 						break;
 					case 40:// 40 已确认合同 --待付款
 						holder.btnRight.setText("等待房租");
-						holder.btnRight.setEnabled(false);
 						break;
 					case 50:// 50 已付款 --待入住 进入支付房租页面 没有确认支付
 						holder.btnRight.setText("等待入住");

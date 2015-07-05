@@ -8,7 +8,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -147,7 +150,14 @@ OnClickListener, ITaskListener {
 	private static final int RQF_LOGIN = 2;
 	private double aliPayMoney;//支付宝 支付金额
 	private int amount;//余额
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
 
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			// TODO Auto-generated method stub
+			request();
+		}
+	};
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -159,14 +169,11 @@ OnClickListener, ITaskListener {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("JPUSH_MSG");
+		getActivity().registerReceiver(receiver, intentFilter);
+		
 		mDetailTitlebar.setTitle("租房详情");
-		//		mDetailTitlebar.setRightButton1("清空", new OnClickListener() {
-		//
-		//			@Override
-		//			public void onClick(View arg0) {
-		//				// TODO Auto-generated method stub
-		//			}
-		//		});
 		type  = getActivity().getIntent().getIntExtra("type", HouseListAdapter.FLAG_HOUSE_LIST);
 		initView();
 		request();
@@ -178,7 +185,13 @@ OnClickListener, ITaskListener {
 		requestHasPass();
 		requestAccount();
 	}
-	
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if(receiver!=null)
+			getActivity().unregisterReceiver(receiver);
+	}
 	/**
 	 * 初始数据界面
 	 */
@@ -616,6 +629,12 @@ OnClickListener, ITaskListener {
 				btnBottomLeft.setVisibility(View.VISIBLE);
 			}else{
 				btnBottomLeft.setVisibility(View.GONE);
+			}
+			//交租金 只有60可以缴
+			if((mResult.getInt("orderStatus") ==60|| mResult.getInt("orderStatus") ==70) && mResult.getInt("nextPayAmt")>0){
+				btnBottomRight.setVisibility(View.VISIBLE);
+			}else{
+				btnBottomRight.setVisibility(View.GONE);
 			}
 			
 			
