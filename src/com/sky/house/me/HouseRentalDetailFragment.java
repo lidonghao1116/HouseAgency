@@ -630,7 +630,7 @@ OnClickListener, ITaskListener {
 			}else{
 				btnBottomLeft.setVisibility(View.GONE);
 			}
-			//交租金 只有60可以缴
+			//提醒交租 
 			if((mResult.getInt("orderStatus") ==60|| mResult.getInt("orderStatus") ==70) && mResult.getInt("nextPayAmt")>0){
 				btnBottomRight.setVisibility(View.VISIBLE);
 			}else{
