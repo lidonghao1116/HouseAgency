@@ -247,24 +247,28 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			}
 			break;
 		case R.id.btn_contact:
+			if(json.optInt("isLords") == 1){
+				SHToast.showToast(getActivity(), "无法联系自己");
+				return;
+			}
 			if(CommonUtil.isEmpty(SHEnvironment.getInstance().getSession())){
 				Intent intent = new Intent(getActivity(),SHContainerActivity.class);
 				intent.putExtra("class", HouseLoginFragment.class.getName());
 				startActivity(intent);
 				return;
 			}
-			try {
-				// 自己不能联系自己
-				contactTask = new SHPostTaskM();
-				contactTask.setListener(this);
-				contactTask.setUrl(ConfigDefinition.URL+"GetLandlordDetail");
-				contactTask.getTaskArgs().put("houseDetailId", json.getInt("houseDetailId"));
-				contactTask.start();
-
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				// 自己不能联系自己
+//				contactTask = new SHPostTaskM();
+//				contactTask.setListener(this);
+//				contactTask.setUrl(ConfigDefinition.URL+"GetLandlordDetail");
+//				contactTask.getTaskArgs().put("houseDetailId", json.getInt("houseDetailId"));
+//				contactTask.start();
+//
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			break;
 		case R.id.iv_map:
 			Intent intent_map = new Intent(getActivity(),HouseMapActivity.class);

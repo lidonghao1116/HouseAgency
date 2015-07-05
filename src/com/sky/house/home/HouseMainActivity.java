@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import cn.sharesdk.framework.ShareSDK;
@@ -81,6 +82,7 @@ public class HouseMainActivity extends BaseActivity {
 			@Override
 			public void onReceive(Context arg0, Intent arg1) {
 				// TODO Auto-generated method stub
+				Log.i("jPush_MainActivity", "异地登陆");
 				UserInfoManager.getInstance().setSession("");
 				UserInfoManager.getInstance().sync(HouseMainActivity.this, true);
 				Intent intent = new Intent(HouseMainActivity.this,SHContainerActivity.class);
