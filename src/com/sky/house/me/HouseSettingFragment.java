@@ -74,6 +74,7 @@ OnClickListener {
 					// TODO Auto-generated method stub
 					Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:4000-391-791"));
 					startActivity(intent);
+					dia_call.dismiss();
 				}
 			});
 			dia_call.show();
