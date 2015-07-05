@@ -15,7 +15,8 @@
         android:layout_height="@dimen/item_height"
         android:background="@drawable/list_item"
         android:paddingLeft="@dimen/padding"
-        android:paddingRight="@dimen/padding" >
+        android:paddingRight="@dimen/padding"
+        android:visibility="gone" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,7 +50,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_gray_dark" />
+        android:background="@color/color_gray_dark" 
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/rl_bank"

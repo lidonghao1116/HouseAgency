@@ -62,7 +62,7 @@ public class HouseMainActivity extends BaseActivity {
 						Intent intent = new Intent(HouseMainActivity.this,SHContainerActivity.class);
 						intent.putExtra("class", HouseLoginFragment.class.getName());
 						startActivity(intent);
-						if(lastCheckId!=-1){
+						if(lastCheckId!= R.id.rb_3 && lastCheckId!= -1){
 							rg.check(lastCheckId);
 						}else{
 							rg.check(R.id.rb_0);

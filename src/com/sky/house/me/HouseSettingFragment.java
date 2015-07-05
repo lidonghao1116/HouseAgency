@@ -18,6 +18,7 @@ import com.eroad.base.util.UserInfoManager;
 import com.eroad.base.util.ViewInit;
 import com.sky.house.R;
 import com.sky.house.home.HouseMainActivity;
+import com.sky.house.resource.HTMLFragment;
 import com.sky.widget.sweetdialog.SweetDialog;
 import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
 
@@ -57,10 +58,16 @@ OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.rl_service:
-
+			intent.putExtra("class", HTMLFragment.class.getName());
+			intent.putExtra("title", "服务中心");
+			intent.putExtra("url", "http://www.baidu.com");
+			startActivity(intent);
 			break;
 		case R.id.rl_about:
-
+			intent.putExtra("class", HTMLFragment.class.getName());
+			intent.putExtra("title", "关于我们");
+			intent.putExtra("url", "http://www.baidu.com");
+			startActivity(intent);
 			break;
 		case R.id.tv_tel:
 			final SweetDialog dia_call = new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.WARNING_TYPE);

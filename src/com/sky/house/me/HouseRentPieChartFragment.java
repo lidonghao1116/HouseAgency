@@ -103,6 +103,10 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 					taskRemind.setListener(HouseRentPieChartFragment.this);
 					taskRemind.start();				}
 			});
+			//提醒交租 
+			if((getActivity().getIntent().getIntExtra("orderStatus", 0)!=60 && getActivity().getIntent().getIntExtra("orderStatus", 0)!=70) || getActivity().getIntent().getIntExtra("nextPayAmt", 0)<=0){
+				btnSubmit.setVisibility(View.INVISIBLE);
+			}
 		}else{
 			btnSubmit.setText("交房租");
 			btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +120,7 @@ public class HouseRentPieChartFragment extends BaseFragment implements OnChartVa
 			if(getActivity().getIntent().getIntExtra("orderStatus", 0)!=60 || getActivity().getIntent().getIntExtra("nextPayAmt", 0)<=0){
 				btnSubmit.setVisibility(View.INVISIBLE);
 			}
+			
 		}
 		
 		request();

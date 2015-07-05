@@ -183,6 +183,8 @@ public class HouseListAdapter extends BaseAdapter {
 				holder.rlTop.setVisibility(View.VISIBLE);
 				holder.llBottom.setVisibility(View.VISIBLE);
 				holder.btnRight.setEnabled(true);
+				holder.btnLeft.setEnabled(true);
+				holder.llContent.setEnabled(true);
 				holder.btnLeft.setVisibility(View.VISIBLE);
 				holder.btnRight.setVisibility(View.VISIBLE);
 				if (this.flag == FLAG_STATE_LIST_TENANT) {// 房客
@@ -214,6 +216,7 @@ public class HouseListAdapter extends BaseAdapter {
 					default:
 						if (object.getInt("orderStatus") < 0) {
 							holder.btnRight.setVisibility(View.GONE);
+							holder.llContent.setEnabled(false);
 						} else {
 							holder.btnRight.setText("交易成功");
 							holder.btnRight.setVisibility(View.VISIBLE);
@@ -243,6 +246,7 @@ public class HouseListAdapter extends BaseAdapter {
 					switch (object.getInt("orderStatus")) {
 					case -10:// 50 删除
 						holder.btnRight.setVisibility(View.GONE);
+						holder.llContent.setEnabled(false);
 						holder.btnLeft.setText("删除");
 						holder.btnLeft.setOnClickListener(new View.OnClickListener() {
 
@@ -269,6 +273,7 @@ public class HouseListAdapter extends BaseAdapter {
 					case 0:// 10 已付定金 --待确认定金
 						holder.btnRight.setText("等待订金");
 						holder.btnRight.setEnabled(false);
+						holder.llContent.setEnabled(false);
 						break;
 					case 10:// 10 已付定金 --待确认定金
 						holder.btnRight.setText("确认订金");
@@ -292,6 +297,7 @@ public class HouseListAdapter extends BaseAdapter {
 					default:
 						if (object.getInt("orderStatus") < 0) {
 							holder.btnRight.setVisibility(View.GONE);
+							holder.llContent.setEnabled(false);
 						} else {
 							holder.btnRight.setText("交易成功");
 							holder.btnRight.setVisibility(View.VISIBLE);
