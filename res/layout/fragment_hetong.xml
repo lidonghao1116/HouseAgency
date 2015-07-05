@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:text="结束时间" />
+                    android:text="租期" />
 
                 <!-- <Button
                     android:id="@+id/btn_end"

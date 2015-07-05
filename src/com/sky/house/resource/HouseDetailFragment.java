@@ -139,7 +139,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 	@ViewInit(id = R.id.tv_num)
 	private TextView mTvNum;
 
-	private SHPostTaskM detailTask, collectTask,contactTask;
+	private SHPostTaskM detailTask, collectTask;
 
 	private JSONObject json;// 详情对象
 
@@ -247,7 +247,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			}
 			break;
 		case R.id.btn_contact:
-			if(json.optInt("isLords") == 1){
+			if(json.optInt("isLord") == 1){
 				SHToast.showToast(getActivity(), "无法联系自己");
 				return;
 			}
@@ -257,6 +257,16 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 				startActivity(intent);
 				return;
 			}
+			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+			intent.putExtra("class", HouseContactFragment.class.getName());
+			intent.putExtra("name", getActivity().getIntent().getStringExtra("name"));
+			try {
+				intent.putExtra("id", json.getInt("houseDetailId"));
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			startActivity(intent);
 //			try {
 //				// 自己不能联系自己
 //				contactTask = new SHPostTaskM();
@@ -427,12 +437,6 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			}
 		} else if (task == collectTask) {
 			SHToast.showToast(getActivity(), "收藏成功", 1000);
-		}else if(task == contactTask){
-			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-			intent.putExtra("class", HouseContactFragment.class.getName());
-			intent.putExtra("name", getActivity().getIntent().getStringExtra("name"));
-			intent.putExtra("id", json.getInt("houseDetailId"));
-			startActivity(intent);
 		}
 	}
 

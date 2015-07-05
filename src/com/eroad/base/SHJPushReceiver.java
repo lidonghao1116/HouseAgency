@@ -114,8 +114,9 @@ public class SHJPushReceiver extends BroadcastReceiver {
 			try {
 				JSONObject extraJson = new JSONObject(extras);
 				if(extraJson.getInt("code") == -5){
+					Log.i("JPUSH", "异地登陆");
 //					SHApplication.getInstance().exitApplication();
-					Log.i("push", extras);
+//					Log.i("push", extras);
 					Intent intent = new Intent("JPUSH_EXIT");
 					StandardApplication.getInstance().sendBroadcast(intent); 
 				}

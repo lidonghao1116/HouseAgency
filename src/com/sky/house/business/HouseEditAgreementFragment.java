@@ -111,7 +111,7 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 			}
 		});
 		ca = Calendar.getInstance(); 
-		mBtnStart.setText(ca.get(Calendar.YEAR)+"-"+ca.get(Calendar.MONTH)+"-"+ca.get(Calendar.DATE));
+		mBtnStart.setText(getDate());
 	}
 
 	@Override
@@ -136,7 +136,8 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 		task.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", -1));
 		task.getTaskArgs().put("beginDate", mBtnStart.getText().toString());
 		ca.set(Calendar.MONTH, ca.get(Calendar.MONTH)+month);
-		task.getTaskArgs().put("endDate", ca.get(Calendar.YEAR)+"-"+ca.get(Calendar.MONTH)+"-"+ca.get(Calendar.DATE));
+		ca.set(Calendar.DATE, ca.get(Calendar.DATE)-1);
+		task.getTaskArgs().put("endDate", getDate());
 		task.getTaskArgs().put("monthPrice", mEtRent.getText().toString().trim());
 		task.getTaskArgs().put("wagerAmt", mEtRent.getText().toString().trim());
 		task.getTaskArgs().put("wagerMonth", mEtYa.getText().toString().trim());
@@ -147,6 +148,27 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 		task.start();
 	}
 
+	private String getDate(){
+		String str = null;
+		String str_mon,str_day;
+		int mon = ca.get(Calendar.MONTH)+1;
+		int day = ca.get(Calendar.DATE);
+		if(mon < 10){
+			str_mon = "0"+mon;
+		}else{
+			str_mon = ""+mon;
+		}
+		if(day < 10){
+			str_day = "0"+day;
+		}else{
+			str_day = ""+day;
+		}
+		
+		str = ca.get(Calendar.YEAR)+"-"+str_mon+"-"+str_day;
+		
+		return str;
+	}
+	
 	private void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.iv_minus:

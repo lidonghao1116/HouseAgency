@@ -20,7 +20,6 @@ import com.eroad.base.SHApplication;
 import com.eroad.base.SHContainerActivity;
 import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.UserInfoManager;
-import com.eroad.base.util.location.SHLocationManager;
 import com.next.util.SHEnvironment;
 import com.sky.house.R;
 import com.sky.widget.sweetdialog.SweetDialog;
@@ -95,7 +94,7 @@ public class HouseMainActivity extends BaseActivity {
 
 	private void registerBroadcast() {
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(SHLocationManager.BROADCAST_LOCATION);
+//		intentFilter.addAction(SHLocationManager.BROADCAST_LOCATION);
 		intentFilter.addAction("JPUSH_EXIT");
 		registerReceiver(rec, intentFilter);
 	}

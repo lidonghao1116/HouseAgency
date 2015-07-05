@@ -199,7 +199,7 @@ public class HouseListFragment extends BaseFragment implements ITaskListener, On
 			@Override
 			public boolean onEditorAction(TextView arg0, int actionId, KeyEvent arg2) {
 				// TODO Auto-generated method stub
-				if (actionId == EditorInfo.IME_ACTION_SEARCH && CommonUtil.isEmpty(mEtKeyword.getText().toString().trim())) {
+				if (actionId == EditorInfo.IME_ACTION_SEARCH && !CommonUtil.isEmpty(mEtKeyword.getText().toString().trim())) {
 					CommonUtil.InputTools.HideKeyboard(mEtKeyword);
 					reset();
 					jsonArray = new JSONArray();
