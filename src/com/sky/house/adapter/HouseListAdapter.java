@@ -246,6 +246,7 @@ public class HouseListAdapter extends BaseAdapter {
 					switch (object.getInt("orderStatus")) {
 					case -10:// 50 删除
 						holder.btnRight.setVisibility(View.GONE);
+						holder.llContent.setEnabled(false);
 						holder.btnLeft.setText("删除");
 						holder.btnLeft.setOnClickListener(new View.OnClickListener() {
 
@@ -272,6 +273,7 @@ public class HouseListAdapter extends BaseAdapter {
 					case 0:// 10 已付定金 --待确认定金
 						holder.btnRight.setText("等待订金");
 						holder.btnRight.setEnabled(false);
+						holder.llContent.setEnabled(false);
 						break;
 					case 10:// 10 已付定金 --待确认定金
 						holder.btnRight.setText("确认订金");
