@@ -30,9 +30,19 @@ import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
 /**
  * @author yebaohua
  * 
- *         0初始状态 去支付定金 10 已付定金 --待确认定金 20 已确认定金 --待完善合同 30 已完善合同 --待确认合同 31 已驳回
- *         --待完善合同 40 已确认合同 --待付款 50 已付款 --待入住 60 已入住 70 已申请退租 80 合同到期 70 80
- *         有退押金按钮 90 合同结束 -1 用户定金取消 -2 房东取消定金 -3 订单取消 -4 介入取消 -10 可删除
+ *         0初始状态 去支付定金 
+ *         10 已付定金 --待确认定金
+ *          20 已确认定金 --待完善合同 
+ *          30 已完善合同 --待确认合同 
+ *          31 已驳回
+ *         --待完善合同 
+ *         40 已确认合同 --待付款 
+ *         50 已付款 --待入住
+ *          60 已入住 
+ *          70 已申请退租 
+ *          80 合同到期 70 80
+ *         有退押金按钮 
+ *         90 合同结束 -1 用户定金取消 -2 房东取消定金 -3 订单取消 -4 介入取消 -10 可删除
  * 
  *         交杂费 退杂费 [ 60,90) 退租金 70 80 交租金 只有60可以缴
  * 
@@ -156,7 +166,11 @@ public class HouseListAdapter extends BaseAdapter {
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					try {
-						telMoblie(object.getString("mobilePhone"));
+						if(object.getInt("orderStatus")>=20){
+							telMoblie(object.getString("mobilePhone"));
+						}else{
+							telMoblie(object.getString("phoneFor400"));
+						}
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -234,6 +248,7 @@ public class HouseListAdapter extends BaseAdapter {
 									@Override
 									public void onClick(SweetDialog sweetAlertDialog) {
 										// TODO Auto-generated method stub
+										dia_call.dismiss();
 										itemButtonSelectListener.setLeftButtonOnselect(pos, object);
 									}
 								});
@@ -348,6 +363,7 @@ public class HouseListAdapter extends BaseAdapter {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + moblie));
 				context.startActivity(intent);
+				dia_call.dismiss();
 			}
 		});
 		dia_call.show();
