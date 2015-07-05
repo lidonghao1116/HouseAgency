@@ -118,6 +118,7 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
 			holder.tvRent = (TextView) convertView.findViewById(R.id.tv_rent);
 			holder.llBottom = (LinearLayout) convertView.findViewById(R.id.ll_bottom);
+			holder.llContent = (LinearLayout) convertView.findViewById(R.id.ll_content);
 			holder.btnLeft = (Button) convertView.findViewById(R.id.btn_contact);
 			holder.btnRight = (Button) convertView.findViewById(R.id.btn_remind);
 			holder.tvRentType = (TextView) convertView.findViewById(R.id.tv_rent_type);
@@ -162,11 +163,12 @@ public class HouseListAdapter extends BaseAdapter {
 			holder.btnLeft.setText("拨打电话");
 			holder.btnLeft.setOnClickListener(new View.OnClickListener() {
 
+
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					try {
-						if(object.getInt("orderStatus")>=20){
+						if( flag == HouseListAdapter.FLAG_STATE_LIST_LANDLORD || object.getInt("orderStatus")>=20){
 							telMoblie(object.getString("mobilePhone"));
 						}else{
 							telMoblie(object.getString("phoneFor400"));
@@ -191,11 +193,11 @@ public class HouseListAdapter extends BaseAdapter {
 						break;
 					case 10:// 10 已付定金 --待确认定金
 						holder.btnRight.setText("等待确认");
-						holder.btnRight.setEnabled(false);
+						//						holder.btnRight.setEnabled(false);
 						break;
 					case 20:// 20 已确认定金 --待完善合同
 						holder.btnRight.setText("等待合同");
-						holder.btnRight.setEnabled(false);
+						//						holder.btnRight.setEnabled(false);
 						break;
 					case 30:// 30 已完善合同 --待确认合同
 						holder.btnRight.setText("确认合同");
@@ -225,6 +227,14 @@ public class HouseListAdapter extends BaseAdapter {
 						public void onClick(View v) {
 							// TODO Auto-generated method stub
 							itemButtonSelectListener.setRightButtonOnselect(pos, object);
+						}
+					});
+					holder.llContent.setOnClickListener(new View.OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							itemButtonSelectListener.setRightButtonOnselect(pos, object); 
 						}
 					});
 
@@ -268,7 +278,6 @@ public class HouseListAdapter extends BaseAdapter {
 						break;
 					case 30:// 30 已完善合同 --待确认合同
 						holder.btnRight.setText("等待确认");
-						holder.btnRight.setEnabled(false);
 						break;
 					case 31:// 31 已驳回 --待完善合同
 						holder.btnRight.setText("完善合同");
@@ -297,6 +306,14 @@ public class HouseListAdapter extends BaseAdapter {
 						public void onClick(View v) {
 							// TODO Auto-generated method stub
 							itemButtonSelectListener.setRightButtonOnselect(pos, object);
+						}
+					});
+					holder.llContent.setOnClickListener(new View.OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							itemButtonSelectListener.setRightButtonOnselect(pos, object); 
 						}
 					});
 				} else if (this.flag == FLAG_STATE_LIST_COMPLAINT) {
@@ -343,7 +360,7 @@ public class HouseListAdapter extends BaseAdapter {
 		private RelativeLayout rlTop;
 		private TextView tvHouser, tvHouseState, tvTitle, tvRent, tvRentType, tvReadTimes;
 		private ImageView ivHouse;
-		private LinearLayout llBottom, llTese;
+		private LinearLayout llBottom, llTese,llContent;
 		private Button btnRight, btnLeft;
 	}
 
