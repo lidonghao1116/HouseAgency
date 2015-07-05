@@ -220,7 +220,7 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 			bitmapOptions.inSampleSize = 4;
 			switch (requestCode) {
 			case TAKE_PICTURE:
-				Bitmap bitmap_tack = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/eroad_temp.png", bitmapOptions);
+				Bitmap bitmap_tack = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/temp.png", bitmapOptions);
 				Bitmap newBitmap = ImageTools.zoomBitmap(bitmap_tack, bitmap_tack.getWidth() / 6, bitmap_tack.getHeight() / 6);
 				// bitmap_tack.recycle();
 				bitmapCard = bitmap_tack;
