@@ -65,12 +65,12 @@ public class HouseSuccessFragment extends BaseFragment {
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
-					finish();
 					Intent intent = new Intent(getActivity(),SHContainerActivity.class);
 					intent.putExtra("class", HouseRentalListFragment.class.getName());
 					intent.putExtra("title", "我是租客");
 					intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_TENANT);
 					startActivity(intent);
+					finish();
 				}
 			});
 		}
@@ -83,12 +83,12 @@ public class HouseSuccessFragment extends BaseFragment {
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
-					finish();
 					Intent intent = new Intent(getActivity(),SHContainerActivity.class);
 					intent.putExtra("class", HouseRentalListFragment.class.getName());
 					intent.putExtra("title", "我是房东");
 					intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_LANDLORD);
 					startActivity(intent);
+					finish();
 				}
 			});
 		}
