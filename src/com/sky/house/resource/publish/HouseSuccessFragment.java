@@ -73,8 +73,7 @@ public class HouseSuccessFragment extends BaseFragment {
 					finish();
 				}
 			});
-		}
-		if (getActivity().getIntent().getIntExtra("identification", 0) == 1) {
+		}else{
 			mTvOption.setText("出租房源成功");
 			view1.setVisibility(View.INVISIBLE);
 			view2.setVisibility(View.INVISIBLE);
@@ -92,6 +91,9 @@ public class HouseSuccessFragment extends BaseFragment {
 				}
 			});
 		}
+//		if (getActivity().getIntent().getIntExtra("identification", 0) == 1) {
+			
+//		}
 	}
 
 	@Override

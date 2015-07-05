@@ -12,5 +12,7 @@ public class ConfigDefinition {
 	public static final int FUNI_NUM = 8;//家具数量
 	
 	public static boolean isAuth;//是否认证？
+	
+	public static boolean hasSetPass;//是否设置密码
 
 }

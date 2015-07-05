@@ -27,6 +27,7 @@ import com.sky.house.R;
 import com.sky.house.widget.CalendarDialog;
 import com.sky.house.widget.CalendarDialog.CalendarResultListener;
 import com.sky.widget.SHDialog;
+import com.sky.widget.SHToast;
 import com.sky.widget.sweetdialog.SweetDialog;
 
 /**
@@ -127,6 +128,7 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 //			return;
 //		}
 		if(CommonUtil.isEmpty(mEtRent.getText().toString().trim()) || CommonUtil.isEmpty(mEtFu.getText().toString().trim()) || CommonUtil.isEmpty(mEtYa.getText().toString().trim())){
+			SHToast.showToast(getActivity(), "请先完善信息");
 			return;
 		}
 		SHDialog.ShowProgressDiaolg(getActivity(), null);

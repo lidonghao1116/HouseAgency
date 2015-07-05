@@ -139,6 +139,7 @@ public class HouseChangePayPassword extends BaseFragment implements
 			mEtValidate.setText(json.getString("Code"));
 		} else if (task == loginTask) {
 			SHToast.showToast(getActivity(), "支付密码更新成功", Toast.LENGTH_SHORT);
+			ConfigDefinition.hasSetPass = true;
 			finish();
 		}
 	}
