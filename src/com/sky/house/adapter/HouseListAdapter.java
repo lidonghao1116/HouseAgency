@@ -191,11 +191,11 @@ public class HouseListAdapter extends BaseAdapter {
 						break;
 					case 10:// 10 已付定金 --待确认定金
 						holder.btnRight.setText("等待确认");
-						holder.btnRight.setEnabled(false);
+//						holder.btnRight.setEnabled(false);
 						break;
 					case 20:// 20 已确认定金 --待完善合同
 						holder.btnRight.setText("等待合同");
-						holder.btnRight.setEnabled(false);
+//						holder.btnRight.setEnabled(false);
 						break;
 					case 30:// 30 已完善合同 --待确认合同
 						holder.btnRight.setText("确认合同");
@@ -268,7 +268,6 @@ public class HouseListAdapter extends BaseAdapter {
 						break;
 					case 30:// 30 已完善合同 --待确认合同
 						holder.btnRight.setText("等待确认");
-						holder.btnRight.setEnabled(false);
 						break;
 					case 31:// 31 已驳回 --待完善合同
 						holder.btnRight.setText("完善合同");
