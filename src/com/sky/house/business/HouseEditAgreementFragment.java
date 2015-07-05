@@ -1,5 +1,7 @@
 package com.sky.house.business;
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -8,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 
 import com.eroad.base.BaseFragment;
 import com.eroad.base.SHApplication;
@@ -23,7 +27,6 @@ import com.sky.house.R;
 import com.sky.house.widget.CalendarDialog;
 import com.sky.house.widget.CalendarDialog.CalendarResultListener;
 import com.sky.widget.SHDialog;
-import com.sky.widget.SHToast;
 import com.sky.widget.sweetdialog.SweetDialog;
 
 /**
@@ -37,14 +40,11 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 	@ViewInit(id = R.id.btn_start, onClick = "onClick")
 	private Button mBtnStart;
 
-	@ViewInit(id = R.id.btn_end, onClick = "onClick")
-	private Button mBtnEnd;
+//	@ViewInit(id = R.id.btn_end, onClick = "onClick")
+//	private Button mBtnEnd;
 
 	@ViewInit(id = R.id.et_rent)
 	private EditText mEtRent;
-
-	@ViewInit(id = R.id.et_yajin)
-	private EditText mEtYaJin;
 
 	@ViewInit(id = R.id.et_ya)
 	private EditText mEtYa;
@@ -63,8 +63,21 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 	
 	@ViewInit(id = R.id.btn_commit,onClick = "onClick")
 	private Button mBtnCommit;
+	
+	@ViewInit(id = R.id.iv_minus,onClick = "onClick")
+	private ImageView mIvMinus;
+	
+	@ViewInit(id = R.id.iv_add,onClick = "onClick")
+	private ImageView mIvAdd;
+	
+	@ViewInit(id = R.id.tv_months)
+	private TextView mTvMonths;
 
 	private int zhengjian = 1;
+	
+	private int month = 6;
+	
+	Calendar ca ; 
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -97,6 +110,8 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 				}
 			}
 		});
+		ca = Calendar.getInstance(); 
+		mBtnStart.setText(ca.get(Calendar.YEAR)+"-"+ca.get(Calendar.MONTH)+"-"+ca.get(Calendar.DATE));
 	}
 
 	@Override
@@ -107,11 +122,11 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 	}
 
 	private void commit() {
-		if (mBtnEnd.getText().toString().compareTo(mBtnStart.getText().toString()) <= 0) {
-			SHToast.showToast(getActivity(), "结束时间必须大于开始时间");
-			return;
-		}
-		if(CommonUtil.isEmpty(mEtRent.getText().toString().trim()) || CommonUtil.isEmpty(mEtYaJin.getText().toString().trim()) || CommonUtil.isEmpty(mEtFu.getText().toString().trim()) || CommonUtil.isEmpty(mEtYa.getText().toString().trim())){
+//		if (mBtnEnd.getText().toString().compareTo(mBtnStart.getText().toString()) <= 0) {
+//			SHToast.showToast(getActivity(), "结束时间必须大于开始时间");
+//			return;
+//		}
+		if(CommonUtil.isEmpty(mEtRent.getText().toString().trim()) || CommonUtil.isEmpty(mEtFu.getText().toString().trim()) || CommonUtil.isEmpty(mEtYa.getText().toString().trim())){
 			return;
 		}
 		SHDialog.ShowProgressDiaolg(getActivity(), null);
@@ -120,9 +135,10 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 		task.setUrl(ConfigDefinition.URL + "AddContract");
 		task.getTaskArgs().put("orderId", getActivity().getIntent().getIntExtra("orderId", -1));
 		task.getTaskArgs().put("beginDate", mBtnStart.getText().toString());
-		task.getTaskArgs().put("endDate", mBtnEnd.getText().toString());
+		ca.set(Calendar.MONTH, ca.get(Calendar.MONTH)+month);
+		task.getTaskArgs().put("endDate", ca.get(Calendar.YEAR)+"-"+ca.get(Calendar.MONTH)+"-"+ca.get(Calendar.DATE));
 		task.getTaskArgs().put("monthPrice", mEtRent.getText().toString().trim());
-		task.getTaskArgs().put("wagerAmt", mEtYaJin.getText().toString().trim());
+		task.getTaskArgs().put("wagerAmt", mEtRent.getText().toString().trim());
 		task.getTaskArgs().put("wagerMonth", mEtYa.getText().toString().trim());
 		task.getTaskArgs().put("payMonth", mEtFu.getText().toString().trim());
 		task.getTaskArgs().put("lordPay", mEtChengdan.getText().toString().trim());
@@ -133,6 +149,18 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 
 	private void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.iv_minus:
+			if(month !=1){
+				month --;
+				mTvMonths.setText(month+"月");
+			}
+			break;
+		case R.id.iv_add:
+			if(month !=12){
+				month ++;
+				mTvMonths.setText(month+"月");
+			}
+			break;
 		case R.id.btn_start:
 			CalendarDialog dia_start = new CalendarDialog(getActivity(), CalendarDialog.TYPE_NO_SUISHI, new CalendarResultListener() {
 
@@ -145,18 +173,18 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 			});
 			dia_start.show();
 			break;
-		case R.id.btn_end:
-			CalendarDialog dia_end = new CalendarDialog(getActivity(), CalendarDialog.TYPE_NO_SUISHI, new CalendarResultListener() {
-
-				@Override
-				public void onCalendarResult(Dialog d, String date, boolean whenever) {
-					// TODO Auto-generated method stub
-					d.dismiss();
-					mBtnEnd.setText(date);
-				}
-			});
-			dia_end.show();
-			break;
+//		case R.id.btn_end:
+//			CalendarDialog dia_end = new CalendarDialog(getActivity(), CalendarDialog.TYPE_NO_SUISHI, new CalendarResultListener() {
+//
+//				@Override
+//				public void onCalendarResult(Dialog d, String date, boolean whenever) {
+//					// TODO Auto-generated method stub
+//					d.dismiss();
+//					mBtnEnd.setText(date);
+//				}
+//			});
+//			dia_end.show();
+//			break;
 		case R.id.btn_commit:
 			commit();
 			break;

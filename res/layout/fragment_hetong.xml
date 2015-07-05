@@ -57,14 +57,37 @@
                     android:layout_marginRight="10dp"
                     android:text="结束时间" />
 
-                <Button
+                <!-- <Button
                     android:id="@+id/btn_end"
                     style="@style/TextMidBlack"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:background="@drawable/bg_gray_round_corner"
                     android:gravity="center"
-                    android:text="2015-01-01" />
+                    android:text="2015-01-01" /> -->
+                    
+                    <ImageView
+                        android:id="@+id/iv_minus"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_minus"/>
+                    
+                    <TextView
+                        android:id="@+id/tv_months"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:text="6月"
+                        android:gravity="center"
+                        style="@style/TextMidBlack"
+                        android:background="@drawable/stroke_gray_zhi"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"/>
+                    
+                    <ImageView
+                        android:id="@+id/iv_add"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_add"/>
             </LinearLayout>
 
             <LinearLayout
@@ -98,7 +121,7 @@
                     android:text="元" />
             </LinearLayout>
 
-            <LinearLayout
+            <!-- <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -127,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="元" />
-            </LinearLayout>
+            </LinearLayout> -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -243,7 +266,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="备注" />
+                android:text="附加内容" />
 
             <EditText
                 android:id="@+id/et_beizhu"
@@ -252,7 +275,7 @@
                 android:layout_height="150dp"
                 android:layout_margin="5dp"
                 android:gravity="top"
-                android:hint="选填"
+                android:hint="如果房屋内有物品可以描述"
                 android:padding="5dp" />
 
             <Button
