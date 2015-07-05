@@ -177,7 +177,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 
 	private int identification;// 0:默认房客 1:房东
 
-	private boolean isSetPass;// 是否设置过密码
+//	private boolean isSetPass;// 是否设置过密码
 
 	private static final int RQF_PAY = 1;
 	private static final int RQF_LOGIN = 2;
@@ -211,6 +211,8 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 	private BroadcastReceiver rec;
 	
 	int seconds;
+	
+	private int PaySunnyAmount;
 	
 	private Timer timer = new Timer();
 	@Override
@@ -597,8 +599,14 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		getOrderIdTask.setListener(this);
 		getOrderIdTask.setUrl(ConfigDefinition.URL + "AlipayOptInfoAdd");
 		getOrderIdTask.getTaskArgs().put("orderId", json.optInt("orderId"));
-		getOrderIdTask.getTaskArgs().put("payAmt", json.optString("appointmentAmt").substring(1));
-		getOrderIdTask.getTaskArgs().put("rechargeAmt", payMoney);
+		
+		if(payType == 1){
+			getOrderIdTask.getTaskArgs().put("payAmt", json.optString("appointmentAmt").substring(1));//  支付金额  
+		}else{
+			getOrderIdTask.getTaskArgs().put("payAmt", Double.valueOf(json.optString("appointmentAmt").substring(1)) - Double.valueOf(mTvPayNeed.getText().toString()));//  支付金额  
+		}
+		getOrderIdTask.getTaskArgs().put("PaySunnyAmount", mCbSunny.isChecked()?PaySunnyAmount:0);
+		getOrderIdTask.getTaskArgs().put("rechargeAmt", payMoney);//
 //		System.out.println("requestOrderId():"+payMoney);
 		getOrderIdTask.getTaskArgs().put("optType", payType);// 1;订金
 		getOrderIdTask.start();
@@ -738,7 +746,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 							// TODO Auto-generated method stub
 							if (result.equals(items[0])) {
 								// 调用支付接口
-								if (!isSetPass) {
+								if (!ConfigDefinition.hasSetPass) {
 									Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 									intent.putExtra("class", HouseChangePayPassword.class.getName());
 									startActivity(intent);
@@ -770,11 +778,11 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 											payRentTask = new SHPostTaskM();
 											payRentTask.setListener(HousePayChargeFragment.this);
 											payRentTask.setUrl(ConfigDefinition.URL + "PayRentEvent");
-											payRentTask.getTaskArgs().put("Orderid", orderId);
+											payRentTask.getTaskArgs().put("orderId", json.optInt("orderId"));
 											payRentTask.getTaskArgs().put("payActualAmount", mTvPayNeed.getText().toString());
+											payRentTask.getTaskArgs().put("PaySunnyAmount", mCbSunny.isChecked()?PaySunnyAmount:0);
 											payRentTask.getTaskArgs().put("password", CommonUtil.encodeMD5(etPass.getText().toString().trim()));
 											payRentTask.start();
-											System.out.println("start...");
 										}
 									});
 								}
@@ -808,7 +816,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 							// TODO Auto-generated method stub
 							if (result.equals(items[0])) {
 								// 调用支付接口
-								if (!isSetPass) {
+								if (!ConfigDefinition.hasSetPass) {
 									Intent intent = new Intent(getActivity(), SHContainerActivity.class);
 									intent.putExtra("class", HouseChangePayPassword.class.getName());
 									startActivity(intent);
@@ -843,7 +851,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 											payTask.setUrl(ConfigDefinition.URL + "PayDownEvent");
 											payTask.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
 											payTask.getTaskArgs().put("payMoney", json.optString("appointmentAmt").substring(1));
-											payTask.getTaskArgs().put("orderId", orderId);
+											payTask.getTaskArgs().put("orderId", json.optInt("orderId"));
 											payTask.getTaskArgs().put("password", CommonUtil.encodeMD5(etPass.getText().toString().trim()));
 											payTask.start();
 										}
@@ -875,7 +883,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			pay();
 		} else if (task == taskHasPass) {
 			JSONObject jsonObj = (JSONObject) task.getResult();
-			isSetPass = jsonObj.getInt("isSet") == 0 ? false : true;
+			ConfigDefinition.hasSetPass = jsonObj.getInt("isSet") == 0 ? false : true;
 		} else if (task == payTask) {
 			requestData();
 		} else if (task == getContactTimeTask) {
@@ -959,6 +967,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			mTvPayAll.setText(infoJson.getInt("shouldPay") + "");
 			mTvPayHave.setText(infoJson.getString("havePay"));
 			mCbSunny.setText("可用阳光值" + infoJson.getInt("sunny") + "抵扣" + infoJson.getInt("sunny") + "元");
+			PaySunnyAmount = infoJson.getInt("sunny");
 			mTvPayNeed.setText((infoJson.getInt("shouldPay") - infoJson.getInt("havePay")) + "");
 			mCbSunny.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
