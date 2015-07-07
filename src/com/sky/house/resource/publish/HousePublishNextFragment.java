@@ -377,6 +377,7 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 		// TODO Auto-generated method stub
 		Intent intent = new Intent(getActivity(),SHContainerActivity.class);
 		intent.putExtra("class", HouseSuccessFragment.class.getName());
+		intent.putExtra("flag", 0);
 		startActivity(intent);
 		finish();
 	}

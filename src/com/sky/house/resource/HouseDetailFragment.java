@@ -261,7 +261,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			intent.putExtra("class", HouseContactFragment.class.getName());
 			intent.putExtra("name", getActivity().getIntent().getStringExtra("name"));
 			try {
-				intent.putExtra("id", json.getInt("houseDetailId"));
+				intent.putExtra("id", json.getInt("houseZoneId"));
 			} catch (JSONException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

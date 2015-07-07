@@ -359,7 +359,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mTvYuyueMoney.setText("10%房屋预约金：" + json.getString("appointmentAmt"));
+		mTvYuyueMoney.setText("10%房屋订金：" + json.getString("appointmentAmt"));
 		mTvYingFu.setText(json.getString("appointmentAmt"));
 
 		// 根据状态初始化视图显示
