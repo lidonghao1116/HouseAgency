@@ -504,7 +504,7 @@ OnClickListener, ITaskListener {
 						}
 					}
 				});
-				if(mResult.getInt("isCancelLease") == 0){
+				if(mResult.getInt("isCancelLease") == 0 || mResult.getInt("orderStatus") ==90){
 					btnHouseBottomRight.setVisibility(View.GONE);
 				}
 				btnHouseBottomRight.setText("我要退租");

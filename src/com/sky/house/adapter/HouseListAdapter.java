@@ -292,7 +292,8 @@ public class HouseListAdapter extends BaseAdapter {
 						break;
 					case 50:// 50 已付款 --待入住 进入支付房租页面 没有确认支付
 						holder.btnRight.setText("等待入住");
-						// holder.btnRight.setEnabled(false);
+						 holder.btnRight.setEnabled(false);
+						 holder.llContent.setEnabled(false);
 						break;
 					default:
 						if (object.getInt("orderStatus") < 0) {
