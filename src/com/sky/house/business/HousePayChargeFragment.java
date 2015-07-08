@@ -43,6 +43,7 @@ import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ImageLoaderUtil;
 import com.eroad.base.util.ViewInit;
+import com.eroad.base.util.ViewUtil;
 import com.eroad.base.util.location.SHLocationManager;
 import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
@@ -358,7 +359,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mTvYuyueMoney.setText("10%房屋预约金：" + json.getString("appointmentAmt"));
+		mTvYuyueMoney.setText("10%房屋订金：" + json.getString("appointmentAmt"));
 		mTvYingFu.setText(json.getString("appointmentAmt"));
 
 		// 根据状态初始化视图显示
@@ -393,6 +394,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 							@Override
 							public void onClick(SweetDialog sweetAlertDialog) {
 								// TODO Auto-generated method stub
+								sweetAlertDialog.dismiss();
 								SHDialog.ShowProgressDiaolg(getActivity(), null);
 								takebackTask = new SHPostTaskM();
 								takebackTask.setListener(HousePayChargeFragment.this);
@@ -401,6 +403,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 								takebackTask.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
 								takebackTask.getTaskArgs().put("payMoney", json.optString("appointmentAmt").substring(1));
 								takebackTask.start();
+								
 							}
 						}).show();
 					}
@@ -603,7 +606,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		if(payType == 1){
 			getOrderIdTask.getTaskArgs().put("payAmt", json.optString("appointmentAmt").substring(1));//  支付金额  
 		}else{
-			getOrderIdTask.getTaskArgs().put("payAmt", Double.valueOf(json.optString("appointmentAmt").substring(1)) - Double.valueOf(mTvPayNeed.getText().toString()));//  支付金额  
+			getOrderIdTask.getTaskArgs().put("payAmt", Double.valueOf(mTvPayNeed.getText().toString()) - PaySunnyAmount);//  支付金额  
 		}
 		getOrderIdTask.getTaskArgs().put("PaySunnyAmount", mCbSunny.isChecked()?PaySunnyAmount:0);
 		getOrderIdTask.getTaskArgs().put("rechargeAmt", payMoney);//
@@ -774,6 +777,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 												SHToast.showToast(getActivity(), "请输入密码");
 												return;
 											}
+											dilogPass.dismiss();
 											SHDialog.ShowProgressDiaolg(getActivity(), null);
 											payRentTask = new SHPostTaskM();
 											payRentTask.setListener(HousePayChargeFragment.this);
@@ -799,7 +803,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 							if (result.equals(items[0])) {
 								// 调用支付接口
 								payMoney = Double.valueOf(mTvPayNeed.getText().toString()) - Double.valueOf(String.valueOf(accountJson.optInt("amount")));
-								System.out.println("payMoney:"+payMoney);
+//								System.out.println("payMoney:"+payMoney);
 								requestOrderId();
 							}
 						}
@@ -844,6 +848,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 												SHToast.showToast(getActivity(), "请输入密码");
 												return;
 											}
+											dilogPass.dismiss();
 											SHDialog.ShowProgressDiaolg(getActivity(), null);
 											payTask = new SHPostTaskM();
 											payTask.setListener(HousePayChargeFragment.this);
@@ -954,6 +959,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 				}
 			});
 			mLvZuke.setAdapter(zukeAdapter);
+			ViewUtil.setListViewHeight(mLvZuke);
 		} else if (task == confirmAgreeTask) {
 			requestData();
 		} else if (task == payDetailTask) {
@@ -975,7 +981,12 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 				public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 					// TODO Auto-generated method stub
 					if (arg1 == true) {
-						mTvPayNeed.setText((infoJson.optInt("shouldPay") - infoJson.optInt("havePay") - infoJson.optInt("sunny")) + "");
+						int temp = infoJson.optInt("shouldPay") - infoJson.optInt("havePay") - infoJson.optInt("sunny");
+						if(temp < 0){
+							mTvPayNeed.setText( 0 + "");
+						}else{
+							mTvPayNeed.setText(temp + "");
+						}
 					}else{
 						mTvPayNeed.setText((infoJson.optInt("shouldPay") - infoJson.optInt("havePay"))+"");
 					}

@@ -192,6 +192,8 @@ public class HouseEditAgreementFragment extends BaseFragment implements ITaskLis
 				public void onCalendarResult(Dialog d, String date, boolean whenever) {
 					// TODO Auto-generated method stub
 					d.dismiss();
+					String[] t = date.split("-");
+					ca.set(Integer.valueOf(t[0]), Integer.valueOf(t[1])-1, Integer.valueOf(t[2]));
 					mBtnStart.setText(date);
 				}
 			});
