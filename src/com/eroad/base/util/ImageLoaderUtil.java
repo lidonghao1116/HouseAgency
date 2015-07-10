@@ -1,13 +1,9 @@
 package com.eroad.base.util;
 
-import android.content.Context;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 /**
  * 图片加载工具类
  * @author jiema

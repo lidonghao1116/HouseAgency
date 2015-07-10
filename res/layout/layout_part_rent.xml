@@ -36,6 +36,7 @@
             android:text="房屋详情：" />
 
         <TextView
+            android:id="@+id/tv_detail"
             style="@style/TextSmallGray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,6 +63,7 @@
             android:text="租金方式：" />
 
         <TextView
+            android:id="@+id/tv_rent"
             style="@style/TextSmallGray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

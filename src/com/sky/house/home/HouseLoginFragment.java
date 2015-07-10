@@ -26,6 +26,7 @@ import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.next.util.SHEnvironment;
 import com.sky.house.R;
+import com.sky.house.resource.HTMLFragment;
 import com.sky.widget.SHDialog;
 import com.sky.widget.SHToast;
 import com.sky.widget.TimerButton;
@@ -75,7 +76,9 @@ public class HouseLoginFragment extends BaseFragment implements ITaskListener {
 		switch (v.getId()) {
 		case R.id.tv_agreement:
 			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-			intent.putExtra("class", HouseRegisterAgreeFragment.class.getName());
+			intent.putExtra("class", HTMLFragment.class.getName());
+			intent.putExtra("title", "服务协议及隐私政策");
+			intent.putExtra("url", "http://www.isheely.com/SunnyRent/CFDH/Display/ServiceAndPrivate.aspx");
 			startActivity(intent);
 			break;
 		case R.id.btn_login:

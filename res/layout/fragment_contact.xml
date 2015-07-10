@@ -334,7 +334,7 @@
                     android:padding="10dp" >
 
                     <TextView
-                        android:id="@+id/label_1"
+                        android:id="@+id/label_1_1"
                         style="@style/TextMicroGray"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -347,7 +347,7 @@
                         style="@style/TextBigOrange"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:layout_below="@id/label_1"
+                        android:layout_below="@id/label_1_1"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="30dp"
                         android:background="@drawable/stroke_orange_round"

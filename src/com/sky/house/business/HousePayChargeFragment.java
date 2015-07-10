@@ -419,6 +419,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			mLlStepPay.setVisibility(View.VISIBLE);
 			mBtnPay.setText("等待确认");
 			mBtnPay.setEnabled(false);
+			mBtnPay.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.btn_gray_round));
 			break;
 		case -2:
 			SHToast.showToast(getActivity(), "房东取消订金");
@@ -437,6 +438,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			if (identification == 0) {
 				mBtnCompleteAgreement.setEnabled(false);
 				mBtnCompleteAgreement.setText("房东正在完善合同");
+				mBtnCompleteAgreement.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.btn_gray_round));
 			} else {
 				mBtnCompleteAgreement.setEnabled(true);
 				mBtnCompleteAgreement.setText("完善合同");
@@ -486,6 +488,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 				mBtnEdit.setVisibility(View.VISIBLE);
 				mBtnCompleteAgreement.setEnabled(false);
 				mBtnCompleteAgreement.setText("等待确认");
+				mBtnCompleteAgreement.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.btn_gray_round));
 			}
 			break;
 		case 40:// 已确认合同，待付款
@@ -501,6 +504,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			}else{
 				mBtnPayRent.setText("等待支付");
 				mBtnPayRent.setEnabled(false);
+				mBtnPayRent.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.btn_gray_round));
 				mCbSunny.setVisibility(View.GONE);
 			}
 			requestPayDetail();
@@ -606,7 +610,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		if(payType == 1){
 			getOrderIdTask.getTaskArgs().put("payAmt", json.optString("appointmentAmt").substring(1));//  支付金额  
 		}else{
-			getOrderIdTask.getTaskArgs().put("payAmt", Double.valueOf(mTvPayNeed.getText().toString()) - PaySunnyAmount);//  支付金额  
+			getOrderIdTask.getTaskArgs().put("payAmt", Double.valueOf(mTvPayNeed.getText().toString()) - PaySunnyAmount < 0?0:(Double.valueOf(mTvPayNeed.getText().toString()) - PaySunnyAmount) );//  支付金额  
 		}
 		getOrderIdTask.getTaskArgs().put("PaySunnyAmount", mCbSunny.isChecked()?PaySunnyAmount:0);
 		getOrderIdTask.getTaskArgs().put("rechargeAmt", payMoney);//

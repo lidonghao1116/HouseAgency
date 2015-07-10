@@ -140,12 +140,14 @@
                     android:text="房源地址：" />
 
                 <TextView
+                    android:id="@+id/tv_address"
                     style="@style/TextSmallGray"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/ic_arrow_right"
                     android:gravity="center_vertical"
                     android:text="一旦填写不可修改" />
+                
             </LinearLayout>
 
             <include

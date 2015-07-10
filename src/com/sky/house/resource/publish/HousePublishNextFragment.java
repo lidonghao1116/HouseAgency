@@ -177,7 +177,7 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 			}).show();
 			break;
 		case R.id.iv_agreement:
-			new ExampleDialog(getActivity(), R.drawable.test, new ExampleDialogOnClick() {
+			new ExampleDialog(getActivity(), R.drawable.img_argree_example, new ExampleDialogOnClick() {
 
 				@Override
 				public void exampleOnClick(Dialog d) {

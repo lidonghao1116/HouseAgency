@@ -1,5 +1,6 @@
 package com.sky.house.resource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -89,6 +90,9 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 	@ViewInit(id = R.id.rg_type)
 	private RadioGroup mRgType;
 
+	@ViewInit(id = R.id.tv_address)
+	private TextView mTvAddress;
+	
 //	@ViewInit(id = R.id.rg_sex)
 //	private RadioGroup mRgSex;
 
@@ -106,8 +110,17 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 	// private JSONObject detailJson = new JSONObject();// 房源详情
 	// private JSONObject rentJson = new JSONObject();// 租金方式
 	private int roomNum = 1;
+	
+//	private List<> detailList = new ArrayList<E>();
+	@ViewInit(id = R.id.tv_detail)
+	private TextView mTvDetail;
+	
+	@ViewInit(id = R.id.tv_rent)
+	private TextView mTvRent;
 
 	private HashMap<Integer, JSONObject> map = new HashMap<Integer, JSONObject>();
+	private HashMap<Integer, TextView> detailMap = new HashMap<Integer, TextView>();
+	private HashMap<Integer, TextView> rentMap = new HashMap<Integer, TextView>();
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -135,7 +148,11 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 						e.printStackTrace();
 					}
 					map.put(roomNum, jsonObj);
+					detailMap.put(roomNum, mTvDetail);
+					rentMap.put(roomNum, mTvRent);
 					clearJson();
+					mTvAddress.setText("一旦填写不可修改");
+					mTvAddress.setTextColor(getResources().getColor(R.color.color_gray_dark));
 					break;
 				case R.id.rb_type_1:
 					type_rent = 1;
@@ -151,7 +168,11 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 						e.printStackTrace();
 					}
 					map.put(roomNum, jsonObj);
+					detailMap.put(roomNum, mTvDetail);
+					rentMap.put(roomNum, mTvRent);
 					clearJson();
+					mTvAddress.setText("一旦填写不可修改");
+					mTvAddress.setTextColor(getResources().getColor(R.color.color_gray_dark));
 					break;
 				}
 			}
@@ -160,6 +181,8 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 		try {
 			jsonObj = new JSONObject();
 			jsonObj.put("roomNum", roomNum);
+			detailMap.put(roomNum, mTvDetail);
+			rentMap.put(roomNum, mTvRent);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -240,6 +263,10 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 			view.setTag(roomNum);
 			LinearLayout llDetail = (LinearLayout) view.findViewById(R.id.ll_detail);
 			LinearLayout llRentType = (LinearLayout) view.findViewById(R.id.ll_rent_mode);
+			TextView tvDetail = (TextView) view.findViewById(R.id.tv_detail);
+			TextView tvRent = (TextView) view.findViewById(R.id.tv_rent);
+			detailMap.put(roomNum, tvDetail);
+			rentMap.put(roomNum, tvRent);
 			final EditText etDes = (EditText) view.findViewById(R.id.et_des);
 			llDetail.setOnClickListener(new OnClickListener() {
 
@@ -436,6 +463,8 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 					// addressJson.put("currentFloor",
 					// json.optInt("currentFloor"));
 					// addressJson.put("totalFloor", json.optInt("totalFloor"));
+					mTvAddress.setText("已填写");
+					mTvAddress.setTextColor(getResources().getColor(R.color.color_red));
 					CommonUtil.JSONUtil.copyJson(this.json, json);
 					break;
 				case CODE_DETAIL:
@@ -450,8 +479,9 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 					// json.optJSONArray("HouseFitmentList"));
 					// detailJson.put("HouseDeviceList",
 					// json.optJSONArray("HouseDeviceList"));
-					System.out.println("detail_json:"+json);
 					JSONObject newJson = map.get(json.getInt("roomNum"));
+					detailMap.get(json.getInt("roomNum")).setText("已填");
+					detailMap.get(json.getInt("roomNum")).setTextColor(getResources().getColor(R.color.color_red));
 					newJson.put("room", json.optInt("room"));
 					newJson.put("office", json.optInt("office"));
 					newJson.put("toilet", json.optInt("toilet"));
@@ -459,6 +489,8 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 					break;
 				case CODE_RENT_TYPE:
 					JSONObject newJson2 = map.get(json.getInt("roomNum"));
+					rentMap.get(json.getInt("roomNum")).setText("已填");
+					rentMap.get(json.getInt("roomNum")).setTextColor(getResources().getColor(R.color.color_red));
 					CommonUtil.JSONUtil.copyJson(newJson2, json);
 					break;
 				}
