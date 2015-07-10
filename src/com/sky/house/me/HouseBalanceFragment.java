@@ -23,6 +23,7 @@ import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
+import com.sky.widget.SHDialog;
 import com.sky.widget.sweetdialog.SweetDialog;
 import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
 
@@ -74,7 +75,7 @@ OnClickListener,ITaskListener {
 		
 	}
 	private void requestHasPass(){
-		
+		SHDialog.ShowProgressDiaolg(getActivity(), null);
 		taskHasPass = new SHPostTaskM();
 		taskHasPass.setUrl(ConfigDefinition.URL + "GetUserIsSetPayPassword");
 		taskHasPass.setListener(this);
@@ -123,6 +124,7 @@ OnClickListener,ITaskListener {
 	@Override
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
+		SHDialog.dismissProgressDiaolg();
 		if(task  ==  taskHasPass){
 			JSONObject object  = (JSONObject) task.getResult() ;
 			isSetPass  = object.getInt("isSet")==0?false:true;

@@ -36,6 +36,7 @@ import com.sky.house.widget.SHListView;
 import com.sky.widget.SHDialog;
 import com.sky.widget.SHToast;
 import com.sky.widget.sweetdialog.SweetDialog;
+import com.sky.widget.sweetdialog.SweetDialog.OnSweetClickListener;
 
 /**
  * @author yebaohua
@@ -95,7 +96,7 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 			mAdapter.setItemButtonSelectListener(new HouseListAdapter.ItemButtonSelectListencr() {
 
 				@Override
-				public void setRightButtonOnselect(int complaintId, JSONObject object) {
+				public void setRightButtonOnselect(int complaintId, final JSONObject object) {
 					// TODO Auto-generated method stub
 					try {
 						Intent intent = new Intent(getActivity(), SHContainerActivity.class);
@@ -106,7 +107,26 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 							intent.putExtra("type", type);
 							startActivity(intent);
 						}else if(object.getInt("orderStatus")==50){
-							checkIn(object.getInt("orderId"));
+							final SweetDialog dia_call = new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.WARNING_TYPE);
+							dia_call.setTitleText("提示");
+							dia_call.setContentText("是否确认要入住？");
+							dia_call.showCancelButton(true);
+							dia_call.setConfirmClickListener(new OnSweetClickListener() {
+
+								@Override
+								public void onClick(SweetDialog sweetAlertDialog) {
+									// TODO Auto-generated method stub
+									dia_call.dismiss();
+									try {
+										checkIn(object.getInt("orderId"));
+									} catch (JSONException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+							});
+							dia_call.show();
+
 						}else{
 							intent.putExtra("class", HousePayChargeFragment.class.getName());
 							intent.putExtra("id",  object.getInt("houseDetailId"));
@@ -378,6 +398,7 @@ public class HouseRentalListFragment extends BaseFragment implements ITaskListen
 					taskCheckIn.getTaskArgs().put("password",  CommonUtil.encodeMD5(etPass.getText().toString().trim()));
 					taskCheckIn.setListener(HouseRentalListFragment.this);
 					taskCheckIn.start();
+					dilogPass.dismiss();
 				}
 			});
 		}
