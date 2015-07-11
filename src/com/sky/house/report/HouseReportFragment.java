@@ -72,6 +72,9 @@ public class HouseReportFragment extends BaseFragment implements ITaskListener{
 			mRb4.setVisibility(View.GONE);
 			mBtnConfirm.setText("严惩骚扰");
 			mRg.check(R.id.rb_4);
+		}else{
+			mRb5.setVisibility(View.GONE);
+			mRb6.setVisibility(View.GONE);
 		}
 	}
 
