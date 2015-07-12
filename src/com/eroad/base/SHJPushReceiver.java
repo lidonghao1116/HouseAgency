@@ -16,6 +16,7 @@ import com.next.app.StandardApplication;
 import com.next.message.SHMsgManager;
 import com.sky.house.home.HouseLoginFragment;
 import com.sky.house.home.HouseMainActivity;
+import com.sky.house.me.HouseMessageFragment;
 
 /**
  * 自定义接收器
@@ -54,13 +55,16 @@ public class SHJPushReceiver extends BroadcastReceiver {
 			Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
 			Log.e("push", extras);
-			ComponentName componetName = new ComponentName("com.sky.house", "com.sky.house.HouseMainActivity");  
-			try {  
-			    Intent intent_open = new Intent();  
-			    intent_open.setComponent(componetName);  
-			    SHApplication.getInstance().startActivity(intent_open);  
-			} catch (Exception e) {  
-			}  
+			Intent intent_open = new Intent(SHApplication.getInstance(),SHContainerActivity.class);
+			intent_open.putExtra("class", HouseMessageFragment.class.getName());
+			SHApplication.getInstance().startActivity(intent_open);
+//			ComponentName componetName = new ComponentName("com.sky.house", "com.sky.house.HouseMainActivity");  
+//			try {  
+//			    Intent intent_open = new Intent();  
+//			    intent_open.setComponent(componetName);  
+//			    SHApplication.getInstance().startActivity(intent_open);  
+//			} catch (Exception e) {  
+//			}  
 //			try {
 //				JSONObject extraJson = new JSONObject(extras);
 //				if(extraJson != null){

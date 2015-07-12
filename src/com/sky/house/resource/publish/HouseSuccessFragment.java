@@ -30,7 +30,7 @@ public class HouseSuccessFragment extends BaseFragment {
 	@ViewInit(id = R.id.tv_reward)
 	private TextView mTvReward;
 
-	private int flag;// 0:发布房源 1:成功入住
+	private int flag;// 0:发布房源 1:成功入住  2:成功出租
 
 	@ViewInit(id = R.id.btn_home)
 	private Button mBtnBack;
@@ -45,8 +45,8 @@ public class HouseSuccessFragment extends BaseFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		mDetailTitlebar.setTitle("发布房源");
 		flag = getActivity().getIntent().getIntExtra("flag", 0);
+		mDetailTitlebar.setLeftButton(null, null);
 		// view.findViewById(R.id.btn_back).setOnClickListener(new
 		// OnClickListener() {
 		//
@@ -57,7 +57,26 @@ public class HouseSuccessFragment extends BaseFragment {
 		// //
 		// }
 		// });
-		if (flag == 1) {
+		if(flag == 0){
+			mDetailTitlebar.setTitle("发布房源");
+			mTvOption.setText("发布房源成功");
+			view1.setVisibility(View.INVISIBLE);
+			view2.setVisibility(View.INVISIBLE);
+			mBtnBack.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(getActivity(),SHContainerActivity.class);
+					intent.putExtra("class", HouseRentalListFragment.class.getName());
+					intent.putExtra("title", "我是房东");
+					intent.putExtra("type", HouseListAdapter.FLAG_STATE_LIST_LANDLORD);
+					startActivity(intent);
+					finish();
+				}
+			});
+		}else if (flag == 1) {
+			mDetailTitlebar.setTitle("成功入住");
 			mTvOption.setText("成功入住新的小窝");
 			mTvReward.setText("成功交易奖励10阳光值");
 			mBtnBack.setOnClickListener(new OnClickListener() {
@@ -74,9 +93,9 @@ public class HouseSuccessFragment extends BaseFragment {
 				}
 			});
 		}else{
-			mTvOption.setText("出租房源成功");
-			view1.setVisibility(View.INVISIBLE);
-			view2.setVisibility(View.INVISIBLE);
+			mDetailTitlebar.setTitle("成功出租");
+			mTvOption.setText("房子已成功出租");
+			mTvReward.setText("请充满关爱的对待您的房客");
 			mBtnBack.setOnClickListener(new OnClickListener() {
 
 				@Override

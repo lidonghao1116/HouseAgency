@@ -43,6 +43,9 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 
 	@ViewInit(id = R.id.ll_tips)
 	private LinearLayout mLlQuestion;
+	
+	@ViewInit(id = R.id.label_deal)
+	private TextView mLabelDeal;
 
 	private boolean isTipsShow;
 
@@ -136,6 +139,7 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 			mLlRenzheng.setVisibility(View.VISIBLE);
 			mTvRenzheng.setText("房客认证信息");
 			mLabIdenti.setText("房  客：");
+			mLabelDeal.setText("准时交租");
 			mIvRenzhen.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.ic_renzhen_zuke));
 			requestFangke();
 			break;
@@ -167,6 +171,11 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 			}
 			break;
 		case R.id.btn_contact:
+			SHPostTaskM collectTask = new SHPostTaskM();
+			collectTask.setListener(this);
+			collectTask.setUrl(ConfigDefinition.URL + "AddUserHouseCollect");
+			collectTask.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
+			collectTask.start();
 			requestAddPush();
 			Intent intent_call;
 			if(pageType == 0){
@@ -245,7 +254,11 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
 		json = (JSONObject) task.getResult();
+		if(pageType == 0){
 			mTvFangDong.setText(json.optString("userRealName"));
+		}else{
+			mTvFangDong.setText(json.optString("userName"));
+		}
 			mTvGoutong.setText(json.optString("communicateEvaluation"));
 			mTvXiangchu.setText(json.optString("attitudeEvaluation"));
 			mTvChuli.setText(json.optString("speedEvaluation"));

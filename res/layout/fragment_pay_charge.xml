@@ -29,6 +29,7 @@
                 android:paddingTop="10dp" >
 
                 <TextView
+                    android:id="@+id/label_step1"
                     style="@style/TextMidGray"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -37,6 +38,7 @@
                     android:text="支付订金" />
 
                 <TextView
+                    android:id="@+id/label_step2"
                     style="@style/TextMidGray"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -45,6 +47,7 @@
                     android:text="签订合同" />
 
                 <TextView
+                    android:id="@+id/label_step3"
                     style="@style/TextMidGray"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -53,6 +56,7 @@
                     android:text="支付房租" />
 
                 <TextView
+                    android:id="@+id/label_step4"
                     style="@style/TextMidGray"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -217,7 +221,7 @@
                             android:background="@drawable/btn_orange_round"
                             android:text="支付订金" />
 
-                        <ImageView
+                        <!-- <ImageView
                             android:id="@+id/iv_question"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -226,7 +230,7 @@
                             android:layout_toRightOf="@id/btn_pay"
                             android:background="@drawable/ic_question"
                             android:paddingLeft="5dp"
-                            android:paddingRight="5dp" />
+                            android:paddingRight="5dp" /> -->
 
                         <LinearLayout
                             android:id="@+id/ll_tips"
@@ -618,7 +622,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:drawableLeft="@drawable/ic_tip"
-                    android:text="承租方已支付订金，将于3小时内完善内容" />
+                    android:text="超过3小时未完善合同，订金将退回" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -19,6 +19,7 @@ import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
 import com.sky.widget.SHDialog;
+import com.sky.widget.SHToast;
 import com.sky.widget.sweetdialog.SweetDialog;
 /**
  * 举报
@@ -126,6 +127,7 @@ public class HouseReportFragment extends BaseFragment implements ITaskListener{
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
+		SHToast.showToast(getActivity(), "举报成功");
 		finish();
 	}
 

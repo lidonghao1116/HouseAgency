@@ -110,6 +110,9 @@ public class HousePublishDetailFragment extends BaseFragment {
 						if (!json.has("fitment")) {
 							json.put("fitment", 3);// 中等装修
 						}
+						if(!json.has("rentType")){
+							json.put("rentType", 1);//默认主卧
+						}
 						json.put("HouseFitmentList", eleAdapter.getSelectedArray());
 						json.put("HouseDeviceList", funiAdapter.getSelectedArray());
 					} catch (NumberFormatException e) {
@@ -168,6 +171,7 @@ public class HousePublishDetailFragment extends BaseFragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 	@Override

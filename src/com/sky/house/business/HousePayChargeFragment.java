@@ -196,6 +196,18 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 	
 	@ViewInit(id = R.id.tv_time)
 	private TextView mTvTime;
+	
+	@ViewInit(id = R.id.label_step1)
+	private TextView mLabel1;
+	
+	@ViewInit(id = R.id.label_step2)
+	private TextView mLabel2;
+	
+	@ViewInit(id = R.id.label_step3)
+	private TextView mLabel3;
+	
+	@ViewInit(id = R.id.label_step4)
+	private TextView mLabel4;
 
 	private double payMoney;
 
@@ -516,7 +528,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			// 支付成功跳转
 			intent.putExtra("class", HouseSuccessFragment.class.getName());
 			intent.putExtra("identification", identification);
-			intent.putExtra("flag", 1);
+			intent.putExtra("flag", identification == 0 ? 1:2);
 			startActivity(intent);
 			// SHToast.showToast(getActivity(), "已付款，待入住");
 			break;
@@ -527,7 +539,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			// 支付成功跳转
 			intent60.putExtra("class", HouseSuccessFragment.class.getName());
 			intent60.putExtra("identification", identification);
-			intent60.putExtra("flag", 1);
+			intent60.putExtra("flag", identification == 0 ? 1:2);
 			startActivity(intent60);
 			break;
 		case 70:// 已续租
@@ -537,7 +549,7 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			// 支付成功跳转
 			intent70.putExtra("class", HouseSuccessFragment.class.getName());
 			intent70.putExtra("identification", identification);
-			intent70.putExtra("flag", 1);
+			intent70.putExtra("flag", identification == 0 ? 1:2);
 			startActivity(intent70);
 			break;
 		}
@@ -545,6 +557,22 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 	}
 
 	private void initProgress(int step){
+		
+		if(identification == 0){
+			mDetailTitlebar.setTitle("支付订金");
+			mLabel1.setText("支付订金");
+			mLabel2.setText("签订合同");
+			mLabel3.setText("支付房租");
+			mLabel4.setText("成功入住");
+		}else{
+			mDetailTitlebar.setTitle("确认订金");
+			mLabel1.setText("确认订金");
+			mLabel2.setText("完善合同");
+			mLabel3.setText("确认房租");
+			mLabel4.setText("成功出租");
+		}
+		
+		
 		switch(step){
 		case 4:
 			mIvFour.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_four_orange));
@@ -555,7 +583,11 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			mIvTwo.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_two_orange));
 			mIvLine3.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_line_orange));
 			mIvLine2.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_line_orange));
-			mDetailTitlebar.setTitle("成功入住");
+			if(identification == 0){//房客
+				mDetailTitlebar.setTitle("成功入住");
+			}else{//房东
+				mDetailTitlebar.setTitle("成功出租");
+			}
 			break;
 		case 3:
 			mIvThree.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_three_orange));
@@ -564,13 +596,21 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 			mIvTwo.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_two_orange));
 			mIvLine3.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_line_orange));
 			mIvLine2.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_line_orange));
-			mDetailTitlebar.setTitle("支付房租");
+			if(identification == 0){//房客
+				mDetailTitlebar.setTitle("支付房租");
+			}else{//房东
+				mDetailTitlebar.setTitle("确认房租");
+			}
 			break;
 		case 2:
 			mIvTwo.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_two_orange));
 			mIvLine3.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_line_orange));
 			mIvLine2.setBackgroundDrawable(getActivity().getResources().getDrawable(R.drawable.progress_line_orange));
-			mDetailTitlebar.setTitle("签订合同");
+			if(identification == 0){//房客
+				mDetailTitlebar.setTitle("签订合同");
+			}else{//房东
+				mDetailTitlebar.setTitle("完善合同");
+			}
 			break;
 		}
 	}

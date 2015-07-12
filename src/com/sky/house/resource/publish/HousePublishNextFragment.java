@@ -207,12 +207,22 @@ public class HousePublishNextFragment extends BaseFragment implements ITaskListe
 			}).show();
 			break;
 		case R.id.btn_publish:
+			if(houseImageList.size() == 0 || bmIdenti == null || bmProperty == null){
+				SHToast.showToast(getActivity(), "请上传图片信息");
+				return;
+			}
+			if (getActivity().getIntent().getIntExtra("lordType", 1) == 2 && agreementImageList.size() == 0 ) {
+				SHToast.showToast(getActivity(), "请上传图片信息");
+				return;
+			}
+			SHDialog.ShowProgressDiaolg(getActivity(), null);
 			mProgressdialog = new ProgressDialog(getActivity());
 			mProgressdialog.setMessage("正在上传");
 			mProgressdialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			mProgressdialog.setIndeterminate(false);
 			mProgressdialog.setMax(100);
 			mProgressdialog.setCancelable(false);
+			SHDialog.dismissProgressDiaolg();
 			mProgressdialog.show();
 			uploadTask = new SHPostTaskM();
 			uploadTask.setUrl(ConfigDefinition.URL + "PublishHouseImage");

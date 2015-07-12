@@ -394,7 +394,7 @@ public class HousePublishFragment extends BaseFragment implements ITaskListener 
 			}).setNegativeButton("取消", null).show();
 			break;
 		case R.id.btn_next:
-			if(map.size() == 0  ||  CommonUtil.isEmpty(mEtPhone.getText().toString().trim()) || CommonUtil.isEmpty(mEtDes.getText().toString().trim())){
+			if(map.size() == 0  ||  CommonUtil.isEmpty(mEtPhone.getText().toString().trim())){
 				SHToast.showToast(getActivity(), "请先完善信息");
 				return;
 			}
