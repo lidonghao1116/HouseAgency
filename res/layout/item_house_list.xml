@@ -129,12 +129,12 @@
 
         <Button
             android:id="@+id/btn_contact"
-            style="@style/TextMidYellow"
+            style="@style/TextMidBlack"
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/stroke_yellow_round"
+            android:background="@drawable/bg_gray_round_corner"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="拨打电话" />
