@@ -307,10 +307,11 @@
                 <Button
                     android:id="@+id/btn_bottom_left"
                     style="@style/TextMidBlack"
+                    android:background="@drawable/bg_gray_round_corner"
                     android:layout_width="80dp"
                     android:layout_height="30dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/bg_gray_round_corner"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="--" />
@@ -320,6 +321,7 @@
                     style="@style/TextMidWhite"
                     android:layout_width="80dp"
                     android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/btn_orange_round"
                     android:paddingLeft="5dp"

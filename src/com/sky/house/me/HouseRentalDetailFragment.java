@@ -408,7 +408,7 @@ OnClickListener, ITaskListener {
 			tvRentMoney.setText(mResult.getString("rentAmt"));
 			tvLease.setText(mResult.getString("payTypeName"));
 			tvRentLong.setText(CommonUtil.Date.toYMR(mResult.getString("tenantBeginDate"))+" 至 "+CommonUtil.Date.toYMR(mResult.getString("tenantEndDate")));
-			tvOrderNum.setText(mResult.optInt("contractId")+"");
+			tvOrderNum.setText(mResult.getString("contractId"));
 			tvDealTime.setText(mResult.getString("dealTime"));
 			tvCheckin.setText(mResult.getString("carryingInTime"));
 
