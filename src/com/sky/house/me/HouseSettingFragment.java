@@ -60,26 +60,26 @@ OnClickListener {
 		case R.id.rl_service:
 			intent.putExtra("class", HTMLFragment.class.getName());
 			intent.putExtra("title", "服务中心");
-			intent.putExtra("url", "http://www.baidu.com");
+			intent.putExtra("url", "http://www.sunnyzu.com/wenti.html");
 			startActivity(intent);
 			break;
 		case R.id.rl_about:
 			intent.putExtra("class", HTMLFragment.class.getName());
 			intent.putExtra("title", "关于我们");
-			intent.putExtra("url", "http://www.baidu.com");
+			intent.putExtra("url", "http://www.sunnyzu.com/about.html");
 			startActivity(intent);
 			break;
 		case R.id.tv_tel:
 			final SweetDialog dia_call = new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.WARNING_TYPE);
 			dia_call.setTitleText("提示");
-			dia_call.setContentText("是否拨打客服电话4000-391-791？");
+			dia_call.setContentText("是否拨打客服电话4008-123446？");
 			dia_call.showCancelButton(true);
 			dia_call.setConfirmClickListener(new OnSweetClickListener() {
 
 				@Override
 				public void onClick(SweetDialog sweetAlertDialog) {
 					// TODO Auto-generated method stub
-					Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:4000-391-791"));
+					Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:4008-123446"));
 					startActivity(intent);
 					dia_call.dismiss();
 				}
