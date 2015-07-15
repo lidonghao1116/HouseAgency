@@ -650,7 +650,11 @@ public class HousePayChargeFragment extends BaseFragment implements ITaskListene
 		if(payType == 1){
 			getOrderIdTask.getTaskArgs().put("payAmt", json.optString("appointmentAmt").substring(1));//  支付金额  
 		}else{
-			getOrderIdTask.getTaskArgs().put("payAmt", Double.valueOf(mTvPayNeed.getText().toString()) - PaySunnyAmount < 0?0:(Double.valueOf(mTvPayNeed.getText().toString()) - PaySunnyAmount) );//  支付金额  
+			if(mCbSunny.isChecked()){
+				getOrderIdTask.getTaskArgs().put("payAmt", Double.valueOf(mTvPayNeed.getText().toString()) - PaySunnyAmount < 0?0:(Double.valueOf(mTvPayNeed.getText().toString()) - PaySunnyAmount) );//  支付金额  
+			}else{
+				getOrderIdTask.getTaskArgs().put("payAmt", Double.valueOf(mTvPayNeed.getText().toString()));//  支付金额  
+			}
 		}
 		getOrderIdTask.getTaskArgs().put("PaySunnyAmount", mCbSunny.isChecked()?PaySunnyAmount:0);
 		getOrderIdTask.getTaskArgs().put("rechargeAmt", payMoney);//

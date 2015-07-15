@@ -345,6 +345,13 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 
 	private void setData() {
 		try {
+			
+			if(json.getInt("isTrade") == 1){
+				mLlBottom.setVisibility(View.GONE);
+			}else{
+				mLlBottom.setVisibility(View.VISIBLE);
+			}
+			
 			mTvTitle.setText(json.getString("houseTitle"));
 			mTvUpdateTime.setText(json.getString("updateTime"));
 			mTvRent.setText(json.getString("rentAmt"));

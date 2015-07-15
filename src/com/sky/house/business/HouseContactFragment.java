@@ -24,6 +24,7 @@ import com.next.intf.ITaskListener;
 import com.next.net.SHPostTaskM;
 import com.next.net.SHTask;
 import com.sky.house.R;
+import com.sky.house.me.HouseAuthenticationFragment;
 import com.sky.widget.SHDialog;
 import com.sky.widget.sweetdialog.SweetDialog;
 
@@ -156,10 +157,16 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 	private void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_pay:
-			Intent intent = new Intent(getActivity(), SHContainerActivity.class);
-			intent.putExtra("class", HousePayChargeFragment.class.getName());
-			intent.putExtra("id", getActivity().getIntent().getIntExtra("id", -1));
-			startActivity(intent);
+			if(ConfigDefinition.isAuth){
+				Intent intent = new Intent(getActivity(), SHContainerActivity.class);
+				intent.putExtra("class", HousePayChargeFragment.class.getName());
+				intent.putExtra("id", getActivity().getIntent().getIntExtra("id", -1));
+				startActivity(intent);
+			}else{
+				Intent intent_auth = new Intent(getActivity(),SHContainerActivity.class);
+				intent_auth.putExtra("class", HouseAuthenticationFragment.class.getName());
+				startActivity(intent_auth);
+			}
 			break;
 		case R.id.iv_question:
 			if (isTipsShow) {
