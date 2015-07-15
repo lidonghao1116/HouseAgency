@@ -32,6 +32,7 @@ import com.eroad.base.util.CommonUtil;
 import com.eroad.base.util.ConfigDefinition;
 import com.eroad.base.util.ImageLoaderUtil;
 import com.eroad.base.util.ImageTools;
+import com.eroad.base.util.UserInfoManager;
 import com.eroad.base.util.Utils;
 import com.eroad.base.util.ViewInit;
 import com.next.intf.ITaskListener;
@@ -309,6 +310,8 @@ public class HouseAuthenticationFragment extends BaseFragment implements ITaskLi
 				imgState.setBackgroundResource(R.drawable.ic_auth_success);
 				checkStatus(false);
 				ConfigDefinition.isAuth = true;
+				UserInfoManager.getInstance().setAuth(true);
+				UserInfoManager.getInstance().sync(getActivity(), true);
 			} else {
 				imgState.setBackgroundResource(R.drawable.ic_auth_fali);
 				checkStatus(true);

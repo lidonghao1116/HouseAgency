@@ -77,8 +77,8 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 	@ViewInit(id = R.id.pager_banner)
 	private ViewPager mPagerView_TopAdvert;
 
-	@ViewInit(id = R.id.linear_top_indicator)
-	private LinearLayout mLinearLayout_TopIndicator;
+//	@ViewInit(id = R.id.linear_top_indicator)
+//	private LinearLayout mLinearLayout_TopIndicator;
 
 	private List<View> mIndicatorTopList = new ArrayList<View>();
 
@@ -208,7 +208,7 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 
 	private void setTopAdv() {
 
-		addTopIndicator(jsonArray.length());
+//		addTopIndicator(jsonArray.length());
 		TopAdvertPagerAdapter adapter = new TopAdvertPagerAdapter(getActivity(), jsonArray, TopAdvertPagerAdapter.FLAG_HOME_ADV);
 		mPagerView_TopAdvert.setAdapter(adapter);
 		int position = jsonArray.length() * 100;
@@ -273,20 +273,20 @@ public class HouseTabHomeFragment extends BaseFragment implements ITaskListener 
 	 * @param size
 	 *            图片数量
 	 */
-	private void addTopIndicator(int size) {
-		int imgSize = (int) (getResources().getDisplayMetrics().density * 8);
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imgSize, imgSize);
-		params.setMargins(5, 0, 5, 0);
-		mLinearLayout_TopIndicator.setOrientation(LinearLayout.HORIZONTAL);
-		for (int i = 0; i < size; i++) {
-			View view = new View(getActivity());
-			view.setLayoutParams(params);
-			view.setBackgroundResource(R.drawable.banner_dian_blur);
-			view.setSelected(false);
-			mIndicatorTopList.add(view);
-			mLinearLayout_TopIndicator.addView(view);
-		}
-	}
+//	private void addTopIndicator(int size) {
+//		int imgSize = (int) (getResources().getDisplayMetrics().density * 8);
+//		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(imgSize, imgSize);
+//		params.setMargins(5, 0, 5, 0);
+//		mLinearLayout_TopIndicator.setOrientation(LinearLayout.HORIZONTAL);
+//		for (int i = 0; i < size; i++) {
+//			View view = new View(getActivity());
+//			view.setLayoutParams(params);
+//			view.setBackgroundResource(R.drawable.banner_dian_blur);
+//			view.setSelected(false);
+//			mIndicatorTopList.add(view);
+//			mLinearLayout_TopIndicator.addView(view);
+//		}
+//	}
 
 	/**
 	 * 当前圆点设为选中，其他设为默认

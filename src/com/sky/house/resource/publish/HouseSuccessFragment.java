@@ -78,7 +78,7 @@ public class HouseSuccessFragment extends BaseFragment {
 		}else if (flag == 1) {
 			mDetailTitlebar.setTitle("成功入住");
 			mTvOption.setText("成功入住新的小窝");
-			mTvReward.setText("成功交易奖励10阳光值");
+			mTvReward.setText("随时跟房东保持良好沟通哦");
 			mBtnBack.setOnClickListener(new OnClickListener() {
 
 				@Override

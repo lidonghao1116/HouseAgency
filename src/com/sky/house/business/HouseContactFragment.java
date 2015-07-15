@@ -114,6 +114,7 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 	private int pageType;//0:联系看房   1:房东信息  2:房客
 	
 	private SHPostTaskM fangkeTask,addPush;
+	SHPostTaskM collectTask;
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -178,19 +179,7 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 			}
 			break;
 		case R.id.btn_contact:
-			SHPostTaskM collectTask = new SHPostTaskM();
-			collectTask.setListener(this);
-			collectTask.setUrl(ConfigDefinition.URL + "AddUserHouseCollect");
-			collectTask.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
-			collectTask.start();
 			requestAddPush();
-			Intent intent_call;
-			if(pageType == 0){
-				intent_call = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+json.optString("phoneFor400"))); 
-			}else{
-				intent_call = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+json.optString("mobilePhone"))); 
-			}
-            startActivity(intent_call);  
 			break;
 		case R.id.tv_renzhen:
 			mIvIdenti.setVisibility(View.VISIBLE);
@@ -205,9 +194,10 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 	}
 	
 	private void requestAddPush(){
+		SHDialog.ShowProgressDiaolg(getActivity(), null);
 		addPush = new SHPostTaskM();
 		addPush.setUrl(ConfigDefinition.URL+"AddPushMsgByContactLord");
-//		addPush.setListener(this);
+		addPush.setListener(this);
 		addPush.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
 		addPush.start();
 	}
@@ -260,38 +250,66 @@ public class HouseContactFragment extends BaseFragment implements ITaskListener{
 	public void onTaskFinished(SHTask task) throws Exception {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
-		json = (JSONObject) task.getResult();
-		if(pageType == 0){
-			mTvFangDong.setText(json.optString("userRealName"));
-		}else{
-			mTvFangDong.setText(json.optString("userName"));
-		}
-			mTvGoutong.setText(json.optString("communicateEvaluation"));
-			mTvXiangchu.setText(json.optString("attitudeEvaluation"));
-			mTvChuli.setText(json.optString("speedEvaluation"));
-			mTvPublishNum.setText(json.optString("publishHouseCount"));
-			mTvComplaintNum.setText(json.optString("complaintCount"));
-			mTvRecommendNum.setText(json.optString("pfRecommend"));
-			if(task == fangkeTask){
-				mTvPhoneFangdong.setText(json.optString("mobilePhone"));
+		if(task == addPush){
+			collectTask = new SHPostTaskM();
+			collectTask.setListener(this);
+			collectTask.setUrl(ConfigDefinition.URL + "AddUserHouseCollect");
+			collectTask.getTaskArgs().put("houseDetailId", getActivity().getIntent().getIntExtra("id", -1));
+			collectTask.start();
+		}else if(task == collectTask){
+			Intent intent_call;
+			if(pageType == 0){
+				intent_call = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+json.optString("phoneFor400"))); 
 			}else{
-				if(pageType == 1){
-					mTvPhone.setText(json.optString("mobilePhone"));
-				}else{
-					mTvPhone.setText(json.optString("phoneFor400").substring(0, json.optString("phoneFor400").indexOf(",")));
-				}
+				intent_call = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+json.optString("mobilePhone"))); 
 			}
-			ImageLoaderUtil.displayImage(json.optString("picUrl"), mIvPhoto);
-			ImageLoaderUtil.displayImage(json.optString("indentityNoUrl"), mIvIdenti);
-			ImageLoaderUtil.displayImage(json.optString("houseCertifyUrl"), mIvHouse);
-			craetTenant(json);
+            startActivity(intent_call);
+		}else{
+			json = (JSONObject) task.getResult();
+			if(pageType == 0){
+				mTvFangDong.setText(json.optString("userName"));
+			}else{
+				mTvFangDong.setText(json.optString("userRealName"));
+			}
+			
+				mTvGoutong.setText(json.optString("communicateEvaluation"));
+				mTvXiangchu.setText(json.optString("attitudeEvaluation"));
+				mTvChuli.setText(json.optString("speedEvaluation"));
+				mTvPublishNum.setText(json.optString("publishHouseCount"));
+				mTvComplaintNum.setText(json.optString("complaintCount"));
+				mTvRecommendNum.setText(json.optString("pfRecommend"));
+				if(task == fangkeTask){
+					mTvPhoneFangdong.setText(json.optString("mobilePhone"));
+				}else{
+					if(pageType == 1  || getActivity().getIntent().getIntExtra("isTrade", 0) == 1){
+						mTvPhone.setText(json.optString("mobilePhone"));
+					}else{
+						mTvPhone.setText(json.optString("phoneFor400").substring(0, json.optString("phoneFor400").indexOf(",")));
+					}
+				}
+				ImageLoaderUtil.displayImage(json.optString("picUrl"), mIvPhoto);
+				ImageLoaderUtil.displayImage(json.optString("indentityNoUrl"), mIvIdenti);
+				ImageLoaderUtil.displayImage(json.optString("houseCertifyUrl"), mIvHouse);
+				craetTenant(json);
+		}
+		
 	}
 
 	@Override
 	public void onTaskFailed(SHTask task) {
 		// TODO Auto-generated method stub
 		SHDialog.dismissProgressDiaolg();
-		new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
+		if(task != collectTask){
+			new SweetDialog(SHApplication.getInstance().getCurrentActivity(), SweetDialog.ERROR_TYPE).setTitleText("提示").setContentText(task.getRespInfo().getMessage()).show();
+		}else{
+			Intent intent_call;
+			if(pageType == 0){
+				intent_call = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+json.optString("phoneFor400"))); 
+			}else{
+				intent_call = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+json.optString("mobilePhone"))); 
+			}
+            startActivity(intent_call);
+		}
 	}
 
 	@Override

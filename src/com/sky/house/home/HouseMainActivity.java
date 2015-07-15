@@ -159,6 +159,7 @@ public class HouseMainActivity extends BaseActivity {
 			public void onClick(SweetDialog sweetAlertDialog) {
 				// TODO Auto-generated method stub
 				UserInfoManager.getInstance().setSession("");
+				
 				UserInfoManager.getInstance().sync(HouseMainActivity.this, true);
 				SHApplication.getInstance().exitApplication();
 			}

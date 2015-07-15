@@ -520,7 +520,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:drawableLeft="@drawable/ic_tip"
-                        android:text="承租方信息仅供租房证实之用，请勿用作它途，否则严惩诉至法律！" />
+                        android:text="认证信息仅供租房证实之用，请勿用作它途，否则严惩诉至法律！" />
                 </RelativeLayout>
 
                 <LinearLayout

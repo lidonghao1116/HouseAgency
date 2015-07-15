@@ -323,7 +323,7 @@
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
-                            android:gravity="center_vertical"
+                            android:gravity="center"
                             android:text="人工审核真实房源" />
 
                         <TextView
@@ -333,7 +333,7 @@
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
-                            android:gravity="center_vertical"
+                            android:gravity="center"
                             android:singleLine="true"
                             android:text="在线完成租房交易" />
                     </LinearLayout>
@@ -352,7 +352,7 @@
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
-                            android:gravity="center_vertical"
+                            android:gravity="center"
                             android:text="双方均无任何费用" />
 
                         <TextView
@@ -362,7 +362,7 @@
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_gou"
                             android:drawablePadding="2dp"
-                            android:gravity="center_vertical"
+                            android:gravity="center"
                             android:singleLine="true"
                             android:text="合同期内全程保障" />
                     </LinearLayout>

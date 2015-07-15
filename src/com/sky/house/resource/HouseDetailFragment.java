@@ -262,6 +262,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 			intent.putExtra("name", getActivity().getIntent().getStringExtra("name"));
 			try {
 				intent.putExtra("id", json.getInt("houseDetailId"));
+				intent.putExtra("isTrade", json.getInt("isTrade"));
 			} catch (JSONException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -472,7 +473,7 @@ public class HouseDetailFragment extends BaseFragment implements ITaskListener {
 		// oks.setAddress("12345678901");
 		oks.setTitle("阳关租房");
 		//		oks.setTitleUrl("http://mob.com");
-		oks.setText("我正在使用《阳光租房》App哦～");
+		oks.setText("我正在使用《阳光租房》App哦～ \nhttp://wap.koudaitong.com/v2/showcase/mpnews?alias=j8pm3up1");
 
 		// oks.setImagePath(CustomShareFieldsPage.getString("imagePath",
 		// MainActivity.TEST_IMAGE));

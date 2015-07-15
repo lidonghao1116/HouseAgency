@@ -57,6 +57,7 @@ public class SHJPushReceiver extends BroadcastReceiver {
 			Log.e("push", extras);
 			Intent intent_open = new Intent(SHApplication.getInstance(),SHContainerActivity.class);
 			intent_open.putExtra("class", HouseMessageFragment.class.getName());
+			intent_open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			SHApplication.getInstance().startActivity(intent_open);
 //			ComponentName componetName = new ComponentName("com.sky.house", "com.sky.house.HouseMainActivity");  
 //			try {  

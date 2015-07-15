@@ -50,7 +50,7 @@ public class TopAdvertPagerAdapter extends PagerAdapter {
 				Intent intent  = new Intent(mContext,SHContainerActivity.class);
 				intent.putExtra("class", HTMLFragment.class.getName());
 				intent.putExtra("url", url);
-				intent.putExtra("title", "广告");
+				intent.putExtra("title", holder.title);
 				mContext.startActivity(intent);
 			}
 		};
@@ -91,6 +91,7 @@ public class TopAdvertPagerAdapter extends PagerAdapter {
 			case FLAG_HOME_ADV:
 				ImageLoaderUtil.displayImage(mJsonArray.getJSONObject(position).getString("bannerImgUrl"), holder.iv);
 				holder.ulr = mJsonArray.getJSONObject(position).getString("bannerUrl");
+				holder.title = mJsonArray.getJSONObject(position).getString("bannerName");
 				holder.index = position;
 				view.setOnClickListener(mItemClickListener);
 				break;
